@@ -1,0 +1,31 @@
+# Local/raw research data. Keep source files out of version control.
+data/raw/*
+data/interim/*
+data/processed/*
+outputs/figures/*
+outputs/tables/*
+
+# Keep directory placeholders and small metadata under version control.
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+!outputs/figures/.gitkeep
+!outputs/tables/.gitkeep
+!data/metadata/*.json
+!data/metadata/*.csv
+
+# Python and local tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+.DS_Store
+.env
+.venv/
+venv/
+
+# Local databases and editor files
+*.sqlite
+*.sqlite3
+.vscode/
+.idea/

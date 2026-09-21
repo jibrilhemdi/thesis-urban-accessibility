@@ -1,0 +1,25 @@
+project:
+  name: airbnb-urban-accessibility-copenhagen
+  study_area: Copenhagen, Denmark
+  crs_wgs84: EPSG:4326
+  crs_projected: EPSG:25832
+
+inside_airbnb:
+  provider: Inside Airbnb
+  city_slug: copenhagen
+  country_slug: denmark
+  region_slug: hovedstaden
+  snapshot_date: '2026-06-30'
+  landing_page: https://insideairbnb.com/get-the-data/
+
+osm:
+  provider: OpenStreetMap via Overpass API
+  bbox_margin_degrees: 0.02
+  endpoints:
+    - https://overpass-api.de/api/interpreter
+    - https://overpass.kumi.systems/api/interpreter
+
+privacy:
+  raw_data_gitignored: true
+  publish_row_level_coordinates: false
+  retain_host_names_or_free_text: false

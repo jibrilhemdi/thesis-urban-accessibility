@@ -1,0 +1,136 @@
+{
+  "generated_at_utc": "2026-09-21T21:54:00+00:00",
+  "files": [
+    {
+      "source_url": "https://data.insideairbnb.com/denmark/hovedstaden/copenhagen/2026-06-30/data/calendar.csv.gz",
+      "local_path": "data/raw/inside_airbnb/copenhagen/2026-06-30/data/calendar.csv.gz",
+      "downloaded_at_utc": "2026-09-21T21:52:59+00:00",
+      "size_bytes": 19620185,
+      "sha256": "2d368edc6f765376e89138c835f10083fd4ffff01fefb8bccf9d90124b08629d",
+      "content_type": "application/x-gzip",
+      "source_last_modified": "Sat, 04 Jul 2026 04:16:34 GMT",
+      "status": "downloaded",
+      "provider": "Inside Airbnb",
+      "asset": "calendar_detailed",
+      "snapshot_date": "2026-06-30"
+    },
+    {
+      "source_url": "https://data.insideairbnb.com/denmark/hovedstaden/copenhagen/2026-06-30/data/listings.csv.gz",
+      "local_path": "data/raw/inside_airbnb/copenhagen/2026-06-30/data/listings.csv.gz",
+      "downloaded_at_utc": "2026-09-21T21:53:00+00:00",
+      "size_bytes": 11696366,
+      "sha256": "d0c81b5c30c0fa48ca2e77005d6e8418c6f491ee4af8dbac881ff7f5fd01ff71",
+      "content_type": "application/x-gzip",
+      "source_last_modified": "Sat, 04 Jul 2026 04:16:30 GMT",
+      "status": "downloaded",
+      "provider": "Inside Airbnb",
+      "asset": "listings_detailed",
+      "snapshot_date": "2026-06-30"
+    },
+    {
+      "source_url": "https://data.insideairbnb.com/denmark/hovedstaden/copenhagen/2026-06-30/data/reviews.csv.gz",
+      "local_path": "data/raw/inside_airbnb/copenhagen/2026-06-30/data/reviews.csv.gz",
+      "downloaded_at_utc": "2026-09-21T21:53:08+00:00",
+      "size_bytes": 60123009,
+      "sha256": "5d4f404bc030fee5aa37bc69ae0ed248e71cdfda4a24cec466ccbe7c45cfe3ef",
+      "content_type": "application/x-gzip",
+      "source_last_modified": "Sat, 04 Jul 2026 04:16:32 GMT",
+      "status": "downloaded",
+      "provider": "Inside Airbnb",
+      "asset": "reviews_detailed",
+      "snapshot_date": "2026-06-30"
+    },
+    {
+      "source_url": "https://data.insideairbnb.com/denmark/hovedstaden/copenhagen/2026-06-30/visualisations/listings.csv",
+      "local_path": "data/raw/inside_airbnb/copenhagen/2026-06-30/visualisations/listings.csv",
+      "downloaded_at_utc": "2026-09-21T21:53:01+00:00",
+      "size_bytes": 4040549,
+      "sha256": "26ea702c22e1f0bde9512d4296f8d71de61566db88f6a9f39479b033801a61a4",
+      "content_type": "application/csv",
+      "source_last_modified": "Sat, 04 Jul 2026 04:16:28 GMT",
+      "status": "downloaded",
+      "provider": "Inside Airbnb",
+      "asset": "listings_summary",
+      "snapshot_date": "2026-06-30"
+    },
+    {
+      "source_url": "https://data.insideairbnb.com/denmark/hovedstaden/copenhagen/2026-06-30/visualisations/neighbourhoods.csv",
+      "local_path": "data/raw/inside_airbnb/copenhagen/2026-06-30/visualisations/neighbourhoods.csv",
+      "downloaded_at_utc": "2026-09-21T21:53:02+00:00",
+      "size_bytes": 169,
+      "sha256": "aefd2b2b83883c9115130edac26a44fcd4978b68f8ae1f818f481b2407f28485",
+      "content_type": "application/csv",
+      "source_last_modified": "Sat, 04 Jul 2026 04:16:29 GMT",
+      "status": "downloaded",
+      "provider": "Inside Airbnb",
+      "asset": "neighbourhoods",
+      "snapshot_date": "2026-06-30"
+    },
+    {
+      "source_url": "https://data.insideairbnb.com/denmark/hovedstaden/copenhagen/2026-06-30/visualisations/neighbourhoods.geojson",
+      "local_path": "data/raw/inside_airbnb/copenhagen/2026-06-30/visualisations/neighbourhoods.geojson",
+      "downloaded_at_utc": "2026-09-21T21:53:02+00:00",
+      "size_bytes": 146637,
+      "sha256": "1647902935d2e22dfd006984c1e623cec484403681731f8e1f1dba0d24a9a874",
+      "content_type": "application/octet-stream",
+      "source_last_modified": "Sat, 04 Jul 2026 04:16:29 GMT",
+      "status": "downloaded",
+      "provider": "Inside Airbnb",
+      "asset": "neighbourhoods_geojson",
+      "snapshot_date": "2026-06-30"
+    },
+    {
+      "source_url": "https://data.insideairbnb.com/denmark/hovedstaden/copenhagen/2026-06-30/visualisations/reviews.csv",
+      "local_path": "data/raw/inside_airbnb/copenhagen/2026-06-30/visualisations/reviews.csv",
+      "downloaded_at_utc": "2026-09-21T21:53:10+00:00",
+      "size_bytes": 11298408,
+      "sha256": "14ab7fd86e54b7fb25eb30d80a117cef359e82c1832fdf322067c51e608c74a5",
+      "content_type": "application/csv",
+      "source_last_modified": "Sat, 04 Jul 2026 04:16:29 GMT",
+      "status": "downloaded",
+      "provider": "Inside Airbnb",
+      "asset": "reviews_summary",
+      "snapshot_date": "2026-06-30"
+    },
+    {
+      "provider": "OpenStreetMap via Overpass API",
+      "asset": "query",
+      "source_url": "https://overpass-api.de/",
+      "local_path": "data/raw/osm/copenhagen/2026-09-21/queries/amenities_and_transport.overpassql",
+      "sha256": "b6d2ec95784f7db4725f89832eff65d360db86cf8539e0f6afab22818162709c",
+      "size_bytes": 678,
+      "status": "created"
+    },
+    {
+      "provider": "OpenStreetMap via Overpass API",
+      "asset": "query",
+      "source_url": "https://overpass-api.de/",
+      "local_path": "data/raw/osm/copenhagen/2026-09-21/queries/walking_network.overpassql",
+      "sha256": "0be1f9658c12057d5729135697f1f23fb65715d66674c8e6ac6ab13220a84945",
+      "size_bytes": 173,
+      "status": "created"
+    },
+    {
+      "provider": "OpenStreetMap via Overpass API",
+      "asset": "amenities_and_transport",
+      "source_url": "https://overpass-api.de/api/interpreter",
+      "local_path": "data/raw/osm/copenhagen/2026-09-21/responses/amenities_and_transport.json",
+      "downloaded_at_utc": "2026-09-21T21:54:00+00:00",
+      "size_bytes": 6237441,
+      "sha256": "be8d89c53e36dcda137d9c14ac1ccbf18b54ddcb5f4a86b730b9361abbde37a5",
+      "status": "downloaded",
+      "osm_timestamp": "2026-09-21T21:52:18Z"
+    },
+    {
+      "provider": "OpenStreetMap via Overpass API",
+      "asset": "walking_network",
+      "source_url": "https://overpass-api.de/api/interpreter",
+      "local_path": "data/raw/osm/copenhagen/2026-09-21/responses/walking_network.json",
+      "downloaded_at_utc": "2026-09-21T21:53:51+00:00",
+      "size_bytes": 39810430,
+      "sha256": "9226854e1b01e490a8bdbb37f8beec504af5490ee25178f041a405db616cfb09",
+      "status": "downloaded",
+      "osm_timestamp": "2026-09-21T21:52:18Z"
+    }
+  ]
+}
