@@ -3,6 +3,7 @@ pandas>=2.2
 numpy>=1.26
 PyYAML>=6.0
 requests>=2.31
+beautifulsoup4>=4.12
 
 # Spatial/network analysis
 geopandas>=1.0

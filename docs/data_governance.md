@@ -23,3 +23,4 @@ Inside Airbnb coordinates are anonymised and should not support address-level cl
 - Inside Airbnb: cite the snapshot date and download page; follow CC BY 4.0 attribution.
 - OpenStreetMap: credit “© OpenStreetMap contributors” and follow ODbL requirements.
 - Overpass: cite the endpoint and preserve the OSM data timestamp recorded in `extraction_metadata.json`.
+- Statistics Denmark StatBank: cite the table IDs, municipality code 147, retrieval date, and the API documentation/source page recorded in `data/metadata/frederiksberg_statbank_run.json`.

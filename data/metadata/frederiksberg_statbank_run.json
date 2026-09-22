@@ -1,0 +1,260 @@
+{
+  "provider": "Statistics Denmark StatBank",
+  "retrieved_at_utc": "2026-09-22T08:57:10+00:00",
+  "retrieval_date": "2026-09-22",
+  "landing_page": "https://www.statbank.dk/statbank5a/SelectTable/Omrade0.asp?PLanguage=1",
+  "api_documentation": "https://www.dst.dk/en/Statistik/hjaelp-til-statistikbanken/api",
+  "api_endpoint": "https://api.statbank.dk/v1/data",
+  "license_note": "Statistics Denmark makes StatBank data available under its published reuse terms; retain source attribution and table references.",
+  "geography": "Frederiksberg municipality, code 147; independent municipality adjacent to the City of Copenhagen.",
+  "tables": [
+    {
+      "table": "FOLK1A",
+      "description": "Population at the first day of the quarter",
+      "tableinfo_url": "https://api.statbank.dk/v1/tableinfo/FOLK1A?lang=en&format=JSON",
+      "api_url": "https://api.statbank.dk/v1/data/FOLK1A/CSV?lang=en&valuePresentation=CodeAndValue&timeOrder=Ascending&OMR%C3%85DE=147&K%C3%98N=TOT&ALDER=IALT&CIVILSTAND=TOT&Tid=2026K3",
+      "api_endpoint": "https://api.statbank.dk/v1/data",
+      "download_format": "CSV with semicolon delimiter and code+label values",
+      "retrieved_at_utc": "2026-09-22T08:56:41+00:00",
+      "selected_codes": {
+        "OMRÅDE": [
+          "147"
+        ],
+        "KØN": [
+          "TOT"
+        ],
+        "ALDER": [
+          "IALT"
+        ],
+        "CIVILSTAND": [
+          "TOT"
+        ],
+        "Tid": [
+          "2026K3"
+        ]
+      },
+      "period": "2026Q3",
+      "derivation": "Direct value for total sex, age, and marital status.",
+      "municipality_code": "147",
+      "municipality_name": "Frederiksberg",
+      "raw_file": "data/raw/frederiksberg_statbank/2026-09-22/tables/FOLK1A.csv",
+      "raw_sha256": "788466f291f2918fbaf7a316e63c87c24b2d73166a4e77de2a444675abad78e7",
+      "raw_bytes": 122,
+      "raw_rows": 1,
+      "raw_columns": [
+        "OMRÅDE",
+        "KØN",
+        "ALDER",
+        "CIVILSTAND",
+        "TID",
+        "INDHOLD"
+      ],
+      "selection_metadata_file": "data/raw/frederiksberg_statbank/2026-09-22/metadata/FOLK1A.json"
+    },
+    {
+      "table": "FAM55N",
+      "description": "Households 1 January",
+      "tableinfo_url": "https://api.statbank.dk/v1/tableinfo/FAM55N?lang=en&format=JSON",
+      "api_url": "https://api.statbank.dk/v1/data/FAM55N/CSV?lang=en&valuePresentation=CodeAndValue&timeOrder=Ascending&OMR%C3%85DE=147&HUSTYP=%2A&HUSST%C3%98R=%2A&ANTBORNH=%2A&Tid=2026",
+      "api_endpoint": "https://api.statbank.dk/v1/data",
+      "download_format": "CSV with semicolon delimiter and code+label values",
+      "retrieved_at_utc": "2026-09-22T08:56:47+00:00",
+      "selected_codes": {
+        "OMRÅDE": [
+          "147"
+        ],
+        "HUSTYP": [
+          "*"
+        ],
+        "HUSSTØR": [
+          "*"
+        ],
+        "ANTBORNH": [
+          "*"
+        ],
+        "Tid": [
+          "2026"
+        ]
+      },
+      "period": "2026",
+      "derivation": "Sum of all mutually exclusive household type, size, and child-count cells.",
+      "municipality_code": "147",
+      "municipality_name": "Frederiksberg",
+      "raw_file": "data/raw/frederiksberg_statbank/2026-09-22/tables/FAM55N.csv",
+      "raw_sha256": "ec4e76e31295dcd8f5e3dc9cda9eba14ed5a413028924c2b08181e00ed181be9",
+      "raw_bytes": 24742,
+      "raw_rows": 288,
+      "raw_columns": [
+        "OMRÅDE",
+        "HUSTYP",
+        "HUSSTØR",
+        "ANTBORNH",
+        "TID",
+        "INDHOLD"
+      ],
+      "selection_metadata_file": "data/raw/frederiksberg_statbank/2026-09-22/metadata/FAM55N.json"
+    },
+    {
+      "table": "INDKP106",
+      "description": "Disposable income for people aged 14+",
+      "tableinfo_url": "https://api.statbank.dk/v1/tableinfo/INDKP106?lang=en&format=JSON",
+      "api_url": "https://api.statbank.dk/v1/data/INDKP106/CSV?lang=en&valuePresentation=CodeAndValue&timeOrder=Ascending&OMR%C3%85DE=147&ENHED=118&KOEN=MOK&ALDER1=00&INDKINTB=000&Tid=2024",
+      "api_endpoint": "https://api.statbank.dk/v1/data",
+      "download_format": "CSV with semicolon delimiter and code+label values",
+      "retrieved_at_utc": "2026-09-22T08:56:55+00:00",
+      "selected_codes": {
+        "OMRÅDE": [
+          "147"
+        ],
+        "ENHED": [
+          "118"
+        ],
+        "KOEN": [
+          "MOK"
+        ],
+        "ALDER1": [
+          "00"
+        ],
+        "INDKINTB": [
+          "000"
+        ],
+        "Tid": [
+          "2024"
+        ]
+      },
+      "period": "2024",
+      "derivation": "Direct average income for persons in the total group, all income intervals.",
+      "municipality_code": "147",
+      "municipality_name": "Frederiksberg",
+      "raw_file": "data/raw/frederiksberg_statbank/2026-09-22/tables/INDKP106.csv",
+      "raw_sha256": "6d90575f1f22596a38d0c999bff075911b6630902d7581dc75d99646473cadd3",
+      "raw_bytes": 179,
+      "raw_rows": 1,
+      "raw_columns": [
+        "OMRÅDE",
+        "ENHED",
+        "KOEN",
+        "ALDER1",
+        "INDKINTB",
+        "TID",
+        "INDHOLD"
+      ],
+      "selection_metadata_file": "data/raw/frederiksberg_statbank/2026-09-22/metadata/INDKP106.json"
+    },
+    {
+      "table": "BOL101",
+      "description": "Dwellings by region, resident status, use, tenure, ownership and construction year",
+      "tableinfo_url": "https://api.statbank.dk/v1/tableinfo/BOL101?lang=en&format=JSON",
+      "api_url": "https://api.statbank.dk/v1/data/BOL101/CSV?lang=en&valuePresentation=CodeAndValue&timeOrder=Ascending&OMR%C3%85DE=147&BEBO=%2A&ANVENDELSE=%2A&UDLFORH=%2A&EJER=%2A&OPF%C3%98RELSES%C3%85R=%2A&Tid=2026",
+      "api_endpoint": "https://api.statbank.dk/v1/data",
+      "download_format": "CSV with semicolon delimiter and code+label values",
+      "retrieved_at_utc": "2026-09-22T08:57:05+00:00",
+      "selected_codes": {
+        "OMRÅDE": [
+          "147"
+        ],
+        "BEBO": [
+          "*"
+        ],
+        "ANVENDELSE": [
+          "*"
+        ],
+        "UDLFORH": [
+          "*"
+        ],
+        "EJER": [
+          "*"
+        ],
+        "OPFØRELSESÅR": [
+          "*"
+        ],
+        "Tid": [
+          "2026"
+        ]
+      },
+      "period": "2026",
+      "derivation": "Sum across all dwelling classifications; occupied count is the BEBO=1000 subset (dwellings with registered population).",
+      "municipality_code": "147",
+      "municipality_name": "Frederiksberg",
+      "raw_file": "data/raw/frederiksberg_statbank/2026-09-22/tables/BOL101.csv",
+      "raw_sha256": "56c7d8119cc76a957bdd43c0fb5055a663f41b77a7a5b9f85f515503444bcec1",
+      "raw_bytes": 2719746,
+      "raw_rows": 16632,
+      "raw_columns": [
+        "OMRÅDE",
+        "BEBO",
+        "ANVENDELSE",
+        "UDLFORH",
+        "EJER",
+        "OPFØRELSESÅR",
+        "TID",
+        "INDHOLD"
+      ],
+      "selection_metadata_file": "data/raw/frederiksberg_statbank/2026-09-22/metadata/BOL101.json"
+    },
+    {
+      "table": "BOL106",
+      "description": "Dwellings with registered population (average) by region, unit and use",
+      "tableinfo_url": "https://api.statbank.dk/v1/tableinfo/BOL106?lang=en&format=JSON",
+      "api_url": "https://api.statbank.dk/v1/data/BOL106/CSV?lang=en&valuePresentation=CodeAndValue&timeOrder=Ascending&OMR%C3%85DE=147&ENHED=GNSPB&ANVENDELSE=TOT&Tid=2026",
+      "api_endpoint": "https://api.statbank.dk/v1/data",
+      "download_format": "CSV with semicolon delimiter and code+label values",
+      "retrieved_at_utc": "2026-09-22T08:57:10+00:00",
+      "selected_codes": {
+        "OMRÅDE": [
+          "147"
+        ],
+        "ENHED": [
+          "GNSPB"
+        ],
+        "ANVENDELSE": [
+          "TOT"
+        ],
+        "Tid": [
+          "2026"
+        ]
+      },
+      "period": "2026",
+      "derivation": "Direct average persons per dwelling for total use; retained under the common context field name.",
+      "municipality_code": "147",
+      "municipality_name": "Frederiksberg",
+      "raw_file": "data/raw/frederiksberg_statbank/2026-09-22/tables/BOL106.csv",
+      "raw_sha256": "d1ac1d45fe62d957302fd0395bbfb453a7afc25ca8374508f3fa753866acf8df",
+      "raw_bytes": 128,
+      "raw_rows": 1,
+      "raw_columns": [
+        "OMRÅDE",
+        "ENHED",
+        "ANVENDELSE",
+        "TID",
+        "INDHOLD"
+      ],
+      "selection_metadata_file": "data/raw/frederiksberg_statbank/2026-09-22/metadata/BOL106.json"
+    }
+  ],
+  "tidy_context": "data/interim/frederiksberg_statbank_municipality_context_2026-09-22.csv",
+  "tidy_rows": 1,
+  "columns": [
+    "statbank_area_code",
+    "district_name_statbank",
+    "statbank_context_provider",
+    "statbank_context_geography",
+    "population_count",
+    "household_count",
+    "average_disposable_income_dkk",
+    "dwelling_count",
+    "occupied_dwelling_count",
+    "resident_count_statbank",
+    "average_residents_per_occupied_dwelling"
+  ],
+  "derivation": {
+    "population_count": "FOLK1A total population at the first day of 2026Q3.",
+    "household_count": "FAM55N sum across all household dimensions for 2026-01-01.",
+    "average_disposable_income_dkk": "INDKP106 average disposable income for persons aged 14+, total sex, total age, all income intervals, 2024.",
+    "dwelling_count": "BOL101 sum across all dwelling classifications for 2026.",
+    "occupied_dwelling_count": "BOL101 sum of dwellings with registered population (BEBO=1000) for 2026.",
+    "resident_count_statbank": "Set equal to FOLK1A total population; BOL101 is a dwelling-count table without a resident-count measure.",
+    "average_residents_per_occupied_dwelling": "BOL106 total-use average persons per dwelling for dwellings with registered population, 2026."
+  },
+  "comparability_warning": "This municipality-level source is not a district-level continuation of the City of Copenhagen Statbank. Provider and geographic level are retained in the tidy output so models can account for the mixed context geography."
+}

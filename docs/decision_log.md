@@ -18,3 +18,11 @@
   **Consequence:** use it only for availability/minimum-night sensitivity unless a different archived file is selected; do not claim that a calendar median price was collected.
 - **Data issue recorded:** detailed listings format `price` with `$` in this snapshot.
   **Consequence:** verify the source currency before defining `log_price`; the proposal’s DKK wording is not yet operationally confirmed.
+- **Decision:** run the non-GTFS spatial pipeline using local Parquet rather than requiring PostGIS/OSMnx.
+  **Reason:** the raw inputs are available and the base environment has pandas, NumPy, SciPy, and PyArrow, while GTFS approval and the heavier GIS database stack are still pending.
+- **Decision:** implement nearest-category network travel times and a nearest-category decay index as the first OSM accessibility features.
+  **Reason:** these are reproducible minimum-version network measures; full opportunity counts within thresholds and timetable accessibility remain follow-up work.
+- **Decision:** collect KKBEF1, KKHUS1, KKIND3, and KKBOL3 from the City of Copenhagen Statbank and join them at district level.
+  **Reason:** the official City Statbank provides population, households, income, and dwelling context aligned with 10 City of Copenhagen districts.
+- **Decision:** collect Frederiksberg municipality context from Statistics Denmark StatBank rather than assigning it to a City of Copenhagen district.
+  **Reason:** Airbnb includes 2,500 Frederiksberg listings, but Frederiksberg is an independent municipality outside the City Statbank district system. National StatBank municipality code 147 provides official population, household, income, and dwelling context while preserving the different geographic level explicitly.

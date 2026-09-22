@@ -29,3 +29,6 @@ venv/
 *.sqlite3
 .vscode/
 .idea/
+
+# Misc
+notebooks/test.ipynb

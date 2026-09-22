@@ -19,6 +19,30 @@ osm:
     - https://overpass-api.de/api/interpreter
     - https://overpass.kumi.systems/api/interpreter
 
+copenhagen_statbank:
+  provider: City of Copenhagen Statbank
+  landing_page: https://kk.statistikbank.dk/statbank5a/SelectTable/Omrade0.asp?PLanguage=1
+  district_codes: ['1001', '1002', '1003', '1004', '1005', '1006', '1007', '1008', '1009', '1010']
+  tables:
+    population: KKBEF1
+    households: KKHUS1
+    average_disposable_income: KKIND3
+    dwelling_context: KKBOL3
+
+frederiksberg_statbank:
+  provider: Statistics Denmark StatBank
+  landing_page: https://www.statbank.dk/statbank5a/SelectTable/Omrade0.asp?PLanguage=1
+  api_documentation: https://www.dst.dk/en/Statistik/hjaelp-til-statistikbanken/api
+  api_endpoint: https://api.statbank.dk/v1/data
+  municipality_code: '147'
+  municipality_name: Frederiksberg
+  tables:
+    population: FOLK1A
+    households: FAM55N
+    average_disposable_income: INDKP106
+    dwelling_counts: BOL101
+    average_residents_per_dwelling: BOL106
+
 privacy:
   raw_data_gitignored: true
   publish_row_level_coordinates: false
