@@ -213,11 +213,20 @@ def clean_listings(path: Path) -> tuple[pd.DataFrame, dict[str, Any]]:
             df[column] = pd.to_numeric(df[column], errors="coerce")
     if "listing_id" in df:
         df["listing_id"] = pd.to_numeric(df["listing_id"], errors="coerce").astype("Int64")
+        if df["listing_id"].isna().any() or df["listing_id"].duplicated().any():
+            raise ValueError(
+                "Expected one non-null row per listing ID; duplicate price observations "
+                "need an explicit reconciliation step"
+            )
 
     price_series = parse_numeric_series(df["price"] if "price" in df else pd.Series(index=df.index))
     df["source_price_numeric"] = price_series.astype(float)
-    df["log_price_source_currency"] = np.nan
     positive_price = df["source_price_numeric"].gt(0)
+    # DKK is a user-confirmed currency assumption, not established by the '$'
+    # display symbol in the source. No currency conversion or outcome imputation.
+    df["price_nightly"] = df["source_price_numeric"].where(positive_price)
+    df["log_price"] = np.log(df["price_nightly"])
+    df["log_price_source_currency"] = np.nan
     df.loc[positive_price, "log_price_source_currency"] = np.log(
         df.loc[positive_price, "source_price_numeric"]
     )
@@ -237,8 +246,21 @@ def clean_listings(path: Path) -> tuple[pd.DataFrame, dict[str, Any]]:
     # The source contains host names, URLs, descriptions, amenities text, and
     # host IDs. They are intentionally not carried into the analytical table.
     df["valid_coordinate"] = df["latitude"].between(-90, 90) & df["longitude"].between(-180, 180)
-    df["valid_source_price"] = df["source_price_numeric"].gt(0)
-    df["eligible_for_price_model"] = df["valid_coordinate"] & df["valid_source_price"]
+    df["valid_source_price"] = positive_price
+    df["eligible_for_price_model"] = df["valid_coordinate"] & positive_price
+    scrape_date = (
+        df["last_scraped"].astype("string").fillna("unknown")
+        if "last_scraped" in df
+        else pd.Series("unknown", index=df.index, dtype="string")
+    )
+    price_completeness_by_scrape_date = {
+        str(date): {
+            "listings": int(scrape_date.eq(date).sum()),
+            "valid_price_rows": int((scrape_date.eq(date) & positive_price).sum()),
+            "missing_or_invalid_price_rows": int((scrape_date.eq(date) & ~positive_price).sum()),
+        }
+        for date in sorted(scrape_date.unique())
+    }
 
     summary = {
         "source_path": path.relative_to(PROJECT_ROOT).as_posix(),
@@ -248,8 +270,11 @@ def clean_listings(path: Path) -> tuple[pd.DataFrame, dict[str, Any]]:
         "valid_coordinate_rows": int(df["valid_coordinate"].sum()),
         "valid_source_price_rows": int(df["valid_source_price"].sum()),
         "eligible_for_price_model_rows": int(df["eligible_for_price_model"].sum()),
+        "price_completeness_by_scrape_date": price_completeness_by_scrape_date,
         "missing_source_price_rows": int(df["source_price_numeric"].isna().sum()),
-        "source_price_note": "Numeric value retained without currency conversion; downloaded values display '$'.",
+        "price_currency": "DKK",
+        "price_currency_basis": "User confirmation on 2026-09-29; the downloaded file displays '$' and has no explicit currency code",
+        "source_price_note": "One source price per listing, without replacement or conversion; scrape date is provenance and a missingness diagnostic only.",
     }
     return df, summary
 
@@ -748,7 +773,8 @@ def main() -> None:
             "The pedestrian graph is treated as undirected and uses assumed walking speeds of 1.4 m/s, or 0.9 m/s on steps.",
             "The accessibility index uses nearest OSM opportunities by category, not full counts of opportunities within thresholds.",
             "Airbnb coordinates are provider-anonymised; do not make address-level claims.",
-            "The source price remains unconverted because the downloaded values display '$'.",
+            "Price is treated as DKK based on user confirmation, without conversion; the downloaded values display '$' and provide no explicit currency code.",
+            "All valid source prices are retained regardless of last_scraped; scrape date is not a price-model predictor. Price missingness differs sharply by scrape date and is recorded in listing_summary.",
             "Frederiksberg is a single municipality-sized analysis area, not an official Copenhagen district; strict district models exclude it.",
             "Pooled household reference dates are aligned at 1 January 2026, but City versus national household definitions may differ; pooled income denominators and dwelling definitions are not harmonised. Treat these as sensitivity covariates.",
         ],

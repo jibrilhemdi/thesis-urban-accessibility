@@ -41,3 +41,7 @@ The requested conceptual `ingest/`, `features/`, `validation/`, and `visualizati
 Use stable source keys and explicit snapshot/import IDs; store geometries with verified SRIDs (source WGS84; projected EPSG:25832), spatial indexes, and source-lineage columns. Keep source files and the checksum manifest outside the database as a reproducible archive. Treat Frederiksberg as a flagged single municipality-sized **analysis area**, not an official Copenhagen district; preserve the 10-district-only sensitivity sample. Avoid host names, free text, and unnecessary personal fields in `clean`, `features`, and `analysis`.
 
 Before any DB creation/import, choose a deployment method, verify PostGIS availability, record versions, add non-secret `.env.example`, document credentials handling, write migrations and idempotent loaders, and test row counts/keys/geometry bounds against the current audited files. No database was created or contacted in Phase 0.
+
+## Phase 1 addendum — 2026-09-29
+
+The existing layout is retained. `compose.yaml`, `.env.example`, `Makefile`, `requirements-db.txt`, `sql/migrations/`, and `src/db/` now provide the database setup and raw-ingestion framework; `src/ingestion/` still owns source downloads. No existing source or pipeline folders were moved. The local Docker daemon is unavailable, so the framework has not yet created or contacted a live PostgreSQL/PostGIS database. See [the Phase 1 report](../reports/phase01_database_setup.md).

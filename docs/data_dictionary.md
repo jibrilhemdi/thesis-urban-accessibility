@@ -23,7 +23,7 @@ Planned derived fields include network travel time to stops/amenities, counts wi
 
 ## Snapshot-specific checks
 
-- Detailed listings contain 23,144 rows and 90 columns. The `price` field is formatted with a dollar sign in the downloaded snapshot; do not label it DKK or convert it until the provider’s currency convention is confirmed and a conversion rule is pre-specified.
+- Detailed listings contain 23,144 rows and 90 columns. The `price` field is formatted with a dollar sign, but the user confirmed that its numeric values should be treated as local DKK. This is a documented assumption, not independent provider verification; no currency conversion is applied.
 - Detailed calendar contains 8,448,291 rows and 5 columns. It is useful for availability/restriction summaries in this snapshot, but not for a calendar-based price outcome.
 
 ## Available pipeline outputs
@@ -40,3 +40,9 @@ The local processed table at `data/processed/copenhagen/2026-06-30/` contains on
 This first index is deliberately not described as a full opportunity count within a 5/10/15-minute catchment. That richer measure can be added after the core analytical table is stable.
 
 The City context joins 10 Copenhagen districts to 20,644 listings; Frederiksberg's 2,500 listings have missing strict district fields by design. `eligible_for_district_context_model` flags that 20,644-listing strict sample. The `analysis_area_` layer covers all 23,144 listings in 11 areas, treating Frederiksberg municipality as one proxy area (`analysis_area_is_municipality_proxy = true`). Pooled population, households, disposable income, and dwelling counts carry separate period and source flags. Population is 2026 Q3 for both sources. Copenhagen households are 2026 Q1 and Frederiksberg households are 1 January 2026, both with `analysis_area_households_reference_date = 2026-01-01`; source definitions are not independently harmonised. Income is 2024 but denominators differ; dwelling definitions are not independently harmonised. Do not interpret the proxy as an official Copenhagen district. Housing resident and occupied-dwelling counts are not pooled.
+
+## Price policy for the next regenerated analytical layer
+
+The cleaning code now derives `price_nightly` (numeric source price, assumed DKK) and `log_price`. The existing processed export predates this change and has **not** been regenerated. The local export is not the intended authoritative store; the later database analytical layer should apply the same rule.
+
+Every listing ID occurs once in the current file. Retain one valid positive source price per listing regardless of `last_scraped`; do not replace or impute missing prices. `last_scraped` remains provenance, not a price-model predictor. Aggregate price-completeness counts by date are recorded in cleaning metadata because only 683 of 8,984 listings scraped on 3–4 July have prices, versus 13,177 of 14,160 on 30 June–1 July. This imbalance is a sample-selection limitation, not evidence of within-listing price changes. A future genuinely linked multi-scrape source would require a separately specified reconciliation rule.
