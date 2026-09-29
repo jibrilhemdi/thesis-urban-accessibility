@@ -30,3 +30,55 @@ Categories: **A** available but needs cleaning/derivation; **B** wrong geographi
 | E | GTFS timetable accessibility | Approval still pending | Modular later extension; keep main analysis viable without it |
 
 The source files support listing-level price/accessibility work, but they do **not** currently support listing-level neighbourhood population density and neighbourhood income across both municipalities at a common submunicipal resolution.
+
+## Phase 3 status update — 2026-09-29
+
+The five national table types (two archived versions each) and four City district table types (two archived versions each) are now loaded as 18 source-specific all-text `raw` tables with checksum/import lineage. Selected current measures are in separate `clean.municipality_context_measures` and `clean.copenhagen_district_context_measures` tables; see [Phase 3 report](../reports/phase03_context_data.md) and the reproducible [assessment CSV](../outputs/tables/context_source_assessment.csv). This resolves **ingestion**, not the geographic/definition gaps below.
+
+| Category | Remaining context gap | Required action before proposed model use |
+|---|---|
+| A | `municipality_i` uses Airbnb neighbourhood labels; official boundary assignment has not been validated | Validate listing points against official municipal polygons in a recorded CRS; retain provider-anonymisation caveat |
+| A/D | `log(population_density_i)` has population counts but no validated compatible land-area denominator | Acquire/validate official district and municipality/small-area polygons, confirm reference geography and water treatment, then calculate area in EPSG:25832 (or documented equivalent) |
+| B/D | Frederiksberg has only one municipality observation in `FOLK1A`, `FAM55N`, `INDKP106`, `BOL101`, `BOL106` | Acquire verified submunicipal population/income/housing data and polygon crosswalk if within-Frederiksberg neighbourhood inference is required; do not downscale totals |
+| B | City `KKBEF1`/`KKHUS1` and national municipality totals disagree (population +3,528 nationally; households +15) | Investigate geographic coverage and definitions before treating City sums as the municipality total |
+| B | City `KKIND3` and national `INDKP106` income denominators are not established as equivalent | Keep a Copenhagen-only district sensitivity; do not pool them as harmonised 11-area income |
+| C | Income is from 2024, housing from 2026, population 2026 Q3 and households 1 January 2026 | Keep separate periods and describe income as lagged context, not contemporaneous listing income |
+
+National municipality values are suitable for two-area descriptive comparison, not as repeated listing-level neighbourhood observations. The only conditionally feasible primary location control from this phase is a municipality indicator derived from listings; City district measures are restricted contextual sensitivity variables. No density or pooled area-income variable has been created.
+
+## Phase 4 spatial audit update — 2026-09-29
+
+The archived Inside Airbnb layer supplied 11 valid provider `MultiPolygon` candidate areas. All 23,144 listings matched exactly one provider polygon with `ST_Covers`, but **official** Copenhagen/Frederiksberg municipal and City statistical-district polygons remain absent. No provider polygon is promoted to an official boundary, and the contextual statistical-unit ID remains NULL. See the [spatial foundation report](../reports/phase04_spatial_foundation.md).
+
+| Category | Outstanding spatial requirement | Evidence and required action |
+|---|---|---|
+| B/D | Official municipality and City district polygons | Only provider neighbourhood GeoJSON is archived. Acquire matching official boundaries and compare assignment/area definitions before municipal or district spatial keys are declared verified. |
+| B/D | Common submunicipal Frederiksberg statistics and geometry | Existing Frederiksberg polygon is one provider area, not neighbourhood-resolution context. Obtain compatible small-area data/boundaries if required; do not subdivide municipality totals. |
+| A/D | Population density denominator | Provider polygon geometry areas can be calculated in EPSG:25832, but are not validated official **land** areas matched to statistical population units; density remains unavailable. |
+| A | Near-border listing uncertainty | 3,103/23,144 listings are within 100 m of a provider-area edge (1,660 primary candidates). Validate official polygons and perform assignment sensitivity using anonymised listing-location uncertainty. |
+| A/D | Complete 15-minute OSM extraction | Archived bbox covers only 96.11% of the conservative 1,500 m-buffer footprint by area, but contains every primary-candidate listing's 1,260 m radius under the 1.4 m/s assumption. One non-primary listing lacks full radius coverage. Re-extract/supplement for all-listing or full-footprint use; independently QA actual network/POI completeness before full-threshold claims. |
+
+The Phase 4 11-area provider counts support CV feasibility inspection but do not fix folds or establish official statistical geography.
+
+## Phase 4 official-boundary correction — 2026-09-29
+
+The previous Phase 4 audit above describes the **initial provider-only state**. Official DAWA/DAGI municipality polygons and the City's ten `bydel` polygons are now archived, registered and loaded; see [updated Phase 4 report](../reports/phase04_spatial_foundation.md). The main study-area map is official. `outputs/tables/cv_area_counts.csv` now uses ten official Copenhagen districts plus Frederiksberg municipality, not provider polygons.
+
+| Category | Remaining gap after acquisition | Required action |
+|---|---|---|
+| A | 13/12,521 Phase 2 primary-candidate listings have no consistent official municipality/CV assignment; 42 listings lie inside a City district but outside official municipal polygons | Preserve as unassigned; investigate source-edge differences and Airbnb coordinate anonymisation; predeclare sensitivity for area-based analyses |
+| A/D | Official polygons do not by themselves verify City Statbank district unit/period equivalence or land-area denominator | Validate the statistical-area crosswalk and water/land area treatment before density or district-context joins |
+| B/D | Frederiksberg remains one municipality-sized context unit, with no comparable within-municipality district values | Acquire compatible small-area measures if within-Frederiksberg neighbourhood inference is needed; do not downscale municipality totals |
+| A/D | Archived OSM bbox covers 90.64% of the revised actual-geometry 1,500 m extraction footprint by area | Do not interpret overlap as POI/network completeness; perform edge and network QA before complete accessibility claims |
+
+No final CV folds, population density or contextual area joins were created in this correction.
+
+## Phase 5 Euclidean-accessibility update — 2026-09-29
+
+The earlier OSM bbox coverage concern remains true for the **archived 2026-09-21 Overpass request**, but Phase 5 now uses a separately cached 2026-09-26 BBBike PBF whose polygon covers every listing's 1,600 m count circle and nearest observed station. `features.euclidean_accessibility` contains all 23,144 listings and the frozen canonical POI/station set; see [Phase 5 report](../reports/phase05_euclidean_accessibility.md). This resolves the Euclidean count-radius coverage gap, **not** future walking-network coverage or temporal alignment.
+
+| Category | Remaining Phase 5-related gap | Required action |
+|---|---|---|
+| C | PBF map state is about three months after the June 30 Airbnb snapshot | Describe as a later OSM proxy; obtain a historical June OSM extract if same-date sensitivity is needed. |
+| A/D | Walking-network completeness and routing have not been assessed | Later use the same canonical destination points and a network extract with validated full study/buffer coverage; do not infer network measures from these Euclidean features. |
+| A | Polygon/line POIs use `ST_PointOnSurface`, not a mapped public entrance; OSM can omit or duplicate real venues | Preserve canonical destination IDs, audit unusual cases, and document representative-point/OSM completeness uncertainty. |

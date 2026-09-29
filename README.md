@@ -47,7 +47,7 @@ For the headerless City Statbank export, specify the encoding and `--no-header`,
 python -m src.db.cli ingest-csv --path data/raw/copenhagen_statbank/2026-09-29/tables/KKBOL3.csv --table city_kkbol3 --no-header --encoding latin-1
 ```
 
-The CSV importer does not load JSON/GeoJSON/OSM geometry; those files are registered for provenance and await a later spatial-ingestion phase. Use `python -m src.db.cli --help` for command options. Never run destructive Docker volume removal as a normal stop command.
+The generic CSV importer does not load JSON/GeoJSON/OSM geometry; the Phase 4–5 runners handle the spatial sources. Use `python -m src.db.cli --help` for command options. Never run destructive Docker volume removal as a normal stop command.
 
 ## Phase 2: Airbnb raw tables and clean sample candidate
 
@@ -61,6 +61,44 @@ THESIS_PHASE2_TEST=1 make phase2-test
 The runner imports the existing detailed listings, calendar, detailed reviews, and neighbourhood lookup into separate `raw` tables, then rebuilds `clean.airbnb_listings` transactionally for snapshot `2026-06-30`. It retains one row per listing with price/coordinate QA and explicit sample flags. The primary candidate view is `analysis.airbnb_primary_sample_candidates`. Source price is treated as DKK per the user's documented assumption, without conversion or imputation. The six pre-specified conventional residential property types, all property-type decisions, and amenity-screening rule are documented in the generated Phase 2 report. Review or availability counts are not eligibility requirements.
 
 On a successful run, aggregate-only tables appear in `outputs/tables/`, including `sample_construction.csv`, and the database-generated report is `reports/phase02_airbnb_cleaning.md`. The raw GeoJSON and compact visualisation listing/review files are not used as primary inputs: they remain registered provenance assets, with boundary validation reserved for later spatial work. The calendar and detailed reviews are not joined to listings in Phase 2, preventing row multiplication. No accessibility features are calculated here.
+
+## Phase 3: contextual demographic and housing data
+
+With the database running and `data/raw/` archive present:
+
+```sh
+make phase3-run
+THESIS_PHASE3_TEST=1 make phase3-test
+```
+
+The idempotent runner imports all archived national/municipality (`BOL101`, `BOL106`, `FAM55N`, `FOLK1A`, `INDKP106`) and City of Copenhagen district (`KKBEF1`, `KKHUS1`, `KKIND3`, `KKBOL3`) CSV versions into separate all-text `raw` tables. It creates distinct, source/period-labelled `clean.municipality_context_measures` and `clean.copenhagen_district_context_measures` from the selected 2026-09-29 extracts. The full resolution/use audit is in `outputs/tables/context_source_assessment.csv` and `reports/phase03_context_data.md`. Municipality totals are **not** neighbourhood measurements or copied into listing records. No density is computed without validated polygon areas; no model is fitted in this phase.
+
+## Phase 4: spatial foundation and geographic QA
+
+With Phase 2 listing tables and PostGIS available, run:
+
+```sh
+make phase4-acquire-boundaries
+make phase4-acquire-map-context
+make phase4-run
+THESIS_PHASE4_TEST=1 make phase4-test
+```
+
+The acquisition commands archive official Copenhagen/Frederiksberg municipality, Copenhagen `bydel`, and Capital Region municipality GeoJSON with source URLs and SHA-256 checksums; they will not overwrite existing raw files. The runner registers/imports these into PostGIS, retains Inside Airbnb neighbourhoods separately as provider proxies, and writes official polygon assignments and centre distances to `features.listing_spatial_base`. The Capital Region layer supplies **faint map context only**; it never changes the two-municipality study area or listing assignments. The runner exports aggregate `outputs/tables/cv_area_counts.csv` and four maps to `outputs/figures/`. The separate planned-extraction map shows the 1,500 m buffer without the archived OSM request box. That request box remains in database QA and the report, not on the map. The contextual statistical-unit key remains unassigned pending a verified City Statbank crosswalk; see `reports/phase04_spatial_foundation.md`. Of 12,521 Phase 2 primary candidates, 12,508 have consistent official municipality/CV-area assignments; 13 boundary-edge cases remain flagged rather than forced. The footprint is not itself an OSM download.
+
+## Phase 5: OSM destinations and straight-line accessibility
+
+With the Phase 2–4 database populated and GDAL's `ogr2ogr`/`ogrinfo` on `PATH`:
+
+```sh
+make phase5-acquire
+make phase5-run
+THESIS_PHASE5_TEST=1 make phase5-test
+```
+
+`phase5-acquire` caches an immutable BBBike Copenhagen OSM PBF and its boundary polygon under `data/raw/osm/phase05/<acquisition-date>/` after checking that every listing's 1,600 m radius lies inside the source extent; it verifies hashes and reuses the single existing archive on repeat runs. The runner registers those files, imports selected OSM objects into `raw.osm_phase5_elements`, stores the versioned candidate/deduplication audit and canonical destinations in `spatial`, and creates one row per listing in `features.euclidean_accessibility`. Distances/counts use EPSG:25832 and the same canonical destination points must later be used for a network comparison. The taxonomy and deduplication rules are in [`docs/osm_poi_taxonomy_phase05.md`](docs/osm_poi_taxonomy_phase05.md); source, QA and caveats are in [`reports/phase05_euclidean_accessibility.md`](reports/phase05_euclidean_accessibility.md). This phase does not compute network accessibility or model prices.
+
+The current archive was acquired on 2026-09-29. A future OSM snapshot requires a new source/version review rather than silently overwriting or mixing it with this one; the runner rejects multiple archives. Public outputs must not contain listing coordinates or names.
 
 ## Download the current data snapshot
 

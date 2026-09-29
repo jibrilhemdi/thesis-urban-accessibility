@@ -22,7 +22,24 @@ class SourcePreparationTest(unittest.TestCase):
         if not (PROJECT_ROOT / "data/raw/inside_airbnb").exists():
             self.skipTest("Local raw archive is unavailable")
         records = prepare_all_sources()
-        self.assertEqual(len(records), 49)
+        original_archive = [record for record in records if not record["relative_path"].startswith((
+            "data/raw/official_boundaries/", "data/raw/official_map_context/", "data/raw/osm/phase05/"))]
+        self.assertEqual(len(original_archive), 49)
+        phase5_archive = [record for record in records if record["relative_path"].startswith(
+            "data/raw/osm/phase05/")]
+        if phase5_archive:
+            self.assertEqual(len(phase5_archive), 3)
+            self.assertTrue(all(record["source_url"] for record in phase5_archive))
+        official_archive = [record for record in records if record["relative_path"].startswith(
+            "data/raw/official_boundaries/")]
+        self.assertGreaterEqual(len(official_archive), 4)
+        self.assertTrue(all(record["source_url"] for record in official_archive
+                            if record["filename"].endswith(".geojson")))
+        map_context_archive = [record for record in records if record["relative_path"].startswith(
+            "data/raw/official_map_context/")]
+        self.assertGreaterEqual(len(map_context_archive), 2)
+        self.assertTrue(all(record["source_url"] for record in map_context_archive
+                            if record["filename"].endswith(".geojson")))
         self.assertEqual(len({record["relative_path"] for record in records}), len(records))
         self.assertTrue(all(len(record["file_hash_sha256"]) == 64 for record in records))
         self.assertTrue(any(record["relative_path"].endswith("snapshot_metadata.json") for record in records))
