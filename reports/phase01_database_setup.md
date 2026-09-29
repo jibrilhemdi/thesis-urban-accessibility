@@ -4,7 +4,7 @@ Date: 2026-09-29. Scope: database infrastructure, migrations, source-file proven
 
 ## Architecture and commands
 
-`compose.yaml` defines a loopback-only `postgis/postgis:16-3.5` service with a persistent named volume. The [upstream image](https://github.com/postgis/docker-postgis#versions-2026-06-19) publishes amd64, so Compose explicitly requests `linux/amd64` for Apple Silicon emulation. Credentials come from untracked `.env`; `.env.example` is the only template. Phase 1 Python database dependencies are pinned in `requirements-db.txt`. The local PostgreSQL 18.3 Homebrew tools are not used as the server because PostGIS was not installed there.
+`compose.yaml` defines a loopback-only `postgis/postgis:16-3.5` service with a persistent named volume. The [upstream image](https://github.com/postgis/docker-postgis#versions-2026-06-19) publishes amd64, so Compose explicitly requests `linux/amd64` for Apple Silicon emulation. Credentials come from untracked `.env`; `.env.example` is the only template. Phase 1 Python database dependencies are now pinned in the unified `requirements.txt`. The local PostgreSQL 18.3 Homebrew tools are not used as the server because PostGIS was not installed there.
 
 Run `make db-up`, `make db-connect`, `make db-migrate`, `make db-check`, `make db-version`, `make db-register`, and `make db-ingest-sample` in that order after creating `.env`. `THESIS_DB_TEST=1 make db-test` enables integration tests. `make db-down` stops the container without deleting its volume. The README contains the exact commands and CSV import examples. Migrations are applied transactionally, recorded with SHA-256 in `meta.schema_migrations`, and reject changes to applied migration files.
 

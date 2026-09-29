@@ -82,3 +82,14 @@ The earlier OSM bbox coverage concern remains true for the **archived 2026-09-21
 | C | PBF map state is about three months after the June 30 Airbnb snapshot | Describe as a later OSM proxy; obtain a historical June OSM extract if same-date sensitivity is needed. |
 | A/D | Walking-network completeness and routing have not been assessed | Later use the same canonical destination points and a network extract with validated full study/buffer coverage; do not infer network measures from these Euclidean features. |
 | A | Polygon/line POIs use `ST_PointOnSurface`, not a mapped public entrance; OSM can omit or duplicate real venues | Preserve canonical destination IDs, audit unusual cases, and document representative-point/OSM completeness uncertainty. |
+
+## Phase 6 walking-network update — 2026-09-29
+
+Phase 6 routes all 23,144 listings to the exact Phase 5 canonical destinations using a persisted OSM pedestrian graph; see [Phase 6 report](../reports/phase06_network_accessibility.md). It resolves the missing walking-feature construction, but not all network coverage/quality issues.
+
+| Category | Remaining network issue | Required action |
+|---|---|---|
+| A/D | The source PBF omits 8.31 km² of the 203.16 km² official 1,500 m buffered polygon, although every listing's 1,600 m disk is covered and all non-NULL station routes are shorter than the source-edge distance | Acquire a wider matched-vintage PBF if literal whole-buffer coverage or analyses outside the listing-centred catchments are required; do not relabel the current source as full-buffer coverage. |
+| A | 165 listings (96 primary candidates) snap to disconnected graph components with no selected station | Preserve NULL station time/status; inspect missing pedestrian links and consider a separately declared connectivity sensitivity, not an unflagged connector. |
+| A | Two POIs and five listings snap >100 m; polygon representative points, ferry/elevator omissions, conditional access and constant-speed steps can distort true walking routes | Audit flagged destinations/locations privately, predeclare any alternative routing assumptions and retain the Phase 5 canonical destination set for the main comparison. |
+| C | OSM network/destinations date from late September versus June–July listings | Treat as later-map proxy; historical June OSM source is needed for same-date sensitivity. |

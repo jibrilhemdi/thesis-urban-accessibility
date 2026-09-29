@@ -17,7 +17,7 @@ The database is the intended persistent analytical store. The existing Parquet/C
 Prerequisites: Python 3.13, Docker Desktop with a working daemon, Docker Compose v2, and the local `data/raw/` archive. The Compose image is `postgis/postgis:16-3.5` (PostgreSQL 16, PostGIS 3.5 series); upstream publishes amd64 only, so Apple Silicon uses Docker emulation. The database port is bound to `127.0.0.1` and persists in a named Docker volume. Do not expose or redistribute raw listing/review data.
 
 ```bash
-python -m pip install -r requirements-db.txt
+python -m pip install -r requirements.txt
 cp .env.example .env
 # Edit .env and set DB_PASSWORD to a new, strong local password.
 make db-up
@@ -99,6 +99,22 @@ THESIS_PHASE5_TEST=1 make phase5-test
 `phase5-acquire` caches an immutable BBBike Copenhagen OSM PBF and its boundary polygon under `data/raw/osm/phase05/<acquisition-date>/` after checking that every listing's 1,600 m radius lies inside the source extent; it verifies hashes and reuses the single existing archive on repeat runs. The runner registers those files, imports selected OSM objects into `raw.osm_phase5_elements`, stores the versioned candidate/deduplication audit and canonical destinations in `spatial`, and creates one row per listing in `features.euclidean_accessibility`. Distances/counts use EPSG:25832 and the same canonical destination points must later be used for a network comparison. The taxonomy and deduplication rules are in [`docs/osm_poi_taxonomy_phase05.md`](docs/osm_poi_taxonomy_phase05.md); source, QA and caveats are in [`reports/phase05_euclidean_accessibility.md`](reports/phase05_euclidean_accessibility.md). This phase does not compute network accessibility or model prices.
 
 The current archive was acquired on 2026-09-29. A future OSM snapshot requires a new source/version review rather than silently overwriting or mixing it with this one; the runner rejects multiple archives. Public outputs must not contain listing coordinates or names.
+
+## Phase 6: pedestrian-network accessibility
+
+Phase 6 uses the same cached BBBike PBF and *the same canonical POI/station keys* as Phase 5. It does not send another OSM request. With the Phase 5 database populated:
+
+```sh
+python -m venv --system-site-packages .venv
+.venv/bin/python -m pip install -r requirements.txt
+make phase6-run
+make phase6-export
+THESIS_PHASE6_TEST=1 make phase6-test
+# Optional private point-level QA; do not publish this image:
+.venv/bin/python -m src.pipeline.qa_walking_phase6 --private-map /private/tmp/phase06_private_qa.png
+```
+
+The runner persists a versioned pedestrian graph in `spatial.walking_networks`, `spatial.walking_nodes` and `spatial.walking_edges`; entity snaps in `spatial.walking_destination_snaps` and `features.walking_listing_snaps`; and one listing row in `features.walking_accessibility`. It routes at 4.8 km/h: 10/15/20 minutes = 800/1,200/1,600 m *along the walking graph*, including snap connectors. The 165 listings in disconnected components have NULL nearest-station time and an explicit status, not a fabricated route. Only aggregate CSV diagnostics are exported. See [`reports/phase06_network_accessibility.md`](reports/phase06_network_accessibility.md) for the algorithm, benchmark, geographic examples and limitations. The source covers all listing-centred travel thresholds but not the entire official buffered polygon; do not describe it as complete coverage of that whole area. No modelling is performed here.
 
 ## Download the current data snapshot
 

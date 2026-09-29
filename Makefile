@@ -1,4 +1,4 @@
-.PHONY: db-up db-down db-connect db-migrate db-check db-version db-register db-ingest-sample db-test phase2-run phase2-test phase3-run phase3-test phase4-acquire-boundaries phase4-acquire-map-context phase4-run phase4-test phase5-acquire phase5-run phase5-test
+.PHONY: db-up db-down db-connect db-migrate db-check db-version db-register db-ingest-sample db-test phase2-run phase2-test phase3-run phase3-test phase4-acquire-boundaries phase4-acquire-map-context phase4-run phase4-test phase5-acquire phase5-run phase5-test phase6-run phase6-export phase6-test
 
 db-up:
 	docker compose --env-file .env up -d --wait --wait-timeout 120 db
@@ -59,3 +59,12 @@ phase5-run:
 
 phase5-test:
 	python -m unittest discover -s tests -p 'test_euclidean_phase5.py' -v
+
+phase6-run:
+	.venv/bin/python -m src.pipeline.run_walking_phase6
+
+phase6-export:
+	.venv/bin/python -m src.pipeline.export_walking_phase6
+
+phase6-test:
+	.venv/bin/python -m unittest discover -s tests -p 'test_walking_phase6.py' -v
