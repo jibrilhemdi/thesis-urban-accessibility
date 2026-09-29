@@ -25,6 +25,6 @@ libpysal>=4.12
 esda>=2.6
 
 # Optional modelling/output tools
-xgboost>=2.1
+xgboost==3.0.5
 matplotlib>=3.9
 seaborn>=0.13

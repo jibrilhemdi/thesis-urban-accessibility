@@ -116,6 +116,40 @@ THESIS_PHASE6_TEST=1 make phase6-test
 
 The runner persists a versioned pedestrian graph in `spatial.walking_networks`, `spatial.walking_nodes` and `spatial.walking_edges`; entity snaps in `spatial.walking_destination_snaps` and `features.walking_listing_snaps`; and one listing row in `features.walking_accessibility`. It routes at 4.8 km/h: 10/15/20 minutes = 800/1,200/1,600 m *along the walking graph*, including snap connectors. The 165 listings in disconnected components have NULL nearest-station time and an explicit status, not a fabricated route. Only aggregate CSV diagnostics are exported. See [`reports/phase06_network_accessibility.md`](reports/phase06_network_accessibility.md) for the algorithm, benchmark, geographic examples and limitations. The source covers all listing-centred travel thresholds but not the entire official buffered polygon; do not describe it as complete coverage of that whole area. No modelling is performed here.
 
+## Phase 7: analytical dataset and pre-analysis freeze
+
+With Phases 2–6 loaded into the local PostGIS database, run:
+
+```sh
+make phase7-run
+THESIS_PHASE7_TEST=1 make phase7-test
+```
+
+Migrations `011`–`012` create the one-row-per-listing `analysis.analysis_dataset_v1` view and persistent, non-overwriting 1-km spatial CV fold assignments. The runner validates joins, source-supported bathroom parsing and context resolution; writes aggregate missingness, price-selection, redundancy and fold diagnostics under `outputs/tables/`; generates **two complementary Phase 4-styled maps**—a [500 m square grid of missing-price counts](outputs/figures/phase07_missing_price_grid.png) (cells with fewer than five omitted) and an [official-area missing-price percentage map](outputs/figures/phase07_missing_price_area.png); and regenerates [`docs/data_dictionary_analysis.csv`](docs/data_dictionary_analysis.csv). It fits **no price models**. See the [Phase 7 report](reports/phase07_analytical_dataset_and_freeze.md) and [frozen specification](docs/preanalysis_specification.md). Raw files and database NULLs are not edited; do not publish the private analytical view or row-level source data.
+
+## Phase 8: EDA, spatial diagnostics and additional fixed CV schemes
+
+With the Phase 7 view/folds in place:
+
+```sh
+make phase8-run
+THESIS_PHASE8_TEST=1 make phase8-test
+```
+
+Migration `013` adds `analysis.cv_assignments` (random, official leave-one-area-out, preserved 1-km primary grid and 1.5-km robustness grid identifiers) and `analysis.cv_buffer_exclusions` (prepared 500/1,000 m leave-area-out training gaps). Assignments are outcome-blind and are verified, never silently replaced, on rerun. Phase 8 exports aggregate descriptive statistics, spatial Moran/distance-bin diagnostics, fold support checks, and 15 figures in the Phase 4 cartographic style. Price, food/social, cultural/tourist and station-access measures each have official-area and privacy-suppressed 500 m grid maps; matched straight-line/walking pairs share colour scales. The accessibility maps overlay their canonical OSM destinations, with metro/urban-rail/other-rail station symbols; **bus stops are not in the frozen station measure**. The Euclidean/network hexbin figure uses a shared 0–9 `log1p` x/y range and one common colour scale for listing counts per hexagon. Grid cells are clipped to the official study footprint in PostGIS, with coverage audited in `outputs/tables/phase08_map_coverage.csv`. [The Phase 8 report](reports/phase08_eda_and_cv.md) explains sample definitions, spatial weights, the reason for candidate buffer sizes and the Frederiksberg extrapolation risk. No final price model is fit.
+
+## Phase 9: primary models and separate bus robustness
+
+With the Phase 8 database, immutable Phase 5 OSM archive, `.env`, and XGBoost dependency in place:
+
+```sh
+.venv/bin/python -m pip install -r requirements.txt
+make phase9-run
+THESIS_PHASE9_TEST=1 make phase9-test
+```
+
+`phase9-run` applies migration `014`, verifies the archived OSM checksum, and persists a separately labelled nearest-bus-stop proxy in PostGIS; it also produces a read-only aggregate destination-boundary audit before fitting the frozen 12,412-listing common comparison. The primary ladder is M0 property/host/municipality/centrality, ME plus straight-line access, MW plus walking access, and the explicitly exploratory combined MEW. The runner evaluates training-mean, semilog OLS, and nested-tuned XGBoost on the **saved** random five-fold and leave-one-official-area-out assignments; learned preprocessing and tuning stay inside training folds. Aggregate model/fold/HC3 coefficient/Moran/SHAP tables and nine figures are written under `outputs/`, including official-area and privacy-suppressed 500 m grid residual maps. Run `make phase9-boundary-audit` alone to refresh only the aggregate boundary audit, without fitting models. [The Phase 9 report](reports/phase09_main_models.md) gives exact metrics, caveats, file names, and the pre-fit deviations from the frozen specification. The original 1-km outer-grid scheme remains saved but was not run in this user-directed Phase 9. No raw data, price values, or database NULLs are overwritten.
+
 ## Download the current data snapshot
 
 The default configuration uses the Copenhagen snapshot dated `2026-06-30`, which is the latest snapshot listed on the Inside Airbnb download page when this workspace was prepared.

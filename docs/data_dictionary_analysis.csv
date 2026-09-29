@@ -1,0 +1,81 @@
+variable,sql_type,definition,source,unit,intended_use,null_n_all_23144,null_n_primary_12521
+snapshot_date,date,Inside Airbnb snapshot date,clean.airbnb_listings,date,key,0,0
+listing_id,bigint,Original Inside Airbnb listing ID; confidential join key,clean.airbnb_listings,ID,key,0,0
+source_file_id,bigint,Registered listing source file ID,clean.airbnb_listings/meta.source_files,ID,provenance,0,0
+last_scraped,date,Listing's source scrape date; not a price-selection control,clean.airbnb_listings,date,provenance,0,0
+price_nightly,numeric,Positive source listed nightly price; NULL if missing/unparseable; DKK by user confirmation,clean.airbnb_listings,DKK/night,outcome,9284,0
+observed_positive_price,boolean,True when source listed price is valid and positive,clean.airbnb_listings,boolean,selection,0,0
+log_price,double precision,Natural log of positive source listed nightly price; never imputed,price_nightly,ln(DKK/night),outcome,9284,0
+missing_or_invalid_price,boolean,True when no valid positive price exists,clean.airbnb_listings,boolean,selection,0,0
+in_study_area,boolean,Phase 2 provider-label study-area flag; official assignment is separate,clean.airbnb_listings,boolean,selection,0,0
+entire_home_apt,boolean,Source room type equals Entire home/apt,clean.airbnb_listings,boolean,selection,0,0
+conventional_residential,boolean,Phase 2 predeclared six-property-type inclusion,clean.airbnb_listings,boolean,selection,0,0
+valid_price,boolean,Phase 2 positive-price validation flag,clean.airbnb_listings,boolean,selection,0,0
+valid_coordinates,boolean,Phase 2 valid WGS84 coordinate flag,clean.airbnb_listings,boolean,selection,0,0
+primary_sample_candidate,boolean,All Phase 2 study/room/property/price/coordinate requirements met,clean.airbnb_listings,boolean,selection,0,0
+property_type,text,Original listing property category,clean.airbnb_listings,category,primary_control,0,0
+room_type,text,Original listing room category,clean.airbnb_listings,category,selection,0,0
+accommodates,integer,Number of guests the listing accommodates,clean.airbnb_listings,persons,primary_control,0,0
+bedrooms,numeric,Structured bedroom count; no database imputation,clean.airbnb_listings,rooms,primary_control,1487,124
+bathrooms_structured,numeric,Structured bathroom count as parsed in Phase 2,clean.airbnb_listings,rooms,diagnostic,10941,1674
+bathrooms_text,text,Original bathroom text retained to audit source-supported fallback; not public output,clean.airbnb_listings,text,provenance,5,0
+bathrooms_effective,numeric,"Structured count, else explicitly parsed numeric/half-bath source text",clean.airbnb_listings.bathrooms/bathrooms_text,rooms,primary_control,764,0
+bathrooms_source,text,"Whether effective bathrooms came from structured field, source text, or neither",clean.airbnb_listings,category,provenance,0,0
+bathrooms_source_disagreement,boolean,Structured/text bathroom numbers disagree; structured takes precedence,clean.airbnb_listings,boolean,diagnostic,0,0
+minimum_nights,integer,Minimum listed stay length,clean.airbnb_listings,nights,diagnostic,0,0
+log1p_minimum_nights,double precision,ln(1 + minimum_nights); NULL if invalid negative,minimum_nights,log nights,primary_control,0,0
+instant_bookable,boolean,Boolean parsed from source field; entirely missing in current snapshot,clean.airbnb_listings,boolean,unusable,23144,12521
+superhost,boolean,Host superhost status parsed from source t/f,clean.airbnb_listings,boolean,primary_control,1,0
+host_listings_count,integer,Source host listing count,clean.airbnb_listings,count,diagnostic,1,0
+log1p_host_listings_count,double precision,ln(1 + source host listing count),host_listings_count,log count,primary_control,1,0
+calculated_host_listings_count,integer,Provider-calculated host listing count; not the primary host-count field,clean.airbnb_listings,count,diagnostic,0,0
+number_of_reviews,integer,"Lifetime review count; activity proxy, not bookings",clean.airbnb_listings,count,robustness,0,0
+number_of_reviews_ltm,integer,Last-12-month review count; activity proxy,clean.airbnb_listings,count,robustness,0,0
+review_scores_rating,numeric,Published listing rating where reviews permit,clean.airbnb_listings,rating,robustness,3060,1911
+amenity_wifi,boolean,Exact Wifi token in source amenities JSON; NULL if source array absent,clean.airbnb_listings.amenities_raw,boolean,primary_control,0,0
+amenity_dishwasher,boolean,Exact Dishwasher token in source amenities JSON; NULL if source array absent,clean.airbnb_listings.amenities_raw,boolean,primary_control,0,0
+amenity_washer,boolean,Exact Washer token in source amenities JSON; NULL if source array absent,clean.airbnb_listings.amenities_raw,boolean,primary_control,0,0
+amenity_dryer,boolean,Exact Dryer token in source amenities JSON; NULL if source array absent,clean.airbnb_listings.amenities_raw,boolean,primary_control,0,0
+amenity_workspace,boolean,Exact Dedicated workspace token in source amenities JSON; NULL if source array absent,clean.airbnb_listings.amenities_raw,boolean,primary_control,0,0
+amenity_free_parking,boolean,Exact Free parking on premises token in source amenities JSON; NULL if source array absent,clean.airbnb_listings.amenities_raw,boolean,primary_control,0,0
+amenity_private_balcony,boolean,Exact Private patio or balcony token in source amenities JSON; NULL if source array absent,clean.airbnb_listings.amenities_raw,boolean,primary_control,0,0
+amenity_self_checkin,boolean,Exact Self check-in token in source amenities JSON; NULL if source array absent,clean.airbnb_listings.amenities_raw,boolean,primary_control,0,0
+official_municipality_code,text,Official ST_Covers municipality: 0101 Copenhagen or 0147 Frederiksberg,features.listing_spatial_base,code,location_control,76,13
+official_cv_area_id,text,Official Copenhagen district or Frederiksberg municipality-sized area; NULL if unresolved,features.listing_spatial_base,area ID,diagnostic,78,13
+official_assignment_status,text,Official point/polygon assignment QA status,features.listing_spatial_base,category,diagnostic,0,0
+near_official_border_100m,boolean,Listing point within 100 m of official area boundary,features.listing_spatial_base,boolean,robustness,0,0
+distance_centre_euclidean_km,double precision,Projected straight-line distance to City Hall Square,features.listing_spatial_base,km,location_control,0,0
+distance_crs_epsg,integer,EPSG used for centre-distance calculation (25832),features.listing_spatial_base,EPSG,provenance,0,0
+euclidean_taxonomy_version,text,Phase 5 canonical OSM destination taxonomy version,features.euclidean_accessibility,version,provenance,0,0
+euclidean_count_coverage_complete,boolean,POI-count source-edge coverage check,features.euclidean_accessibility,boolean,diagnostic,0,0
+euclidean_station_coverage_complete,boolean,Nearest-station source-edge coverage check,features.euclidean_accessibility,boolean,diagnostic,0,0
+nearest_station_euclidean_m,double precision,Straight-line projected distance to nearest canonical rail/metro station,features.euclidean_accessibility,m,accessibility,0,0
+food_social_800m,integer,Canonical food_social POIs within 800 m projected straight-line radius,features.euclidean_accessibility,count,accessibility,0,0
+food_social_1200m,integer,Canonical food_social POIs within 1200 m projected straight-line radius,features.euclidean_accessibility,count,accessibility,0,0
+food_social_1600m,integer,Canonical food_social POIs within 1600 m projected straight-line radius,features.euclidean_accessibility,count,accessibility,0,0
+cultural_tourist_800m,integer,Canonical cultural_tourist POIs within 800 m projected straight-line radius,features.euclidean_accessibility,count,accessibility,0,0
+cultural_tourist_1200m,integer,Canonical cultural_tourist POIs within 1200 m projected straight-line radius,features.euclidean_accessibility,count,accessibility,0,0
+cultural_tourist_1600m,integer,Canonical cultural_tourist POIs within 1600 m projected straight-line radius,features.euclidean_accessibility,count,accessibility,0,0
+network_id,text,Versioned Phase 6 pedestrian graph identifier,features.walking_accessibility,ID,provenance,0,0
+destination_taxonomy_version,text,Canonical POI/station destination taxonomy for walking counts,features.walking_accessibility,version,provenance,0,0
+walking_speed_kmh,numeric,Assumed constant walking speed (4.8),features.walking_accessibility,km/h,provenance,0,0
+routing_status,text,Walking route status; disconnected station routes remain NULL,features.walking_accessibility,category,diagnostic,0,0
+listing_snap_distance_m,double precision,Straight connector from listing point to nearest routable walk node,features.walking_accessibility,m,diagnostic,0,0
+walking_station_coverage_complete,boolean,Reachable station path passes source-edge coverage check,features.walking_accessibility,boolean,diagnostic,165,96
+nearest_station_network_distance_m,double precision,Shortest routable station path plus endpoint connectors,features.walking_accessibility,m,diagnostic,165,96
+nearest_station_walking_minutes,double precision,Network station path at 4.8 km/h; NULL when no station is reachable,features.walking_accessibility,minutes,accessibility,165,96
+food_social_w_10,integer,"Same canonical food_social POIs reachable within 10 min on walk graph, connectors included",features.walking_accessibility,count,accessibility,0,0
+food_social_w_15,integer,"Same canonical food_social POIs reachable within 15 min on walk graph, connectors included",features.walking_accessibility,count,accessibility,0,0
+food_social_w_20,integer,"Same canonical food_social POIs reachable within 20 min on walk graph, connectors included",features.walking_accessibility,count,accessibility,0,0
+cultural_tourist_w_10,integer,"Same canonical cultural_tourist POIs reachable within 10 min on walk graph, connectors included",features.walking_accessibility,count,accessibility,0,0
+cultural_tourist_w_15,integer,"Same canonical cultural_tourist POIs reachable within 15 min on walk graph, connectors included",features.walking_accessibility,count,accessibility,0,0
+cultural_tourist_w_20,integer,"Same canonical cultural_tourist POIs reachable within 20 min on walk graph, connectors included",features.walking_accessibility,count,accessibility,0,0
+context_join_status,text,"District code/name match with unverified boundary vintage, Frederiksberg proxy, or gap",clean context + official geography,category,provenance,0,0
+context_district_code,text,"City StatBank district code, Copenhagen only",clean.copenhagen_district_context_measures,code,robustness,2577,1318
+context_district_name,text,"City StatBank district label, Copenhagen only",clean.copenhagen_district_context_measures,name,robustness,2577,1318
+district_population_2026q3,numeric,"City district registered population, 2026 Q3; post-listing snapshot",clean.copenhagen_district_context_measures,persons/area,robustness,2577,1318
+district_households_2026q1,numeric,"City district households, 1 January 2026",clean.copenhagen_district_context_measures,households/area,robustness,2577,1318
+district_income_2024_dkk_person,numeric,City district mean personal disposable income; denominator not harmonised to national series,clean.copenhagen_district_context_measures,DKK/person/area,robustness,2577,1318
+frb_municipality_population_2026q3,numeric,"Frederiksberg municipality population, not a neighbourhood attribute",clean.municipality_context_measures,persons/municipality,descriptive_only,20645,11216
+frb_municipality_households_2026q1,numeric,"Frederiksberg municipality households, 1 January 2026",clean.municipality_context_measures,households/municipality,descriptive_only,20645,11216
+frb_municipality_income_2024_dkk_person,numeric,Frederiksberg municipality mean disposable income; not harmonised to City district income,clean.municipality_context_measures,DKK/person/municipality,descriptive_only,20645,11216

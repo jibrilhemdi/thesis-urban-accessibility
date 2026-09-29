@@ -1,4 +1,4 @@
-.PHONY: db-up db-down db-connect db-migrate db-check db-version db-register db-ingest-sample db-test phase2-run phase2-test phase3-run phase3-test phase4-acquire-boundaries phase4-acquire-map-context phase4-run phase4-test phase5-acquire phase5-run phase5-test phase6-run phase6-export phase6-test
+.PHONY: db-up db-down db-connect db-migrate db-check db-version db-register db-ingest-sample db-test phase2-run phase2-test phase3-run phase3-test phase4-acquire-boundaries phase4-acquire-map-context phase4-run phase4-test phase5-acquire phase5-run phase5-test phase6-run phase6-export phase6-test phase7-run phase7-test phase8-run phase8-test phase9-bus phase9-run phase9-test phase9-boundary-audit
 
 db-up:
 	docker compose --env-file .env up -d --wait --wait-timeout 120 db
@@ -68,3 +68,27 @@ phase6-export:
 
 phase6-test:
 	.venv/bin/python -m unittest discover -s tests -p 'test_walking_phase6.py' -v
+
+phase7-run:
+	.venv/bin/python -m src.pipeline.run_analysis_phase7
+
+phase7-test:
+	.venv/bin/python -m unittest discover -s tests -p 'test_analysis_phase7.py' -v
+
+phase8-run:
+	.venv/bin/python -m src.pipeline.run_analysis_phase8
+
+phase8-test:
+	.venv/bin/python -m unittest discover -s tests -p 'test_analysis_phase8.py' -v
+
+phase9-bus:
+	.venv/bin/python -m src.pipeline.run_bus_proximity_phase9
+
+phase9-run: phase9-bus phase9-boundary-audit
+	.venv/bin/python -m src.pipeline.run_analysis_phase9
+
+phase9-test:
+	.venv/bin/python -m unittest discover -s tests -p 'test_analysis_phase9.py' -v
+
+phase9-boundary-audit:
+	.venv/bin/python -m src.pipeline.audit_destination_boundary_phase9
