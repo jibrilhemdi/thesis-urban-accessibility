@@ -1,7 +1,7 @@
 {
   "pipeline": "available_minimum_non_gtfs",
-  "started_at_utc": "2026-09-22T08:57:47+00:00",
-  "completed_at_utc": "2026-09-22T08:57:49+00:00",
+  "started_at_utc": "2026-09-29T06:36:15+00:00",
+  "completed_at_utc": "2026-09-29T06:36:17+00:00",
   "study_area": "Copenhagen, Denmark",
   "snapshot_date": "2026-06-30",
   "osm_extraction_date": "2026-09-21",
@@ -113,20 +113,47 @@
     }
   },
   "statbank_summary": {
-    "source_path": "data/interim/copenhagen_statbank_district_context_2026-09-22.csv",
-    "source_paths": [
-      "data/interim/copenhagen_statbank_district_context_2026-09-22.csv",
-      "data/interim/frederiksberg_statbank_municipality_context_2026-09-22.csv"
+    "source_path": "data/interim/copenhagen_statbank_district_context_2026-09-29.csv",
+    "context_rows": 10,
+    "listings_with_statbank_context": 20644,
+    "listings_without_statbank_context": 2500,
+    "unmatched_airbnb_neighbourhoods": [
+      "Frederiksberg"
     ],
-    "context_rows": 11,
-    "listings_with_statbank_context": 23144,
-    "listings_without_statbank_context": 0,
-    "unmatched_airbnb_neighbourhoods": [],
     "joined_context_by_geography": {
-      "district": 20644,
-      "municipality": 2500
+      "district": 20644
     },
-    "join_rule": "explicit Airbnb-to-Statbank aliases; City of Copenhagen uses district context and Frederiksberg uses municipality context"
+    "join_rule": "explicit Airbnb-to-City-district aliases; Frederiksberg district fields are missing by design"
+  },
+  "analysis_area_summary": {
+    "source_paths": [
+      "data/interim/copenhagen_statbank_district_context_2026-09-29.csv",
+      "data/interim/municipality_statbank_context_2026-09-29.csv"
+    ],
+    "analysis_areas": 11,
+    "copenhagen_districts": 10,
+    "frederiksberg_single_area": 1,
+    "listings_with_mixed_area_context": 23144,
+    "frederiksberg_proxy_listings": 2500,
+    "pooled_fields": [
+      "population_count",
+      "household_count",
+      "average_disposable_income_dkk",
+      "dwelling_count"
+    ],
+    "field_lineage": {
+      "population_count": "KKBEF1 2026Q3 / FOLK1A 2026Q3",
+      "household_count": "KKHUS1 2026Q1 / FAM55N 2026-01-01; same 1 January reference date, definitions not independently harmonised",
+      "average_disposable_income_dkk": "KKIND3 2024 / INDKP106 2024; denominators differ",
+      "dwelling_count": "KKBOL3 2026 / BOL101 2026; definitions not independently harmonised"
+    },
+    "excluded_from_pooled_fields": [
+      "resident_count_statbank",
+      "occupied_dwelling_count",
+      "average_residents_per_occupied_dwelling"
+    ],
+    "interpretation": "Frederiksberg is a municipality used as one analysis area, not an official Copenhagen district. Mixed-source covariates are sensitivity measures; use strict City district fields for harmonised within-Copenhagen analyses.",
+    "households_reference_date": "2026-01-01"
   },
   "completed_steps": [
     "source manifest was verified before run",
@@ -135,7 +162,7 @@
     "cached OSM walking network parsed into an undirected pedestrian graph",
     "listings and OSM opportunity elements snapped to the network",
     "nearest-category walking times and minimum accessibility index computed",
-    "City of Copenhagen district and Frederiksberg municipality Statbank context joined with explicit boundary aliases",
+    "City district context retained separately; Frederiksberg municipality added as one flagged mixed-scale analysis area",
     "local analytical table written as Parquet and compressed CSV"
   ],
   "not_available_yet": [
@@ -146,7 +173,9 @@
     "The pedestrian graph is treated as undirected and uses assumed walking speeds of 1.4 m/s, or 0.9 m/s on steps.",
     "The accessibility index uses nearest OSM opportunities by category, not full counts of opportunities within thresholds.",
     "Airbnb coordinates are provider-anonymised; do not make address-level claims.",
-    "The source price remains unconverted because the downloaded values display '$'."
+    "The source price remains unconverted because the downloaded values display '$'.",
+    "Frederiksberg is a single municipality-sized analysis area, not an official Copenhagen district; strict district models exclude it.",
+    "Pooled household reference dates are aligned at 1 January 2026, but City versus national household definitions may differ; pooled income denominators and dwelling definitions are not harmonised. Treat these as sensitivity covariates."
   ],
   "outputs": {
     "parquet": "data/processed/copenhagen/2026-06-30/listing_accessibility.parquet",
@@ -233,7 +262,27 @@
     "statbank_context_provider",
     "statbank_context_geography",
     "statbank_area_code",
-    "statbank_context_missing"
+    "statbank_context_missing",
+    "eligible_for_district_context_model",
+    "analysis_area_code",
+    "analysis_area_name",
+    "analysis_area_geography",
+    "analysis_area_source_provider",
+    "analysis_area_is_municipality_proxy",
+    "analysis_area_population_count",
+    "analysis_area_household_count",
+    "analysis_area_average_disposable_income_dkk",
+    "analysis_area_dwelling_count",
+    "analysis_area_population_period",
+    "analysis_area_households_period",
+    "analysis_area_income_period",
+    "analysis_area_dwellings_period",
+    "analysis_area_households_reference_date",
+    "analysis_area_household_period_differs",
+    "analysis_area_household_definition_unverified",
+    "analysis_area_income_definition_differs",
+    "analysis_area_dwelling_definition_unverified",
+    "eligible_for_mixed_analysis_area_context"
   ],
   "output_rows": 23144,
   "privacy_note": "Processed files retain coordinates for local spatial work and remain gitignored; aggregate before sharing."

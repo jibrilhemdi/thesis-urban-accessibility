@@ -28,20 +28,24 @@ copenhagen_statbank:
     households: KKHUS1
     average_disposable_income: KKIND3
     dwelling_context: KKBOL3
+  household_period: 2026Q1
 
-frederiksberg_statbank:
+municipality_statbank:
+  status: frederiksberg_single_analysis_area_source
   provider: Statistics Denmark StatBank
   landing_page: https://www.statbank.dk/statbank5a/SelectTable/Omrade0.asp?PLanguage=1
   api_documentation: https://www.dst.dk/en/Statistik/hjaelp-til-statistikbanken/api
   api_endpoint: https://api.statbank.dk/v1/data
-  municipality_code: '147'
-  municipality_name: Frederiksberg
+  municipality_codes:
+    Copenhagen: '101'
+    Frederiksberg: '147'
   tables:
     population: FOLK1A
     households: FAM55N
     average_disposable_income: INDKP106
     dwelling_counts: BOL101
     average_residents_per_dwelling: BOL106
+  household_reference_date: '2026-01-01'
 
 privacy:
   raw_data_gitignored: true

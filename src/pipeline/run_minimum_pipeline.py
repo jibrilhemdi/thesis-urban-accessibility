@@ -10,13 +10,12 @@ version of section 7 of the research plan:
 4. parse the cached OSM walking network and opportunity layer;
 5. snap listings and OSM opportunities to the network;
 6. compute nearest-category walking times and a small accessibility index;
-7. join available City of Copenhagen district context and Frederiksberg
-   municipality context;
+7. join City of Copenhagen district context and define 11 mixed-scale analysis areas;
 8. write a local analytical table and run metadata.
 
-GTFS is recorded as unavailable rather than inferred. Statbank context retains
-the provider geography: City of Copenhagen districts and Frederiksberg
-municipality.
+GTFS is recorded as unavailable rather than inferred. Frederiksberg is a single
+analysis area, not an official Copenhagen district. Strict district and pooled
+mixed-scale context fields remain separate.
 """
 
 from __future__ import annotations
@@ -30,7 +29,6 @@ import math
 import re
 import sys
 from collections import defaultdict
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -63,7 +61,6 @@ AIRBNB_TO_STATBANK = {
     "Amager st": "Amager Øst",
     "Amager Øst": "Amager Øst",
     "Amager Vest": "Amager Vest",
-    "Frederiksberg": "Frederiksberg",
 }
 
 FOOD_AMENITIES = {
@@ -260,25 +257,15 @@ def clean_listings(path: Path) -> tuple[pd.DataFrame, dict[str, Any]]:
 def join_statbank_context(
     df: pd.DataFrame,
     context_path: Path,
-    supplemental_context_paths: Iterable[Path] = (),
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
-    context_parts = []
-    for source_path in [context_path, *supplemental_context_paths]:
-        part = pd.read_csv(source_path)
-        if "statbank_context_provider" not in part:
-            part["statbank_context_provider"] = "City of Copenhagen Statbank"
-        if "statbank_context_geography" not in part:
-            part["statbank_context_geography"] = "district"
-        if "statbank_area_code" not in part:
-            if "statbank_district_code" in part:
-                part["statbank_area_code"] = part["statbank_district_code"].astype("string")
-            else:
-                part["statbank_area_code"] = pd.NA
-        context_parts.append(part)
-    context = pd.concat(context_parts, ignore_index=True, sort=False)
+    context = pd.read_csv(context_path)
+    if len(context) != 10 or "Frederiksberg" in context["district_name_statbank"].values:
+        raise ValueError("Expected only the 10 City of Copenhagen districts")
     if context["district_name_statbank"].duplicated().any():
-        raise ValueError("Statbank context sources contain duplicate join labels")
-    context["statbank_area_code"] = context["statbank_area_code"].astype("string")
+        raise ValueError("City Statbank context has duplicate district labels")
+    context["statbank_context_provider"] = "City of Copenhagen Statbank"
+    context["statbank_context_geography"] = "district"
+    context["statbank_area_code"] = context["statbank_district_code"].astype("string")
     context["statbank_context_provider"] = context["statbank_context_provider"].astype("string")
     context["statbank_context_geography"] = context["statbank_context_geography"].astype("string")
     df["statbank_district_name"] = df["airbnb_neighbourhood"].map(AIRBNB_TO_STATBANK)
@@ -290,13 +277,13 @@ def join_statbank_context(
         validate="many_to_one",
     )
     df["statbank_context_missing"] = df["population_count"].isna()
+    df["eligible_for_district_context_model"] = ~df["statbank_context_missing"]
     unmatched = sorted(
         str(value)
         for value in df.loc[df["statbank_context_missing"], "airbnb_neighbourhood"].dropna().unique()
     )
     summary = {
         "source_path": context_path.relative_to(PROJECT_ROOT).as_posix(),
-        "source_paths": [path.relative_to(PROJECT_ROOT).as_posix() for path in [context_path, *supplemental_context_paths]],
         "context_rows": int(len(context)),
         "listings_with_statbank_context": int((~df["statbank_context_missing"]).sum()),
         "listings_without_statbank_context": int(df["statbank_context_missing"].sum()),
@@ -307,7 +294,112 @@ def join_statbank_context(
             .value_counts(dropna=False)
             .items()
         },
-        "join_rule": "explicit Airbnb-to-Statbank aliases; City of Copenhagen uses district context and Frederiksberg uses municipality context",
+        "join_rule": "explicit Airbnb-to-City-district aliases; Frederiksberg district fields are missing by design",
+    }
+    return df, summary
+
+
+def join_analysis_area_context(
+    df: pd.DataFrame, district_path: Path, municipality_path: Path
+) -> tuple[pd.DataFrame, dict[str, Any]]:
+    """Append one Frederiksberg proxy area to the ten City districts.
+
+    The original district columns remain City-only. The new analysis-area
+    columns carry explicit geography and period flags so a mixed-source model
+    cannot be mistaken for a strictly harmonised district comparison.
+    """
+    municipality = pd.read_csv(municipality_path, dtype={"municipality_code": "string"})
+    if len(municipality) != 2 or set(municipality["municipality_code"]) != {"101", "147"}:
+        raise ValueError("Expected exactly Copenhagen (101) and Frederiksberg (147) national rows")
+    city_meta = json.loads((PROJECT_ROOT / "data/metadata/copenhagen_statbank_run.json").read_text())
+    national_meta = json.loads((PROJECT_ROOT / "data/metadata/municipality_statbank_run.json").read_text())
+    if city_meta["tidy_context"] != district_path.relative_to(PROJECT_ROOT).as_posix():
+        raise ValueError("City district context does not match its collection metadata")
+    if national_meta["tidy_context"] != municipality_path.relative_to(PROJECT_ROOT).as_posix():
+        raise ValueError("National municipality context does not match its collection metadata")
+    city_tables = {item["table"]: item for item in city_meta["tables"]}
+    national_tables = {item["table"]: item for item in national_meta["tables"]}
+    periods = {
+        "population": (city_tables["KKBEF1"]["selected_labels"]["var5"][0], national_tables["FOLK1A"]["period"]),
+        "households": (city_tables["KKHUS1"]["selected_labels"]["var5"][0], national_tables["FAM55N"]["period"]),
+        "income": (city_tables["KKIND3"]["selected_labels"]["var5"][0], national_tables["INDKP106"]["period"]),
+        "dwellings": (city_tables["KKBOL3"]["selected_labels"]["var6"][0], national_tables["BOL101"]["period"]),
+    }
+    if periods["population"][0] != periods["population"][1]:
+        raise ValueError("Pooled population periods are not aligned")
+    city_household_period, national_household_period = periods["households"]
+    quarter = re.fullmatch(r"(\d{4})Q([1-4])", city_household_period)
+    if quarter is None:
+        raise ValueError(f"Unexpected City household quarter: {city_household_period}")
+    city_household_reference_date = f"{quarter.group(1)}-{1 + (int(quarter.group(2)) - 1) * 3:02d}-01"
+    if city_household_reference_date != national_household_period:
+        raise ValueError("Pooled household reference dates are not aligned")
+    frb = municipality.loc[municipality["municipality_code"] == "147"].iloc[0]
+    is_frederiksberg = df["airbnb_neighbourhood"].eq("Frederiksberg")
+    if not is_frederiksberg.any() or not df.loc[is_frederiksberg, "statbank_context_missing"].all():
+        raise ValueError("Frederiksberg listings must be present and have no City district context")
+
+    df["analysis_area_code"] = ("CPH_DISTRICT_" + df["statbank_area_code"]).astype("string")
+    df.loc[is_frederiksberg, "analysis_area_code"] = "FRB_SINGLE_AREA_147"
+    df["analysis_area_name"] = df["statbank_district_name"].astype("string")
+    df.loc[is_frederiksberg, "analysis_area_name"] = "Frederiksberg"
+    df["analysis_area_geography"] = "Copenhagen district"
+    df.loc[is_frederiksberg, "analysis_area_geography"] = "Frederiksberg municipality as one analysis area"
+    df["analysis_area_source_provider"] = "City of Copenhagen Statbank"
+    df.loc[is_frederiksberg, "analysis_area_source_provider"] = "Statistics Denmark StatBank"
+    df["analysis_area_is_municipality_proxy"] = is_frederiksberg
+
+    fields = {
+        "population_count": "municipality_population_count",
+        "household_count": "municipality_household_count",
+        "average_disposable_income_dkk": "municipality_average_disposable_income_dkk",
+        "dwelling_count": "municipality_dwelling_count",
+    }
+    pooled_columns = []
+    for district_field, municipality_field in fields.items():
+        output_field = f"analysis_area_{district_field}"
+        pooled_columns.append(output_field)
+        df[output_field] = df[district_field].copy()
+        df.loc[is_frederiksberg, output_field] = frb[municipality_field]
+
+    for measure, (city_period, frb_period) in periods.items():
+        field = f"analysis_area_{measure}_period"
+        df[field] = city_period
+        df.loc[is_frederiksberg, field] = frb_period
+    df["analysis_area_households_reference_date"] = city_household_reference_date
+    df["analysis_area_household_period_differs"] = False
+    df["analysis_area_household_definition_unverified"] = is_frederiksberg
+    df["analysis_area_income_definition_differs"] = is_frederiksberg
+    df["analysis_area_dwelling_definition_unverified"] = is_frederiksberg
+    df["eligible_for_mixed_analysis_area_context"] = df[pooled_columns].notna().all(axis=1)
+
+    areas = df[["analysis_area_code", "analysis_area_name", "analysis_area_geography"]].drop_duplicates()
+    if len(areas) != 11 or df["analysis_area_code"].isna().any():
+        raise ValueError("Expected exactly 11 named analysis areas covering every listing")
+    summary = {
+        "source_paths": [
+            district_path.relative_to(PROJECT_ROOT).as_posix(),
+            municipality_path.relative_to(PROJECT_ROOT).as_posix(),
+        ],
+        "analysis_areas": 11,
+        "copenhagen_districts": 10,
+        "frederiksberg_single_area": 1,
+        "listings_with_mixed_area_context": int(df["eligible_for_mixed_analysis_area_context"].sum()),
+        "frederiksberg_proxy_listings": int(is_frederiksberg.sum()),
+        "pooled_fields": list(fields),
+        "field_lineage": {
+            "population_count": f"KKBEF1 {periods['population'][0]} / FOLK1A {periods['population'][1]}",
+            "household_count": f"KKHUS1 {periods['households'][0]} / FAM55N {periods['households'][1]}; same 1 January reference date, definitions not independently harmonised",
+            "average_disposable_income_dkk": f"KKIND3 {periods['income'][0]} / INDKP106 {periods['income'][1]}; denominators differ",
+            "dwelling_count": f"KKBOL3 {periods['dwellings'][0]} / BOL101 {periods['dwellings'][1]}; definitions not independently harmonised",
+        },
+        "excluded_from_pooled_fields": [
+            "resident_count_statbank",
+            "occupied_dwelling_count",
+            "average_residents_per_occupied_dwelling",
+        ],
+        "interpretation": "Frederiksberg is a municipality used as one analysis area, not an official Copenhagen district. Mixed-source covariates are sensitivity measures; use strict City district fields for harmonised within-Copenhagen analyses.",
+        "households_reference_date": city_household_reference_date,
     }
     return df, summary
 
@@ -612,26 +704,16 @@ def main() -> None:
         df, node_ids, node_east, node_north, adjacency, sources
     )
     statbank_context_path = latest_path("data/interim/copenhagen_statbank_district_context_*.csv")
-    frederiksberg_context_matches = sorted(
-        PROJECT_ROOT.glob("data/interim/frederiksberg_statbank_municipality_context_*.csv")
-    )
-    frederiksberg_context_path = frederiksberg_context_matches[-1] if frederiksberg_context_matches else None
-    context_sources = [statbank_context_path]
-    if frederiksberg_context_path is not None:
-        context_sources.append(frederiksberg_context_path)
-    print(
-        "Joining Statbank context from "
-        + ", ".join(path.relative_to(PROJECT_ROOT).as_posix() for path in context_sources)
-    )
-    df, statbank_summary = join_statbank_context(
-        df,
-        statbank_context_path,
-        [frederiksberg_context_path] if frederiksberg_context_path is not None else [],
-    )
+    print(f"Joining City district context from {statbank_context_path.relative_to(PROJECT_ROOT)}")
+    df, statbank_summary = join_statbank_context(df, statbank_context_path)
     print(
         f"  {statbank_summary['listings_with_statbank_context']:,} listings joined; "
         f"{statbank_summary['listings_without_statbank_context']:,} unmatched"
     )
+    municipality_context_path = latest_path("data/interim/municipality_statbank_context_*.csv")
+    print(f"Adding Frederiksberg single-area context from {municipality_context_path.relative_to(PROJECT_ROOT)}")
+    df, analysis_area_summary = join_analysis_area_context(df, statbank_context_path, municipality_context_path)
+    print(f"  {analysis_area_summary['analysis_areas']} analysis areas; {analysis_area_summary['listings_with_mixed_area_context']:,} listings covered")
 
     metadata = {
         "pipeline": "available_minimum_non_gtfs",
@@ -647,6 +729,7 @@ def main() -> None:
         "poi_summary": poi_summary,
         "spatial_summary": spatial_summary,
         "statbank_summary": statbank_summary,
+        "analysis_area_summary": analysis_area_summary,
         "completed_steps": [
             "source manifest was verified before run",
             "listing outcomes and non-identifying controls cleaned",
@@ -654,7 +737,7 @@ def main() -> None:
             "cached OSM walking network parsed into an undirected pedestrian graph",
             "listings and OSM opportunity elements snapped to the network",
             "nearest-category walking times and minimum accessibility index computed",
-            "City of Copenhagen district and Frederiksberg municipality Statbank context joined with explicit boundary aliases",
+            "City district context retained separately; Frederiksberg municipality added as one flagged mixed-scale analysis area",
             "local analytical table written as Parquet and compressed CSV",
         ],
         "not_available_yet": [
@@ -666,6 +749,8 @@ def main() -> None:
             "The accessibility index uses nearest OSM opportunities by category, not full counts of opportunities within thresholds.",
             "Airbnb coordinates are provider-anonymised; do not make address-level claims.",
             "The source price remains unconverted because the downloaded values display '$'.",
+            "Frederiksberg is a single municipality-sized analysis area, not an official Copenhagen district; strict district models exclude it.",
+            "Pooled household reference dates are aligned at 1 January 2026, but City versus national household definitions may differ; pooled income denominators and dwelling definitions are not harmonised. Treat these as sensitivity covariates.",
         ],
     }
     write_outputs(df, snapshot_date, metadata, args.force)

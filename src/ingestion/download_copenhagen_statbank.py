@@ -44,7 +44,7 @@ TABLE_SPECS: list[dict[str, Any]] = [
         "subject_code": "301",
         "subject_area": "Population and projections",
         "description": "Households by district, household type, children and household size",
-        "selections": {"var1": DISTRICT_CODES, "var2": ["TOT"], "var3": ["TOT"], "var4": ["TOT"], "var5": ["__LATEST_QUARTER__"]},
+        "selections": {"var1": DISTRICT_CODES, "var2": ["TOT"], "var3": ["TOT"], "var4": ["TOT"], "var5": ["2026K1"]},
         "output_columns": {"value": "household_count"},
     },
     {
@@ -166,6 +166,8 @@ def build_selection(
                 code = latest_code(options, variable, "quarter")
             elif code == "__LATEST_YEAR__":
                 code = latest_code(options, variable, "year")
+            if code not in {available_code for available_code, _ in options.get(variable, [])}:
+                raise ValueError(f"{table} does not offer {variable}={code}")
             resolved.append(code)
         selections[variable] = resolved
         selected_labels[variable] = [option_label(options, variable, code) for code in resolved]

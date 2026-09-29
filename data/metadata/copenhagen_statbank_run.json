@@ -1,7 +1,7 @@
 {
   "provider": "City of Copenhagen Statbank",
-  "retrieved_at_utc": "2026-09-22T08:33:36+00:00",
-  "retrieval_date": "2026-09-22",
+  "retrieved_at_utc": "2026-09-29T06:34:23+00:00",
+  "retrieval_date": "2026-09-29",
   "landing_page": "https://kk.statistikbank.dk/statbank5a/SelectTable/Omrade0.asp?PLanguage=1",
   "documentation": "https://www.kk.dk/sites/default/files/2021-11/KK%20Statistikbank%20dokumentation_04112021.pdf",
   "license_note": "The City Statbank is an official public statistical source; retain source attribution and table references.",
@@ -13,7 +13,7 @@
       "description": "Population by district, sex, age and marital status",
       "selection_page": "https://kk.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?Maintable=KKBEF1&PLanguage=1",
       "download_format": "comma-separated CSV (Statbank FileformatId 8)",
-      "retrieved_at_utc": "2026-09-22T08:33:34+00:00",
+      "retrieved_at_utc": "2026-09-29T06:34:20+00:00",
       "selected_codes": {
         "var1": [
           "1001",
@@ -73,8 +73,8 @@
         "var4": 5,
         "var5": 127
       },
-      "response_url": "https://kk.statistikbank.dk/statbank5a/temp/2026922103334662344816KKBEF138014661225.csv",
-      "raw_file": "data/raw/copenhagen_statbank/2026-09-22/tables/KKBEF1.csv",
+      "response_url": "https://kk.statistikbank.dk/statbank5a/temp/202692983419665058587KKBEF130860307764.csv",
+      "raw_file": "data/raw/copenhagen_statbank/2026-09-29/tables/KKBEF1.csv",
       "raw_sha256": "953f29d57f9d62fecc747a68830f97cc6acb54ff8e364c0b180c48503bb26009",
       "raw_rows": 1
     },
@@ -84,7 +84,7 @@
       "description": "Households by district, household type, children and household size",
       "selection_page": "https://kk.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?Maintable=KKHUS1&PLanguage=1",
       "download_format": "comma-separated CSV (Statbank FileformatId 8)",
-      "retrieved_at_utc": "2026-09-22T08:33:35+00:00",
+      "retrieved_at_utc": "2026-09-29T06:34:21+00:00",
       "selected_codes": {
         "var1": [
           "1001",
@@ -108,7 +108,7 @@
           "TOT"
         ],
         "var5": [
-          "2026K3"
+          "2026K1"
         ]
       },
       "selected_labels": {
@@ -134,7 +134,7 @@
           "Household size total"
         ],
         "var5": [
-          "2026Q3"
+          "2026Q1"
         ]
       },
       "available_option_counts": {
@@ -144,9 +144,9 @@
         "var4": 7,
         "var5": 103
       },
-      "response_url": "https://kk.statistikbank.dk/statbank5a/temp/2026922103334662344816KKHUS138015285870.csv",
-      "raw_file": "data/raw/copenhagen_statbank/2026-09-22/tables/KKHUS1.csv",
-      "raw_sha256": "4bc57b48630c4bfef3c5603a4f5ada3574742b51f612a0cb44249bad57c2879e",
+      "response_url": "https://kk.statistikbank.dk/statbank5a/temp/202692983420665058587KKHUS130861246974.csv",
+      "raw_file": "data/raw/copenhagen_statbank/2026-09-29/tables/KKHUS1.csv",
+      "raw_sha256": "9f0134dc1627f5d7fb72c69ed86ffabf0e9bb114c3c0865c9990811b22995c34",
       "raw_rows": 1
     },
     {
@@ -155,7 +155,7 @@
       "description": "Income for persons aged 14+ by district, unit, sex and type of income",
       "selection_page": "https://kk.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?Maintable=KKIND3&PLanguage=1",
       "download_format": "comma-separated CSV (Statbank FileformatId 8)",
-      "retrieved_at_utc": "2026-09-22T08:33:36+00:00",
+      "retrieved_at_utc": "2026-09-29T06:34:22+00:00",
       "selected_codes": {
         "var1": [
           "1001",
@@ -215,8 +215,8 @@
         "var4": 5,
         "var5": 38
       },
-      "response_url": "https://kk.statistikbank.dk/statbank5a/temp/2026922103335662344816KKIND338015923134.csv",
-      "raw_file": "data/raw/copenhagen_statbank/2026-09-22/tables/KKIND3.csv",
+      "response_url": "https://kk.statistikbank.dk/statbank5a/temp/202692983421665058587KKIND330862227038.csv",
+      "raw_file": "data/raw/copenhagen_statbank/2026-09-29/tables/KKIND3.csv",
       "raw_sha256": "b406216ef343450d3395eaf8b7f22edc8f4731830564b1c19379201c3e96b940",
       "raw_rows": 1
     },
@@ -226,7 +226,7 @@
       "description": "Dwellings, square meters and residents by district",
       "selection_page": "https://kk.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?Maintable=KKBOL3&PLanguage=1",
       "download_format": "comma-separated CSV (Statbank FileformatId 8)",
-      "retrieved_at_utc": "2026-09-22T08:33:36+00:00",
+      "retrieved_at_utc": "2026-09-29T06:34:23+00:00",
       "selected_codes": {
         "var1": [
           "1001",
@@ -299,13 +299,13 @@
         "var5": 8,
         "var6": 36
       },
-      "response_url": "https://kk.statistikbank.dk/statbank5a/temp/2026922103336662344816KKBOL338016761004.csv",
-      "raw_file": "data/raw/copenhagen_statbank/2026-09-22/tables/KKBOL3.csv",
+      "response_url": "https://kk.statistikbank.dk/statbank5a/temp/202692983422665058587KKBOL330863285153.csv",
+      "raw_file": "data/raw/copenhagen_statbank/2026-09-29/tables/KKBOL3.csv",
       "raw_sha256": "38f0d5633367027df202d2dde791ed208385aac8641209eca6edb461f8233d59",
       "raw_rows": 10
     }
   ],
-  "tidy_context": "data/interim/copenhagen_statbank_district_context_2026-09-22.csv",
+  "tidy_context": "data/interim/copenhagen_statbank_district_context_2026-09-29.csv",
   "tidy_rows": 10,
   "columns": [
     "statbank_district_code",

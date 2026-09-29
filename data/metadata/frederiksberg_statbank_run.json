@@ -1,4 +1,7 @@
 {
+  "status": "superseded",
+  "superseded_by": "data/metadata/municipality_statbank_run.json",
+  "warning": "Historical Frederiksberg-only extract. Its tidy resident_count_statbank copied FOLK1A population and must not be interpreted as a housing resident count or pooled with Copenhagen district context.",
   "provider": "Statistics Denmark StatBank",
   "retrieved_at_utc": "2026-09-22T08:57:10+00:00",
   "retrieval_date": "2026-09-22",

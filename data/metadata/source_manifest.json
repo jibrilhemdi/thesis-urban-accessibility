@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-09-22T08:57:10+00:00",
+  "generated_at_utc": "2026-09-29T06:34:23+00:00",
   "files": [
     {
       "provider": "City of Copenhagen Statbank",
@@ -12,6 +12,16 @@
       "status": "created"
     },
     {
+      "provider": "City of Copenhagen Statbank",
+      "asset": "district_context_tidy",
+      "source_url": "https://kk.statistikbank.dk/statbank5a/SelectTable/Omrade0.asp?PLanguage=1",
+      "local_path": "data/interim/copenhagen_statbank_district_context_2026-09-29.csv",
+      "downloaded_at_utc": "2026-09-29T06:34:23+00:00",
+      "size_bytes": 914,
+      "sha256": "fa509446a468e0c4b0fb0186e505da1648bce5dde08e1f1bb9de7f271422413c",
+      "status": "created"
+    },
+    {
       "provider": "Statistics Denmark StatBank",
       "asset": "frederiksberg_municipality_context_tidy",
       "source_url": "https://www.dst.dk/en/Statistik/hjaelp-til-statistikbanken/api",
@@ -19,6 +29,17 @@
       "downloaded_at_utc": "2026-09-22T08:57:10+00:00",
       "size_bytes": 363,
       "sha256": "9a123cfe47b0d911fd73de51f1e8ad4fbc3df005d1c6c4e3b853973058ed1303",
+      "status": "superseded",
+      "superseded_by": "data/interim/municipality_statbank_context_2026-09-29.csv"
+    },
+    {
+      "provider": "Statistics Denmark StatBank",
+      "asset": "two_municipality_context_tidy",
+      "source_url": "https://www.dst.dk/en/Statistik/hjaelp-til-statistikbanken/api",
+      "local_path": "data/interim/municipality_statbank_context_2026-09-29.csv",
+      "downloaded_at_utc": "2026-09-29T05:18:56+00:00",
+      "size_bytes": 520,
+      "sha256": "ecaf50c24381a87381c5627c56833a487eac86932e1da9ab250721375dffb91d",
       "status": "created"
     },
     {
@@ -116,6 +137,109 @@
       "source_url": "https://kk.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?Maintable=KKIND3&PLanguage=1",
       "local_path": "data/raw/copenhagen_statbank/2026-09-22/tables/KKIND3.csv",
       "downloaded_at_utc": "2026-09-22T08:33:36+00:00",
+      "size_bytes": 168,
+      "sha256": "b406216ef343450d3395eaf8b7f22edc8f4731830564b1c19379201c3e96b940",
+      "status": "downloaded",
+      "table": "KKIND3",
+      "periods": [
+        "2024"
+      ]
+    },
+    {
+      "provider": "City of Copenhagen Statbank",
+      "asset": "KKBEF1_selection_metadata",
+      "source_url": "https://kk.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?Maintable=KKBEF1&PLanguage=1",
+      "local_path": "data/raw/copenhagen_statbank/2026-09-29/metadata/KKBEF1.json",
+      "downloaded_at_utc": "2026-09-29T06:34:20+00:00",
+      "size_bytes": 1528,
+      "sha256": "e81f9ef3f7eb9760d3e59bdf204cc2fadfecd07a1e0d6cfb3cab3675e4691ce8",
+      "status": "created",
+      "table": "KKBEF1"
+    },
+    {
+      "provider": "City of Copenhagen Statbank",
+      "asset": "KKBOL3_selection_metadata",
+      "source_url": "https://kk.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?Maintable=KKBOL3&PLanguage=1",
+      "local_path": "data/raw/copenhagen_statbank/2026-09-29/metadata/KKBOL3.json",
+      "downloaded_at_utc": "2026-09-29T06:34:23+00:00",
+      "size_bytes": 1849,
+      "sha256": "ba965d35324d38bf6a118763862731ed30956af0adb7ebbf159549118db9ad39",
+      "status": "created",
+      "table": "KKBOL3"
+    },
+    {
+      "provider": "City of Copenhagen Statbank",
+      "asset": "KKHUS1_selection_metadata",
+      "source_url": "https://kk.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?Maintable=KKHUS1&PLanguage=1",
+      "local_path": "data/raw/copenhagen_statbank/2026-09-29/metadata/KKHUS1.json",
+      "downloaded_at_utc": "2026-09-29T06:34:21+00:00",
+      "size_bytes": 1607,
+      "sha256": "92d7bb1c326ee2b2751773b8a03640390f4c0e9c64b8f1a7282dc28ec17b04fe",
+      "status": "created",
+      "table": "KKHUS1"
+    },
+    {
+      "provider": "City of Copenhagen Statbank",
+      "asset": "KKIND3_selection_metadata",
+      "source_url": "https://kk.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?Maintable=KKIND3&PLanguage=1",
+      "local_path": "data/raw/copenhagen_statbank/2026-09-29/metadata/KKIND3.json",
+      "downloaded_at_utc": "2026-09-29T06:34:22+00:00",
+      "size_bytes": 1603,
+      "sha256": "2f71a3d35c0ec6085c5ea7f553376017603aaa79c71182b02394306e8e49e6ed",
+      "status": "created",
+      "table": "KKIND3"
+    },
+    {
+      "provider": "City of Copenhagen Statbank",
+      "asset": "KKBEF1",
+      "source_url": "https://kk.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?Maintable=KKBEF1&PLanguage=1",
+      "local_path": "data/raw/copenhagen_statbank/2026-09-29/tables/KKBEF1.csv",
+      "downloaded_at_utc": "2026-09-29T06:34:20+00:00",
+      "size_bytes": 117,
+      "sha256": "953f29d57f9d62fecc747a68830f97cc6acb54ff8e364c0b180c48503bb26009",
+      "status": "downloaded",
+      "table": "KKBEF1",
+      "periods": [
+        "2026Q3"
+      ]
+    },
+    {
+      "provider": "City of Copenhagen Statbank",
+      "asset": "KKBOL3",
+      "source_url": "https://kk.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?Maintable=KKBOL3&PLanguage=1",
+      "local_path": "data/raw/copenhagen_statbank/2026-09-29/tables/KKBOL3.csv",
+      "downloaded_at_utc": "2026-09-29T06:34:23+00:00",
+      "size_bytes": 1286,
+      "sha256": "38f0d5633367027df202d2dde791ed208385aac8641209eca6edb461f8233d59",
+      "status": "downloaded",
+      "table": "KKBOL3",
+      "periods": [
+        "Number of dwellings",
+        "Number of occupied dwellings",
+        "Number of residents",
+        "Average number of residents per occupied dwelling"
+      ]
+    },
+    {
+      "provider": "City of Copenhagen Statbank",
+      "asset": "KKHUS1",
+      "source_url": "https://kk.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?Maintable=KKHUS1&PLanguage=1",
+      "local_path": "data/raw/copenhagen_statbank/2026-09-29/tables/KKHUS1.csv",
+      "downloaded_at_utc": "2026-09-29T06:34:21+00:00",
+      "size_bytes": 136,
+      "sha256": "9f0134dc1627f5d7fb72c69ed86ffabf0e9bb114c3c0865c9990811b22995c34",
+      "status": "downloaded",
+      "table": "KKHUS1",
+      "periods": [
+        "2026Q1"
+      ]
+    },
+    {
+      "provider": "City of Copenhagen Statbank",
+      "asset": "KKIND3",
+      "source_url": "https://kk.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?Maintable=KKIND3&PLanguage=1",
+      "local_path": "data/raw/copenhagen_statbank/2026-09-29/tables/KKIND3.csv",
+      "downloaded_at_utc": "2026-09-29T06:34:22+00:00",
       "size_bytes": 168,
       "sha256": "b406216ef343450d3395eaf8b7f22edc8f4731830564b1c19379201c3e96b940",
       "status": "downloaded",
@@ -329,6 +453,116 @@
       "provider": "Inside Airbnb",
       "asset": "reviews_summary",
       "snapshot_date": "2026-06-30"
+    },
+    {
+      "provider": "Statistics Denmark StatBank",
+      "asset": "BOL101_tableinfo",
+      "source_url": "https://api.statbank.dk/v1/tableinfo/BOL101?lang=en&format=JSON",
+      "local_path": "data/raw/municipality_statbank/2026-09-29/tableinfo/BOL101.json",
+      "downloaded_at_utc": "2026-09-29T05:18:56+00:00",
+      "size_bytes": 7405,
+      "sha256": "e0535776b181483370629cb8c6fa5010df814b8b4957f6692190921c59b83fa0",
+      "status": "downloaded",
+      "table": "BOL101"
+    },
+    {
+      "provider": "Statistics Denmark StatBank",
+      "asset": "BOL106_tableinfo",
+      "source_url": "https://api.statbank.dk/v1/tableinfo/BOL106?lang=en&format=JSON",
+      "local_path": "data/raw/municipality_statbank/2026-09-29/tableinfo/BOL106.json",
+      "downloaded_at_utc": "2026-09-29T05:18:56+00:00",
+      "size_bytes": 6109,
+      "sha256": "098c81b1ebe774d42913a637750e04d3e29acdebb82dad5939a11574ac98ac92",
+      "status": "downloaded",
+      "table": "BOL106"
+    },
+    {
+      "provider": "Statistics Denmark StatBank",
+      "asset": "FAM55N_tableinfo",
+      "source_url": "https://api.statbank.dk/v1/tableinfo/FAM55N?lang=en&format=JSON",
+      "local_path": "data/raw/municipality_statbank/2026-09-29/tableinfo/FAM55N.json",
+      "downloaded_at_utc": "2026-09-29T05:18:56+00:00",
+      "size_bytes": 6181,
+      "sha256": "0429b268ae68ebd115f808819e98abf893860521201e1a6afcab9d2d671b9c99",
+      "status": "downloaded",
+      "table": "FAM55N"
+    },
+    {
+      "provider": "Statistics Denmark StatBank",
+      "asset": "FOLK1A_tableinfo",
+      "source_url": "https://api.statbank.dk/v1/tableinfo/FOLK1A?lang=en&format=JSON",
+      "local_path": "data/raw/municipality_statbank/2026-09-29/tableinfo/FOLK1A.json",
+      "downloaded_at_utc": "2026-09-29T05:18:56+00:00",
+      "size_bytes": 10747,
+      "sha256": "f6d7250a1b8629deafd656681fe24fb8876e14c4e3377acd2d202f26c2cc88de",
+      "status": "downloaded",
+      "table": "FOLK1A"
+    },
+    {
+      "provider": "Statistics Denmark StatBank",
+      "asset": "INDKP106_tableinfo",
+      "source_url": "https://api.statbank.dk/v1/tableinfo/INDKP106?lang=en&format=JSON",
+      "local_path": "data/raw/municipality_statbank/2026-09-29/tableinfo/INDKP106.json",
+      "downloaded_at_utc": "2026-09-29T05:18:56+00:00",
+      "size_bytes": 7293,
+      "sha256": "4374c034d53a5251fc171c41e6a7a4e74bb0ac2ee364b80e51935b78d5bbfbc4",
+      "status": "downloaded",
+      "table": "INDKP106"
+    },
+    {
+      "provider": "Statistics Denmark StatBank",
+      "asset": "BOL101",
+      "source_url": "https://api.statbank.dk/v1/data/BOL101/CSV?lang=en&valuePresentation=CodeAndValue&OMR%C3%85DE=101%2C147&BEBO=%2A&ANVENDELSE=%2A&UDLFORH=%2A&EJER=%2A&OPF%C3%98RELSES%C3%85R=%2A&Tid=2026",
+      "local_path": "data/raw/municipality_statbank/2026-09-29/tables/BOL101.csv",
+      "downloaded_at_utc": "2026-09-29T05:18:56+00:00",
+      "size_bytes": 5390176,
+      "sha256": "b49a58dcba28f288396479034a848edc2be207c05e77d8660564188be1b9398d",
+      "status": "downloaded",
+      "table": "BOL101"
+    },
+    {
+      "provider": "Statistics Denmark StatBank",
+      "asset": "BOL106",
+      "source_url": "https://api.statbank.dk/v1/data/BOL106/CSV?lang=en&valuePresentation=CodeAndValue&OMR%C3%85DE=101%2C147&ENHED=GNSPB&ANVENDELSE=TOT&Tid=2026",
+      "local_path": "data/raw/municipality_statbank/2026-09-29/tables/BOL106.csv",
+      "downloaded_at_utc": "2026-09-29T05:18:56+00:00",
+      "size_bytes": 212,
+      "sha256": "d0da8ece5a8f966753fd3eee63cb452b37877ff0a26c07f9e081106c4490705e",
+      "status": "downloaded",
+      "table": "BOL106"
+    },
+    {
+      "provider": "Statistics Denmark StatBank",
+      "asset": "FAM55N",
+      "source_url": "https://api.statbank.dk/v1/data/FAM55N/CSV?lang=en&valuePresentation=CodeAndValue&OMR%C3%85DE=101%2C147&HUSTYP=%2A&HUSST%C3%98R=%2A&ANTBORNH=%2A&Tid=2026",
+      "local_path": "data/raw/municipality_statbank/2026-09-29/tables/FAM55N.csv",
+      "downloaded_at_utc": "2026-09-29T05:18:56+00:00",
+      "size_bytes": 48618,
+      "sha256": "0e6eb5c97d7a1508d4cd82e115453c5b856e8139bc58ff2f8ea8948c78f1864f",
+      "status": "downloaded",
+      "table": "FAM55N"
+    },
+    {
+      "provider": "Statistics Denmark StatBank",
+      "asset": "FOLK1A",
+      "source_url": "https://api.statbank.dk/v1/data/FOLK1A/CSV?lang=en&valuePresentation=CodeAndValue&OMR%C3%85DE=101%2C147&K%C3%98N=TOT&ALDER=IALT&CIVILSTAND=TOT&Tid=2026K3",
+      "local_path": "data/raw/municipality_statbank/2026-09-29/tables/FOLK1A.csv",
+      "downloaded_at_utc": "2026-09-29T05:18:56+00:00",
+      "size_bytes": 195,
+      "sha256": "62af775af77d0cdfd82a50f497c3ffd8c1ec18e57ca7c7821b2a51c815b5caa8",
+      "status": "downloaded",
+      "table": "FOLK1A"
+    },
+    {
+      "provider": "Statistics Denmark StatBank",
+      "asset": "INDKP106",
+      "source_url": "https://api.statbank.dk/v1/data/INDKP106/CSV?lang=en&valuePresentation=CodeAndValue&OMR%C3%85DE=101%2C147&ENHED=118&KOEN=MOK&ALDER1=00&INDKINTB=000&Tid=2024",
+      "local_path": "data/raw/municipality_statbank/2026-09-29/tables/INDKP106.csv",
+      "downloaded_at_utc": "2026-09-29T05:18:56+00:00",
+      "size_bytes": 304,
+      "sha256": "3383d98218a725496c2e94388789c8d6fd66f0234a64ed2baae834e73d046a43",
+      "status": "downloaded",
+      "table": "INDKP106"
     },
     {
       "provider": "OpenStreetMap via Overpass API",

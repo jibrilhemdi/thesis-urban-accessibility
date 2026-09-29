@@ -1,0 +1,170 @@
+{
+  "provider": "Statistics Denmark StatBank",
+  "retrieved_at_utc": "2026-09-29T05:18:56+00:00",
+  "retrieval_date": "2026-09-29",
+  "api_documentation": "https://www.dst.dk/en/Statistik/hjaelp-til-statistikbanken/api",
+  "geography": "Copenhagen municipality (101) and Frederiksberg municipality (147)",
+  "tables": [
+    {
+      "table": "FOLK1A",
+      "description": "Population at the first day of the quarter",
+      "period": "2026Q3",
+      "selected_codes": {
+        "OMRÅDE": [
+          "101",
+          "147"
+        ],
+        "KØN": [
+          "TOT"
+        ],
+        "ALDER": [
+          "IALT"
+        ],
+        "CIVILSTAND": [
+          "TOT"
+        ],
+        "Tid": [
+          "2026K3"
+        ]
+      },
+      "data_url": "https://api.statbank.dk/v1/data/FOLK1A/CSV?lang=en&valuePresentation=CodeAndValue&OMR%C3%85DE=101%2C147&K%C3%98N=TOT&ALDER=IALT&CIVILSTAND=TOT&Tid=2026K3",
+      "raw_file": "data/raw/municipality_statbank/2026-09-29/tables/FOLK1A.csv",
+      "tableinfo_file": "data/raw/municipality_statbank/2026-09-29/tableinfo/FOLK1A.json"
+    },
+    {
+      "table": "FAM55N",
+      "description": "Households 1 January",
+      "period": "2026-01-01",
+      "selected_codes": {
+        "OMRÅDE": [
+          "101",
+          "147"
+        ],
+        "HUSTYP": [
+          "*"
+        ],
+        "HUSSTØR": [
+          "*"
+        ],
+        "ANTBORNH": [
+          "*"
+        ],
+        "Tid": [
+          "2026"
+        ]
+      },
+      "data_url": "https://api.statbank.dk/v1/data/FAM55N/CSV?lang=en&valuePresentation=CodeAndValue&OMR%C3%85DE=101%2C147&HUSTYP=%2A&HUSST%C3%98R=%2A&ANTBORNH=%2A&Tid=2026",
+      "raw_file": "data/raw/municipality_statbank/2026-09-29/tables/FAM55N.csv",
+      "tableinfo_file": "data/raw/municipality_statbank/2026-09-29/tableinfo/FAM55N.json"
+    },
+    {
+      "table": "INDKP106",
+      "description": "Average disposable income for persons aged 14+",
+      "period": "2024",
+      "selected_codes": {
+        "OMRÅDE": [
+          "101",
+          "147"
+        ],
+        "ENHED": [
+          "118"
+        ],
+        "KOEN": [
+          "MOK"
+        ],
+        "ALDER1": [
+          "00"
+        ],
+        "INDKINTB": [
+          "000"
+        ],
+        "Tid": [
+          "2024"
+        ]
+      },
+      "data_url": "https://api.statbank.dk/v1/data/INDKP106/CSV?lang=en&valuePresentation=CodeAndValue&OMR%C3%85DE=101%2C147&ENHED=118&KOEN=MOK&ALDER1=00&INDKINTB=000&Tid=2024",
+      "raw_file": "data/raw/municipality_statbank/2026-09-29/tables/INDKP106.csv",
+      "tableinfo_file": "data/raw/municipality_statbank/2026-09-29/tableinfo/INDKP106.json"
+    },
+    {
+      "table": "BOL101",
+      "description": "Dwellings by resident status, use, tenure, ownership and construction year",
+      "period": "2026",
+      "selected_codes": {
+        "OMRÅDE": [
+          "101",
+          "147"
+        ],
+        "BEBO": [
+          "*"
+        ],
+        "ANVENDELSE": [
+          "*"
+        ],
+        "UDLFORH": [
+          "*"
+        ],
+        "EJER": [
+          "*"
+        ],
+        "OPFØRELSESÅR": [
+          "*"
+        ],
+        "Tid": [
+          "2026"
+        ]
+      },
+      "data_url": "https://api.statbank.dk/v1/data/BOL101/CSV?lang=en&valuePresentation=CodeAndValue&OMR%C3%85DE=101%2C147&BEBO=%2A&ANVENDELSE=%2A&UDLFORH=%2A&EJER=%2A&OPF%C3%98RELSES%C3%85R=%2A&Tid=2026",
+      "raw_file": "data/raw/municipality_statbank/2026-09-29/tables/BOL101.csv",
+      "tableinfo_file": "data/raw/municipality_statbank/2026-09-29/tableinfo/BOL101.json"
+    },
+    {
+      "table": "BOL106",
+      "description": "Average persons per dwelling with registered population",
+      "period": "2026",
+      "selected_codes": {
+        "OMRÅDE": [
+          "101",
+          "147"
+        ],
+        "ENHED": [
+          "GNSPB"
+        ],
+        "ANVENDELSE": [
+          "TOT"
+        ],
+        "Tid": [
+          "2026"
+        ]
+      },
+      "data_url": "https://api.statbank.dk/v1/data/BOL106/CSV?lang=en&valuePresentation=CodeAndValue&OMR%C3%85DE=101%2C147&ENHED=GNSPB&ANVENDELSE=TOT&Tid=2026",
+      "raw_file": "data/raw/municipality_statbank/2026-09-29/tables/BOL106.csv",
+      "tableinfo_file": "data/raw/municipality_statbank/2026-09-29/tableinfo/BOL106.json"
+    }
+  ],
+  "tidy_context": "data/interim/municipality_statbank_context_2026-09-29.csv",
+  "tidy_rows": 2,
+  "columns": [
+    "municipality_code",
+    "municipality_name",
+    "municipality_context_provider",
+    "municipality_context_geography",
+    "municipality_population_count",
+    "municipality_household_count",
+    "municipality_average_disposable_income_dkk",
+    "municipality_dwelling_count",
+    "municipality_registered_population_dwelling_count",
+    "municipality_average_persons_per_registered_dwelling"
+  ],
+  "derivation": {
+    "municipality_population_count": "FOLK1A total population, 2026Q3",
+    "municipality_household_count": "FAM55N sum across mutually exclusive household cells, 2026-01-01",
+    "municipality_average_disposable_income_dkk": "INDKP106 average for the total group of persons aged 14+, 2024",
+    "municipality_dwelling_count": "BOL101 sum of all dwelling classifications, 2026",
+    "municipality_registered_population_dwelling_count": "BOL101 BEBO=1000 dwelling subset, 2026",
+    "municipality_average_persons_per_registered_dwelling": "BOL106 GNSPB for total use, 2026"
+  },
+  "comparability_note": "Both rows use identical national tables, selections and periods. Copenhagen district statistics remain a separate geographic layer; district totals should not be compared directly to these municipality totals.",
+  "excluded_measure": "A separate housing resident count is not available in the selected national tables. No FOLK1A population value is relabelled as a housing resident count.",
+  "supersedes": "data/interim/frederiksberg_statbank_municipality_context_2026-09-22.csv"
+}
