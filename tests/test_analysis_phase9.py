@@ -12,6 +12,7 @@ from sqlalchemy import text
 from src.db.connection import get_engine
 from src.db.migrations import migrate
 from src.ingestion.common import PROJECT_ROOT
+from src.pipeline.output_paths import output_file
 from src.pipeline.run_analysis_phase9 import (
     FEATURES, _inner_splits, _load, build_preprocessor, prepare_features,
 )
@@ -117,7 +118,7 @@ class Phase9LiveTest(unittest.TestCase):
             "phase09_bus_ols_coefficient.csv": 1,
         }
         for filename, n_expected in expected.items():
-            with (PROJECT_ROOT / "outputs/tables" / filename).open(newline="", encoding="utf-8") as handle:
+            with output_file("tables", "phase09", filename).open(newline="", encoding="utf-8") as handle:
                 reader = csv.DictReader(handle)
                 self.assertFalse({"listing_id", "host_name", "metric_x", "metric_y", "latitude", "longitude"}
                                  & set(reader.fieldnames), filename)
@@ -129,9 +130,9 @@ class Phase9LiveTest(unittest.TestCase):
                          "phase09_geographic_oof_residual_xgboost_mw_area.png",
                          "phase09_geographic_oof_residual_ols_mw_grid.png",
                          "phase09_geographic_oof_residual_xgboost_mw_grid.png"):
-            self.assertTrue((PROJECT_ROOT / "outputs/figures" / filename).is_file(), filename)
+            self.assertTrue(output_file("figures", "phase09", filename).is_file(), filename)
 
-        with (PROJECT_ROOT / "outputs/tables/phase09_geographic_residual_grid_coverage.csv").open(
+        with output_file("tables", "phase09", "geographic_residual_grid_coverage.csv").open(
                 newline="", encoding="utf-8") as handle:
             for row in csv.DictReader(handle):
                 self.assertEqual(row["crs_epsg"], "25832")
@@ -140,7 +141,7 @@ class Phase9LiveTest(unittest.TestCase):
                 self.assertEqual(int(row["n_displayed_listings"]) +
                                  int(row["n_not_displayed"]), 12412)
 
-        with (PROJECT_ROOT / "outputs/tables/phase09_destination_boundary_audit.csv").open(
+        with output_file("tables", "phase09", "destination_boundary_audit.csv").open(
                 newline="", encoding="utf-8") as handle:
             boundary = {row["measure"]: row for row in csv.DictReader(handle)}
         self.assertEqual(int(boundary["canonical_station_outside_study"]["count"]), 78)

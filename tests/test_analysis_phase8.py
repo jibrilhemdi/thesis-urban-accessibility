@@ -10,6 +10,7 @@ from sqlalchemy import text
 from src.db.connection import get_engine
 from src.db.migrations import migrate
 from src.ingestion.common import PROJECT_ROOT
+from src.pipeline.output_paths import output_file
 from src.pipeline.osm_taxonomy_phase5 import categories
 from src.spatial.spatial_diagnostics import knn_indices, moran_knn
 
@@ -102,12 +103,12 @@ class LivePhase8Test(unittest.TestCase):
                        "phase08_geographic_support.csv", "phase08_buffer_feasibility.csv",
                        "phase08_map_coverage.csv")
         for filename in table_names:
-            with (PROJECT_ROOT / "outputs/tables" / filename).open(newline="", encoding="utf-8") as handle:
+            with output_file("tables", "phase08", filename).open(newline="", encoding="utf-8") as handle:
                 reader = csv.DictReader(handle)
                 self.assertTrue(next(reader, None), filename)
                 self.assertFalse({"listing_id", "host_name", "latitude", "longitude", "metric_x", "metric_y"} &
                                  set(reader.fieldnames), filename)
-        with (PROJECT_ROOT / "outputs/tables/phase08_map_coverage.csv").open(newline="", encoding="utf-8") as handle:
+        with output_file("tables", "phase08", "map_coverage.csv").open(newline="", encoding="utf-8") as handle:
             coverage = list(csv.DictReader(handle))
         self.assertEqual(len(coverage), 12)  # Six variables, two map resolutions each.
         for row in coverage:
@@ -129,7 +130,7 @@ class LivePhase8Test(unittest.TestCase):
                          "phase08_cultural_walking_area.png", "phase08_cultural_walking_grid.png",
                          "phase08_station_walking_area.png", "phase08_station_walking_grid.png",
                          "phase08_euclidean_network_hexbin.png"):
-            self.assertTrue((PROJECT_ROOT / "outputs/figures" / filename).is_file(), filename)
+            self.assertTrue(output_file("figures", "phase08", filename).is_file(), filename)
 
 
 if __name__ == "__main__":

@@ -33,7 +33,7 @@ The source files support listing-level price/accessibility work, but they do **n
 
 ## Phase 3 status update — 2026-09-29
 
-The five national table types (two archived versions each) and four City district table types (two archived versions each) are now loaded as 18 source-specific all-text `raw` tables with checksum/import lineage. Selected current measures are in separate `clean.municipality_context_measures` and `clean.copenhagen_district_context_measures` tables; see [Phase 3 report](../reports/phase03_context_data.md) and the reproducible [assessment CSV](../outputs/tables/context_source_assessment.csv). This resolves **ingestion**, not the geographic/definition gaps below.
+The five national table types (two archived versions each) and four City district table types (two archived versions each) are now loaded as 18 source-specific all-text `raw` tables with checksum/import lineage. Selected current measures are in separate `clean.municipality_context_measures` and `clean.copenhagen_district_context_measures` tables; see [Phase 3 report](../reports/phase03_context_data.md) and the reproducible [assessment CSV](../outputs/tables/phase03/context_source_assessment.csv). This resolves **ingestion**, not the geographic/definition gaps below.
 
 | Category | Remaining context gap | Required action before proposed model use |
 |---|---|
@@ -62,7 +62,7 @@ The Phase 4 11-area provider counts support CV feasibility inspection but do not
 
 ## Phase 4 official-boundary correction — 2026-09-29
 
-The previous Phase 4 audit above describes the **initial provider-only state**. Official DAWA/DAGI municipality polygons and the City's ten `bydel` polygons are now archived, registered and loaded; see [updated Phase 4 report](../reports/phase04_spatial_foundation.md). The main study-area map is official. `outputs/tables/cv_area_counts.csv` now uses ten official Copenhagen districts plus Frederiksberg municipality, not provider polygons.
+The previous Phase 4 audit above describes the **initial provider-only state**. Official DAWA/DAGI municipality polygons and the City's ten `bydel` polygons are now archived, registered and loaded; see [updated Phase 4 report](../reports/phase04_spatial_foundation.md). The main study-area map is official. `outputs/tables/phase04/cv_area_counts.csv` now uses ten official Copenhagen districts plus Frederiksberg municipality, not provider polygons.
 
 | Category | Remaining gap after acquisition | Required action |
 |---|---|---|

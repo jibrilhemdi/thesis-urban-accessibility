@@ -1,4 +1,4 @@
-.PHONY: db-up db-down db-connect db-migrate db-check db-version db-register db-ingest-sample db-test phase2-run phase2-test phase3-run phase3-test phase4-acquire-boundaries phase4-acquire-map-context phase4-run phase4-test phase5-acquire phase5-run phase5-test phase6-run phase6-export phase6-test phase7-run phase7-test phase8-run phase8-test phase9-bus phase9-run phase9-test phase9-boundary-audit
+.PHONY: db-up db-down db-connect db-migrate db-check db-version db-register db-ingest-sample db-test phase2-run phase2-test phase3-run phase3-test phase4-acquire-boundaries phase4-acquire-map-context phase4-run phase4-test phase5-acquire phase5-run phase5-test phase6-run phase6-export phase6-test phase7-run phase7-test phase8-run phase8-test phase9-bus phase9-run phase9-test phase9-boundary-audit phase10-bus phase10-run phase10-spatial phase10-synthesis phase10-figures phase10-test reproduce audit test output-migrate
 
 db-up:
 	docker compose --env-file .env up -d --wait --wait-timeout 120 db
@@ -92,3 +92,37 @@ phase9-test:
 
 phase9-boundary-audit:
 	.venv/bin/python -m src.pipeline.audit_destination_boundary_phase9
+
+phase10-bus:
+	.venv/bin/python -m src.pipeline.run_bus_walking_phase10
+
+phase10-run: phase10-bus
+	.venv/bin/python -m src.pipeline.run_analysis_phase10
+	.venv/bin/python -m src.pipeline.run_spatial_error_phase10
+	.venv/bin/python -m src.pipeline.run_analysis_phase10 --synthesis-only
+	.venv/bin/python -m src.pipeline.run_analysis_phase10 --buffer-qa
+
+phase10-spatial:
+	.venv/bin/python -m src.pipeline.run_spatial_error_phase10
+
+phase10-synthesis:
+	.venv/bin/python -m src.pipeline.run_analysis_phase10 --synthesis-only
+
+phase10-figures:
+	.venv/bin/python -m src.pipeline.run_analysis_phase10 --figures-only
+
+phase10-test:
+	THESIS_PHASE10_TEST=1 .venv/bin/python -m unittest tests.test_analysis_phase10 -v
+
+# Only for a fresh checkout and an empty database; refuses to overwrite outputs.
+reproduce:
+	.venv/bin/python -m src.pipeline.rebuild_phase11
+
+audit:
+	.venv/bin/python -m src.pipeline.audit_reproducibility_phase11
+
+output-migrate:
+	.venv/bin/python -m src.pipeline.migrate_output_layout
+
+test:
+	THESIS_DB_TEST=1 THESIS_PHASE2_TEST=1 THESIS_PHASE3_TEST=1 THESIS_PHASE4_TEST=1 THESIS_PHASE5_TEST=1 THESIS_PHASE6_TEST=1 THESIS_PHASE7_TEST=1 THESIS_PHASE8_TEST=1 THESIS_PHASE9_TEST=1 THESIS_PHASE10_TEST=1 .venv/bin/python -m unittest discover -s tests -v

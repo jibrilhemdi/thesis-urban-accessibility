@@ -13,6 +13,7 @@ from src.db.connection import get_engine
 from src.db.migrations import migrate
 from src.db.sources import prepare_source, register_records
 from src.ingestion.common import PROJECT_ROOT
+from src.pipeline.output_paths import PhaseDirectory
 
 
 SNAPSHOT = date(2026, 6, 30)
@@ -224,7 +225,7 @@ def export_cv_counts(engine) -> list[dict]:
             "GROUP BY p.area_id,p.provider_label,p.municipality_proxy,p.geom_4326,p.geom_25832 "
             "ORDER BY p.municipality_proxy,p.provider_label"
         ), {"snapshot": SNAPSHOT}).mappings()]
-    path = PROJECT_ROOT / "outputs/tables/cv_area_counts.csv"
+    path = PROJECT_ROOT / "outputs/tables/phase04/cv_area_counts.csv"
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=[*rows[0].keys(), "boundary_status", "distance_crs_epsg"])
@@ -266,7 +267,7 @@ def export_maps(engine) -> None:
         )).mappings()]
     for row in [*polygons, *study]:
         row["geometry"] = json.loads(row["geojson"])
-    output = PROJECT_ROOT / "outputs/figures"
+    output = PhaseDirectory("figures", "phase04")
     output.mkdir(parents=True, exist_ok=True)
     colors = {"Copenhagen": "#3d7ea6", "Frederiksberg": "#df8f44"}
 

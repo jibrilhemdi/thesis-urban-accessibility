@@ -255,7 +255,7 @@ def export_assessment(engine) -> int:
                     "reason": ("National selection has only municipality codes 101 and 147; no within-municipality variation" if national else
                                "City source has ten district observations; Frederiksberg absent"),
                 })
-    path = PROJECT_ROOT / "outputs/tables/context_source_assessment.csv"
+    path = PROJECT_ROOT / "outputs/tables/phase03/context_source_assessment.csv"
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(records[0]))

@@ -21,6 +21,7 @@ from src.db.connection import get_engine
 from src.db.migrations import migrate
 from src.db.sources import prepare_source, register_records
 from src.ingestion.common import PROJECT_ROOT, sha256_file
+from src.pipeline.output_paths import PhaseDirectory
 from src.pipeline.acquire_osm_phase5 import PBF_NAME, POLY_NAME, existing_archive, polygon_wkt
 from src.pipeline.osm_taxonomy_phase5 import (
     NAME_DEDUP_METRES, TAXONOMY_VERSION, WIKIDATA_DEDUP_METRES,
@@ -332,7 +333,7 @@ def build_features(engine, source_id: int, poly_wkt: str) -> dict:
 
 def export_aggregate_summaries(engine) -> None:
     """Derived CSVs only; PostGIS remains authoritative. Never export listing points."""
-    target = PROJECT_ROOT / "outputs/tables"
+    target = PhaseDirectory("tables", "phase05")
     target.mkdir(parents=True, exist_ok=True)
     with engine.connect() as conn:
         counts = [dict(row) for row in conn.execute(text(

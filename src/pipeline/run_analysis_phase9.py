@@ -32,11 +32,12 @@ from xgboost import XGBRegressor
 
 from src.db.connection import get_engine
 from src.ingestion.common import PROJECT_ROOT, sha256_file, write_json
+from src.pipeline.output_paths import PhaseDirectory
 from src.spatial.spatial_diagnostics import moran_knn
 
 
-OUT = PROJECT_ROOT / "outputs/tables"
-FIG = PROJECT_ROOT / "outputs/figures"
+OUT = PhaseDirectory("tables", "phase09")
+FIG = PhaseDirectory("figures", "phase09")
 SPEC = PROJECT_ROOT / "docs/preanalysis_specification.md"
 VERSION = "phase09_v1"
 SEED = 20260929

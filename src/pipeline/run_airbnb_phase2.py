@@ -303,7 +303,7 @@ def export_phase2(engine: Engine, snapshot: date) -> dict[str, Any]:
         )).all())
     if len(imported_rows) != 4:
         raise RuntimeError("All four Airbnb raw imports must succeed before Phase 2 export")
-    output_root = PROJECT_ROOT / "outputs/tables"
+    output_root = PROJECT_ROOT / "outputs/tables/phase02"
     _write_csv(output_root / "sample_construction.csv", flow,
                ["stage", "remaining_n", "excluded_at_stage_n"])
     _write_csv(output_root / "property_type_decisions.csv", properties,
@@ -376,7 +376,7 @@ The numeric source `price` is treated as DKK per user confirmation; the file dis
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 {price_lines}
 
-The same aggregates are exported to `outputs/tables/price_distribution.csv`.
+The same aggregates are exported to `outputs/tables/phase02/price_distribution.csv`.
 
 Price completeness by scrape date (diagnostic only):
 
@@ -386,7 +386,7 @@ Price completeness by scrape date (diagnostic only):
 
 ## Property-type decisions
 
-The inclusion rule is based on clearly residential, self-contained urban dwelling forms, not predictive performance. Excluded rows remain in `clean.airbnb_listings` with flags. The table below covers every source category; `outputs/tables/property_type_decisions.csv` also gives entire-home and priced counts.
+The inclusion rule is based on clearly residential, self-contained urban dwelling forms, not predictive performance. Excluded rows remain in `clean.airbnb_listings` with flags. The table below covers every source category; `outputs/tables/phase02/property_type_decisions.csv` also gives entire-home and priced counts.
 
 | Property type | All listings | Decision | Reason |
 |---|---:|---|---|

@@ -1,6 +1,6 @@
 # Phase 3 — contextual demographic and housing data
 
-Date: 2026-09-29. This phase audited and ingested the **existing archive**; it did not download new statistics, calculate density, join context to listings, or fit models. The authoritative derived layer is PostgreSQL/PostGIS. Run `make phase3-run` to reproduce the raw imports, clean measures and [source assessment](../outputs/tables/context_source_assessment.csv); run `THESIS_PHASE3_TEST=1 make phase3-test` for live QA.
+Date: 2026-09-29. This phase audited and ingested the **existing archive**; it did not download new statistics, calculate density, join context to listings, or fit models. The authoritative derived layer is PostgreSQL/PostGIS. Run `make phase3-run` to reproduce the raw imports, clean measures and [source assessment](../outputs/tables/phase03/context_source_assessment.csv); run `THESIS_PHASE3_TEST=1 make phase3-test` for live QA.
 
 ## Ingestion and resolution
 

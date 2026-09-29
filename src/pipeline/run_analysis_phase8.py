@@ -18,12 +18,13 @@ from sqlalchemy import text
 from src.db.connection import get_engine
 from src.db.migrations import migrate
 from src.ingestion.common import PROJECT_ROOT
+from src.pipeline.output_paths import PhaseDirectory
 from src.pipeline.osm_taxonomy_phase5 import TAXONOMY_VERSION
 from src.spatial.spatial_diagnostics import distance_bin_covariance, moran_knn
 
 
-OUT = PROJECT_ROOT / "outputs/tables"
-FIG = PROJECT_ROOT / "outputs/figures"
+OUT = PhaseDirectory("tables", "phase08")
+FIG = PhaseDirectory("figures", "phase08")
 RANDOM_SEED = 20260929
 BLOCK_1500_SEED = 20261034  # First geography-only seed meeting municipality support rule.
 VERSION = "phase08_v1"

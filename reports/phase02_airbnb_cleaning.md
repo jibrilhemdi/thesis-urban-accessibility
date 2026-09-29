@@ -26,7 +26,7 @@ The numeric source `price` is treated as DKK per user confirmation; the file dis
 | all_valid_prices | 13,860 | 45.16 | 1,272.67 | 1,689.00 | 2,305.00 | 42,931.33 | 3.81 | 7.15 | 7.43 | 7.74 | 10.67 |
 | primary_candidate | 12,521 | 71.08 | 1,364.00 | 1,737.50 | 2,342.50 | 42,931.33 | 4.26 | 7.22 | 7.46 | 7.76 | 10.67 |
 
-The same aggregates are exported to `outputs/tables/price_distribution.csv`.
+The same aggregates are exported to `outputs/tables/phase02/price_distribution.csv`.
 
 Price completeness by scrape date (diagnostic only):
 
@@ -39,7 +39,7 @@ Price completeness by scrape date (diagnostic only):
 
 ## Property-type decisions
 
-The inclusion rule is based on clearly residential, self-contained urban dwelling forms, not predictive performance. Excluded rows remain in `clean.airbnb_listings` with flags. The table below covers every source category; `outputs/tables/property_type_decisions.csv` also gives entire-home and priced counts.
+The inclusion rule is based on clearly residential, self-contained urban dwelling forms, not predictive performance. Excluded rows remain in `clean.airbnb_listings` with flags. The table below covers every source category; `outputs/tables/phase02/property_type_decisions.csv` also gives entire-home and priced counts.
 
 | Property type | All listings | Decision | Reason |
 |---|---:|---|---|

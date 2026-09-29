@@ -10,6 +10,7 @@ from sqlalchemy import text
 
 from src.db.sources import prepare_source, register_records
 from src.ingestion.common import PROJECT_ROOT
+from src.pipeline.output_paths import PhaseDirectory
 from src.pipeline.run_spatial_phase4 import EXTRACTION_BUFFER_METRES, SNAPSHOT
 
 
@@ -254,7 +255,7 @@ def export_official_cv_counts(engine) -> list[dict]:
             "GROUP BY a.area_id,a.area_name,a.municipality_code,a.geom_4326,a.geom_25832 "
             "ORDER BY a.municipality_code,a.area_id"
         ), {"snapshot": SNAPSHOT}).mappings()]
-    path = PROJECT_ROOT / "outputs/tables/cv_area_counts.csv"
+    path = PROJECT_ROOT / "outputs/tables/phase04/cv_area_counts.csv"
     with path.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=[*rows[0], "boundary_source", "area_crs_epsg"])
         writer.writeheader()
@@ -358,7 +359,7 @@ def export_official_maps(engine) -> None:
         )).one()
     for row in municipalities + areas + neighbours:
         row["geometry"] = json.loads(row["geojson"])
-    output = PROJECT_ROOT / "outputs/figures"
+    output = PhaseDirectory("figures", "phase04")
     output.mkdir(parents=True, exist_ok=True)
     palette = {"0101": "#A9C8D7", "0147": "#E9BF86"}
     source = ("Sources: DAGI/DAWA study + neighbouring municipalities; City of Copenhagen WFS bydel; "

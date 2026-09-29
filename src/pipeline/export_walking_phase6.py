@@ -8,6 +8,7 @@ from sqlalchemy import text
 
 from src.db.connection import get_engine
 from src.ingestion.common import PROJECT_ROOT
+from src.pipeline.output_paths import PhaseDirectory
 from src.pipeline.acquire_osm_phase5 import POLY_NAME, existing_archive, polygon_wkt
 
 
@@ -33,7 +34,7 @@ def _float(value, places=2):
 
 
 def export() -> dict:
-    target = PROJECT_ROOT / "outputs/tables"
+    target = PhaseDirectory("tables", "phase06")
     target.mkdir(parents=True, exist_ok=True)
     engine = get_engine()
     try:

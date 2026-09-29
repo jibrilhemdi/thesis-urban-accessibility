@@ -13,9 +13,10 @@ from sqlalchemy import text
 
 from src.db.connection import get_engine
 from src.ingestion.common import PROJECT_ROOT
+from src.pipeline.output_paths import output_file
 
 
-OUTPUT = PROJECT_ROOT / "outputs/tables/phase09_destination_boundary_audit.csv"
+OUTPUT = output_file("tables", "phase09", "destination_boundary_audit.csv")
 STUDY = "s.area_kind='official_study_area'"
 
 

@@ -9,6 +9,7 @@ from sqlalchemy import text
 
 from src.db.connection import get_engine
 from src.ingestion.common import PROJECT_ROOT
+from src.pipeline.output_paths import output_file
 from src.pipeline.run_spatial_phase4 import EXTRACTION_BUFFER_METRES, MAX_WALK_MINUTES, WALK_SPEED_MPS
 
 
@@ -118,7 +119,7 @@ class LiveSpatialTest(unittest.TestCase):
             self.assertEqual(tuple(incomplete), (1, 0))
 
     def test_cv_counts_and_maps_are_aggregate_only(self) -> None:
-        with (PROJECT_ROOT / "outputs/tables/cv_area_counts.csv").open(newline="", encoding="utf-8") as handle:
+        with output_file("tables", "phase04", "cv_area_counts.csv").open(newline="", encoding="utf-8") as handle:
             rows = list(csv.DictReader(handle))
         self.assertEqual(len(rows), 11)
         self.assertEqual(sum(int(row["eligible_n"]) for row in rows), 12508)
@@ -126,7 +127,7 @@ class LiveSpatialTest(unittest.TestCase):
         self.assertFalse({"listing_id", "host_name", "latitude", "longitude"}.intersection(rows[0]))
         for filename in ("phase04_study_area.png", "phase04_municipality_proxy.png",
                          "phase04_candidate_cv_areas.png", "phase04_osm_coverage.png"):
-            self.assertTrue((PROJECT_ROOT / "outputs/figures" / filename).is_file())
+            self.assertTrue(output_file("figures", "phase04", filename).is_file())
 
 
 if __name__ == "__main__":

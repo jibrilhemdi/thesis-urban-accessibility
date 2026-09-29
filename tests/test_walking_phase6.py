@@ -11,6 +11,7 @@ from sqlalchemy import text
 from src.db.connection import get_engine
 from src.db.migrations import migrate
 from src.ingestion.common import PROJECT_ROOT, sha256_file
+from src.pipeline.output_paths import output_file
 from src.pipeline.acquire_osm_phase5 import PBF_NAME, existing_archive
 HAS_ROUTING_DEPS = find_spec("osmium") is not None and find_spec("pyproj") is not None
 if HAS_ROUTING_DEPS:
@@ -168,7 +169,7 @@ class LiveWalkingTest(unittest.TestCase):
                                    ("phase06_snap_diagnostics.csv", 3),
                                    ("phase06_area_comparison.csv", 12),
                                    ("phase06_source_coverage.csv", 2)):
-            with (PROJECT_ROOT / "outputs/tables" / filename).open(newline="", encoding="utf-8") as handle:
+            with output_file("tables", "phase06", filename).open(newline="", encoding="utf-8") as handle:
                 rows = list(csv.DictReader(handle))
             self.assertEqual(len(rows), expected)
             self.assertFalse({"listing_id", "host_name", "latitude", "longitude", "name"}

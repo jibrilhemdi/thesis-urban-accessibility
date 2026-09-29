@@ -17,11 +17,12 @@ from sqlalchemy import text
 from src.db.connection import get_engine
 from src.db.migrations import migrate
 from src.ingestion.common import PROJECT_ROOT
+from src.pipeline.output_paths import PhaseDirectory
 
 
 VIEW = "analysis.analysis_dataset_v1"
-OUT = PROJECT_ROOT / "outputs" / "tables"
-FIG = PROJECT_ROOT / "outputs" / "figures"
+OUT = PhaseDirectory("tables", "phase07")
+FIG = PhaseDirectory("figures", "phase07")
 AMENITIES = (
     "amenity_wifi", "amenity_dishwasher", "amenity_washer", "amenity_dryer",
     "amenity_workspace", "amenity_free_parking", "amenity_private_balcony",

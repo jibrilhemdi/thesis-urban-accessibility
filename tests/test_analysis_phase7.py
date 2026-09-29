@@ -9,6 +9,7 @@ from sqlalchemy import text
 from src.db.connection import get_engine
 from src.db.migrations import migrate
 from src.ingestion.common import PROJECT_ROOT
+from src.pipeline.output_paths import output_file
 from src.pipeline.run_analysis_phase7 import DICTIONARY
 
 
@@ -87,7 +88,7 @@ class LivePhase7Test(unittest.TestCase):
         for filename in ("missingness_report.csv", "price_missingness_comparison.csv",
                          "redundancy_pairs.csv", "vif_diagnostics.csv", "phase07_sample_summary.csv",
                          "phase07_spatial_cv_folds.csv"):
-            with (PROJECT_ROOT / "outputs/tables" / filename).open(newline="", encoding="utf-8") as handle:
+            with output_file("tables", "phase07", filename).open(newline="", encoding="utf-8") as handle:
                 columns = csv.DictReader(handle).fieldnames
             self.assertFalse({"listing_id", "host_name", "latitude", "longitude", "reviews"} & set(columns))
         with (PROJECT_ROOT / "docs/data_dictionary_analysis.csv").open(newline="", encoding="utf-8") as handle:
@@ -108,7 +109,7 @@ class LivePhase7Test(unittest.TestCase):
                 "sum(missing_n) all_missing FROM cells"
             )).one()
         self.assertEqual(tuple(grid), (236, 8346, 8559))
-        self.assertTrue((PROJECT_ROOT / "outputs/figures/phase07_missing_price_grid.png").is_file())
+        self.assertTrue(output_file("figures", "phase07", "missing_price_grid.png").is_file())
 
     def test_missing_price_area_percentage_uses_assigned_denominators(self):
         with self.engine.connect() as conn:
@@ -125,7 +126,7 @@ class LivePhase7Test(unittest.TestCase):
         self.assertEqual(tuple(areas[:3]), (11, 21019, 8511))
         self.assertGreater(float(areas.min_pct), 30)
         self.assertLess(float(areas.max_pct), 45)
-        self.assertTrue((PROJECT_ROOT / "outputs/figures/phase07_missing_price_area.png").is_file())
+        self.assertTrue(output_file("figures", "phase07", "missing_price_area.png").is_file())
 
 
 if __name__ == "__main__":

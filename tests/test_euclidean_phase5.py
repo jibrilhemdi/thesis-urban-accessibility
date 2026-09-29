@@ -10,6 +10,7 @@ from sqlalchemy import text
 from src.db.connection import get_engine
 from src.db.migrations import migrate
 from src.ingestion.common import PROJECT_ROOT, sha256_file
+from src.pipeline.output_paths import output_file
 from src.pipeline.acquire_osm_phase5 import existing_archive
 from src.pipeline.osm_taxonomy_phase5 import categories, normalize_name
 
@@ -115,7 +116,7 @@ class LiveEuclideanTest(unittest.TestCase):
     def test_public_aggregate_exports_have_no_listing_identifiers(self) -> None:
         for filename, expected_rows in (("phase05_destination_counts.csv", 3),
                                         ("phase05_feature_summary.csv", 7)):
-            with (PROJECT_ROOT / "outputs/tables" / filename).open(newline="", encoding="utf-8") as handle:
+            with output_file("tables", "phase05", filename).open(newline="", encoding="utf-8") as handle:
                 rows = list(csv.DictReader(handle))
             self.assertEqual(len(rows), expected_rows)
             self.assertFalse({"listing_id", "host_name", "latitude", "longitude", "name"}
