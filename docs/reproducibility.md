@@ -11,14 +11,11 @@ python -m src.ingestion.download_copenhagen_statbank --retrieval-date YYYY-MM-DD
 python -m src.ingestion.download_frederiksberg_statbank --retrieval-date YYYY-MM-DD
 python src/ingestion/build_manifest.py --verify
 python -m src.pipeline.run_minimum_pipeline
-python -m src.analysis.run_analysis --force
 ```
 
 The source manifest records the URL, local path, retrieval time, size, SHA-256 checksum, and provider metadata. The OSM extraction metadata also records the bbox, endpoint, OSM timestamp, query paths, and response counts. The City Statbank metadata records the exact table selections, periods, raw CSV checksums, and district join boundary. The Frederiksberg StatBank metadata records the municipality code, exact API selections, raw CSV checksums, and the derivations used for the tidy municipality context row.
 
 The available non-GTFS run is intentionally local and dependency-light. It produces a Parquet and compressed CSV analytical table with listing controls, projected coordinates, nearest OSM network nodes, network degree, nearest-category walking times, and a nearest-category accessibility index. Run it with `--force` only when deliberately replacing a processed output.
-
-The analysis runner uses five-fold spatial cross-validation on 1 km projected-coordinate blocks. Its primary price sample includes all valid prices, with the late scrape batch flagged; it also runs early-only, trimmed-price, and Frederiksberg-exclusion sensitivities. Calendar and review records are aggregated by listing before any analysis-level join.
 
 ## Frozen-data principle
 

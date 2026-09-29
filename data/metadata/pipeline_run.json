@@ -1,7 +1,7 @@
 {
   "pipeline": "available_minimum_non_gtfs",
-  "started_at_utc": "2026-09-22T14:53:12+00:00",
-  "completed_at_utc": "2026-09-22T14:53:14+00:00",
+  "started_at_utc": "2026-09-22T08:57:47+00:00",
+  "completed_at_utc": "2026-09-22T08:57:49+00:00",
   "study_area": "Copenhagen, Denmark",
   "snapshot_date": "2026-06-30",
   "osm_extraction_date": "2026-09-21",
@@ -60,19 +60,6 @@
     "valid_source_price_rows": 13860,
     "eligible_for_price_model_rows": 13860,
     "missing_source_price_rows": 9284,
-    "price_scrape_batch_counts": {
-      "early": 14160,
-      "late": 8984
-    },
-    "valid_price_by_scrape_batch": {
-      "early": 13177,
-      "late": 683
-    },
-    "price_data_status_counts": {
-      "early_price": 13177,
-      "missing_price": 9284,
-      "late_batch_price": 683
-    },
     "source_price_note": "Numeric value retained without currency conversion; downloaded values display '$'."
   },
   "network_summary": {
@@ -211,9 +198,6 @@
     "reviews_per_month",
     "source_price_numeric",
     "log_price_source_currency",
-    "price_scrape_batch",
-    "price_from_late_scrape_batch",
-    "price_data_status",
     "host_response_rate_fraction",
     "host_acceptance_rate_fraction",
     "host_is_superhost_flag",

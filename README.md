@@ -21,14 +21,11 @@ python -m src.ingestion.download_copenhagen_statbank --retrieval-date YYYY-MM-DD
 python -m src.ingestion.download_frederiksberg_statbank --retrieval-date YYYY-MM-DD
 python src/ingestion/build_manifest.py
 python -m src.pipeline.run_minimum_pipeline
-python -m src.analysis.run_analysis --force
 ```
 
 The OSM script derives the extraction bounding box from the downloaded listing coordinates and adds a 0.02-degree buffer. It saves the exact Overpass queries beside the raw responses.
 
 The minimum pipeline writes a local analytical table to `data/processed/copenhagen/<snapshot>/`. It cleans non-identifying listing controls, retains source price without currency conversion, projects coordinates to an EPSG:25832-compatible metric system, builds an undirected pedestrian graph from OSM, snaps listings and OSM opportunities to that graph, computes nearest-category walking times, and joins City of Copenhagen district context plus Frederiksberg municipality context. GTFS and PostGIS remain pending in `data/metadata/pipeline_run.json`.
-
-The analysis runner uses all valid source prices, including the 683 July 3–4 late-batch prices, and records `price_scrape_batch`, `price_from_late_scrape_batch`, and `price_data_status`. It writes model comparisons, descriptive tables, calendar/review summaries, OSM catchment summaries, spatial diagnostics, and privacy-safe figures under `outputs/tables/<snapshot>/` and `outputs/figures/<snapshot>/`. The early June 30–July 1 sample is included as a robustness analysis.
 
 To use another Inside Airbnb snapshot:
 

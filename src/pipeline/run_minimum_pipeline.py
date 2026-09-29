@@ -221,18 +221,6 @@ def clean_listings(path: Path) -> tuple[pd.DataFrame, dict[str, Any]]:
     df["source_price_numeric"] = price_series.astype(float)
     df["log_price_source_currency"] = np.nan
     positive_price = df["source_price_numeric"].gt(0)
-    scrape_date = df["last_scraped"].astype("string")
-    early_scrape = scrape_date.isin(["2026-06-30", "2026-07-01"])
-    late_scrape = scrape_date.isin(["2026-07-03", "2026-07-04"])
-    df["price_scrape_batch"] = np.select(
-        [early_scrape, late_scrape], ["early", "late"], default="unknown"
-    )
-    df["price_from_late_scrape_batch"] = positive_price & late_scrape
-    df["price_data_status"] = np.select(
-        [positive_price & early_scrape, positive_price & late_scrape],
-        ["early_price", "late_batch_price"],
-        default="missing_price",
-    )
     df.loc[positive_price, "log_price_source_currency"] = np.log(
         df.loc[positive_price, "source_price_numeric"]
     )
@@ -264,16 +252,6 @@ def clean_listings(path: Path) -> tuple[pd.DataFrame, dict[str, Any]]:
         "valid_source_price_rows": int(df["valid_source_price"].sum()),
         "eligible_for_price_model_rows": int(df["eligible_for_price_model"].sum()),
         "missing_source_price_rows": int(df["source_price_numeric"].isna().sum()),
-        "price_scrape_batch_counts": {
-            str(key): int(value) for key, value in df["price_scrape_batch"].value_counts(dropna=False).items()
-        },
-        "valid_price_by_scrape_batch": {
-            str(key): int(value)
-            for key, value in df.loc[positive_price, "price_scrape_batch"].value_counts(dropna=False).items()
-        },
-        "price_data_status_counts": {
-            str(key): int(value) for key, value in df["price_data_status"].value_counts(dropna=False).items()
-        },
         "source_price_note": "Numeric value retained without currency conversion; downloaded values display '$'.",
     }
     return df, summary
