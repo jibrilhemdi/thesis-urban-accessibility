@@ -4,6 +4,7 @@ data/interim/*
 data/processed/*
 outputs/figures/*
 outputs/tables/*
+outputs/releases/*
 
 # Keep directory placeholders and small metadata under version control.
 !data/raw/.gitkeep
@@ -20,9 +21,23 @@ __pycache__/
 .pytest_cache/
 .ipynb_checkpoints/
 .DS_Store
+__MACOSX/
+._*
 .env
 .venv/
 venv/
+
+# Generated LaTeX auxiliaries and local packaging archives.
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+before_freeze.zip
 
 # Local databases and editor files
 *.sqlite

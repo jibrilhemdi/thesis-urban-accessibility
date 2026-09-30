@@ -1,4 +1,4 @@
-.PHONY: db-up db-down db-connect db-psql db-diagnose db-migrate db-check db-version db-register db-ingest-sample db-test phase2-run phase2-test phase3-run phase3-test phase4-acquire-boundaries phase4-acquire-map-context phase4-run phase4-test phase5-acquire phase5-run phase5-test phase6-run phase6-export phase6-test phase7-run phase7-test phase8-run phase8-test phase9-bus phase9-run phase9-test phase9-boundary-audit phase10-bus phase10-run phase10-spatial phase10-synthesis phase10-figures phase10-test reproduce audit test output-migrate context-audit context-audit-test context-models context-models-preflight context-models-test observability-audit observability-models observability-test final-outputs final-outputs-test final-output-revision final-output-revision-test boundary-audit boundary-models boundary-test validation-visuals destination-inventory boundary-catchment-figure
+.PHONY: db-up db-down db-connect db-psql db-diagnose db-migrate db-check db-version db-register db-ingest-sample db-test phase2-run phase2-test phase3-run phase3-test phase4-acquire-boundaries phase4-acquire-map-context phase4-run phase4-test phase5-acquire phase5-run phase5-test phase6-run phase6-export phase6-test phase7-run phase7-test phase8-run phase8-test phase9-bus phase9-run phase9-test phase9-boundary-audit phase10-bus phase10-run phase10-spatial phase10-synthesis phase10-figures phase10-test reproduce audit test output-migrate context-audit context-audit-test context-models context-models-preflight context-models-test observability-audit observability-models observability-test final-outputs final-outputs-test final-output-revision final-output-revision-test boundary-audit boundary-models boundary-test validation-visuals destination-inventory boundary-catchment-figure release-check scientific-freeze-check final-presentation
 
 db-up:
 	docker compose --env-file .env up -d --wait --wait-timeout 120 db
@@ -190,6 +190,18 @@ destination-inventory:
 # Public-OSM appendix illustration only; no route/accessibility/model recomputation.
 boundary-catchment-figure:
 	.venv/bin/python -m src.pipeline.export_boundary_catchment_figure
+
+# Validate an explicit public allowlist; never include raw data or local secrets.
+release-check:
+	.venv/bin/python -m src.pipeline.release_snapshot --check
+
+# A new scientific release requires explicit authorization; this target checks v1 only.
+scientific-freeze-check:
+	.venv/bin/python -m src.pipeline.run_final_presentation --check-only
+
+# Strictly aggregate-source presentation export; verifies scientific hashes before/after.
+final-presentation:
+	.venv/bin/python -m src.pipeline.run_final_presentation
 
 test:
 	THESIS_DB_TEST=1 THESIS_PHASE2_TEST=1 THESIS_PHASE3_TEST=1 THESIS_PHASE4_TEST=1 THESIS_PHASE5_TEST=1 THESIS_PHASE6_TEST=1 THESIS_PHASE7_TEST=1 THESIS_PHASE8_TEST=1 THESIS_PHASE9_TEST=1 THESIS_PHASE10_TEST=1 .venv/bin/python -m unittest discover -s tests -v
