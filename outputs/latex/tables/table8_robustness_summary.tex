@@ -1,0 +1,32 @@
+\begin{landscape}
+\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{2.9cm}r>{\raggedright\arraybackslash}p{2.7cm}>{\raggedright\arraybackslash}p{3.1cm}rr>{\raggedright\arraybackslash}p{6.7cm}}
+\caption{Robustness and post-completion checks}\label{tab:robustness}\\
+\toprule
+Analysis & Status & $N$ & Validation & Comparison & RMSE & $\Delta$ RMSE & Interpretation \\
+\midrule
+\endfirsthead
+\toprule
+Analysis & Status & $N$ & Validation & Comparison & RMSE & $\Delta$ RMSE & Interpretation \\
+\midrule
+\endhead
+apartment condo & Pre-specified/planned & 11,209 & geographic\_\allowbreak{}11 & MW & 0.3252 & 0.00162 & increment beyond matched baseline \\
+reviewed only & Pre-specified/planned & 10,522 & geographic\_\allowbreak{}11 & MW & 0.3221 & 0.00329 & increment beyond matched baseline \\
+review count & Pre-specified/planned & 12,412 & geographic\_\allowbreak{}11 & MW\_\allowbreak{}review & 0.3291 & 0.00349 & increment beyond matched baseline \\
+threshold 15 & Pre-specified/planned & 12,412 & geographic\_\allowbreak{}11 & MW\_\allowbreak{}15 & 0.3264 & 0.00641 & $\Delta$RMSE versus matching no-access baseline, not Euclidean access \\
+threshold 20 & Pre-specified/planned & 12,412 & geographic\_\allowbreak{}11 & MW\_\allowbreak{}20 & 0.3266 & 0.00618 & $\Delta$RMSE versus matching no-access baseline, not Euclidean access \\
+price trim 1 99 & Pre-specified/planned & 12,127 & geographic\_\allowbreak{}11 & MW & 0.2967 & 0.00191 & increment beyond matched baseline \\
+buffer 500m & Pre-specified/planned & 12,412 & geographic\_\allowbreak{}11 & MW & 0.3363 & -0.00056 & increment beyond matched baseline \\
+buffer 1000m & Pre-specified/planned & 12,412 & geographic\_\allowbreak{}11 & MW & 0.3397 & 0.00026 & increment beyond matched baseline \\
+block 1500m & Pre-specified/planned & 12,412 & block\_\allowbreak{}1500m\_\allowbreak{}5 & MW & 0.3226 & 0.00422 & increment beyond matched baseline \\
+bus walking & Post-Phase-9 bus amendment & 12,412 & geographic\_\allowbreak{}11 & MW\_\allowbreak{}bus & 0.3287 & 0.00107 & increment beyond matched baseline \\
+Area context (mixed resolution) & Post-Phase-9 planned context & 12,412 & geographic\_\allowbreak{}11 & MW\_\allowbreak{}CTX versus M0\_\allowbreak{}CTX & 0.3273 & -0.00056 & Core RQ2 adjusted comparison; mixed-resolution context provisional \\
+High-price-completeness batches & Post-completion outcome robustness & 11,808 & geographic\_\allowbreak{}11 & MW versus M0; dates $\geq$90\% observed price & 0.3262 & 0.00277 & Different sample; compare its own M0/MW increment, not raw Phase 9 RMSE \\
+Area fixed effects & Planned association robustness & 12,412 & In-sample association & MW + association sensitivity & \textemdash{} & \textemdash{} & Within-area food coefficient changes sign; culture coefficient attenuates sharply \\
+Spatial error & Planned association robustness & 12,412 & In-sample association & MW + association sensitivity & \textemdash{} & \textemdash{} & 8-NN spatial error association; not a geographic predictive comparison \\
+Area context (Copenhagen only) & Post-Phase-9 planned context & 11,108 & geographic\_\allowbreak{}10 & MW\_\allowbreak{}CTX versus M0\_\allowbreak{}CTX & 0.3273 & 0.00091 & Improves 5/10 districts; Copenhagen-only context baseline \\
+Study-boundary destinations & Pre-freeze endpoint sensitivity & 12,412 & geographic\_\allowbreak{}11 & MW\_\allowbreak{}BOUND versus M0\_\allowbreak{}BOUND & 0.3294 & 0.00338 & Study-union endpoint restriction does not materially change the primary access conclusion; walking graph unchanged \\
+\bottomrule
+\end{longtable}
+{\footnotesize\noindent\emph{Notes.} Statuses preserve implementation chronology, not scientific importance. Area-context-adjusted models are a core RQ2 comparison shown in the separate RQ2 table, not merely a generic robustness exercise. Predictive RMSE across different samples/schemes is not directly paired. Association-only models have no comparable predictive RMSE (em dash). Positive $\Delta$ denotes lower error than the stated reference.\par}
+\end{landscape}

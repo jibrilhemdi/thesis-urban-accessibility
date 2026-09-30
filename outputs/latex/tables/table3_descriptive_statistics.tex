@@ -1,0 +1,55 @@
+\begin{landscape}
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{0.9}
+\begin{threeparttable}
+\caption{Descriptive statistics and sample composition}\label{tab:descriptives}
+\textit{Panel A. Continuous variables}\par\smallskip
+\begin{tabular}{>{\raggedright\arraybackslash}p{5.5cm}>{\raggedright\arraybackslash}p{3.2cm}rrrrrrrr}
+\toprule
+Variable & Unit & $N$ & Mean & SD & Median & P25 & P75 & Min & Max \\
+\midrule
+Listed nightly price & DKK & 12,412 & 2,027.03 & 1,233.77 & 1,737.45 & 1,363.91 & 2,339.75 & 71.08 & 42,931.33 \\
+Log listed price & ln(DKK) & 12,412 & 7.505 & 0.442 & 7.460 & 7.218 & 7.758 & 4.264 & 10.667 \\
+Accommodates & persons & 12,412 & 3.530 & 1.662 & 3.000 & 2.000 & 4.000 & 1.000 & 16.000 \\
+Bedrooms & rooms & 12,289 & 1.691 & 0.917 & 1.000 & 1.000 & 2.000 & 1.000 & 8.000 \\
+Bathrooms & rooms & 12,412 & 1.106 & 0.329 & 1.000 & 1.000 & 1.000 & 0.000 & 4.000 \\
+Minimum nights & nights & 12,412 & 3.065 & 6.085 & 2.000 & 1.000 & 4.000 & 1.000 & 360.000 \\
+Host portfolio & listings & 12,412 & 8.937 & 79.651 & 1.000 & 1.000 & 1.000 & 0.000 & 1,188.000 \\
+City Hall distance & km & 12,412 & 2.671 & 1.311 & 2.557 & 1.620 & 3.534 & 0.013 & 8.216 \\
+Station straight-line distance & m & 12,412 & 452.703 & 277.518 & 404.497 & 276.220 & 558.472 & 8.261 & 2,328.189 \\
+Station walking time & min & 12,412 & 8.869 & 4.770 & 8.090 & 5.692 & 11.006 & 0.200 & 48.544 \\
+Food/social straight-line & POIs / 800 m & 12,412 & 116.549 & 118.652 & 80.000 & 34.000 & 152.000 & 0.000 & 568.000 \\
+Food/social walking & POIs / 10 min & 12,412 & 68.783 & 81.411 & 44.000 & 18.000 & 81.000 & 0.000 & 450.000 \\
+Cultural/tourist straight-line & POIs / 800 m & 12,412 & 11.663 & 16.123 & 6.000 & 2.000 & 14.000 & 0.000 & 82.000 \\
+Cultural/tourist walking & POIs / 10 min & 12,412 & 6.110 & 9.643 & 3.000 & 1.000 & 8.000 & 0.000 & 59.000 \\
+Area log density\textdagger{} & ln(persons/km\textsuperscript{2}) & 12,412 & 9.105 & 0.453 & 9.032 & 8.608 & 9.406 & 8.460 & 9.872 \\
+Area income\textdagger{} & 100,000 DKK/person & 12,412 & 3.123 & 0.445 & 3.060 & 2.872 & 3.448 & 2.486 & 3.899 \\
+\bottomrule
+\end{tabular}
+\medskip
+\textit{Panel B. Categorical composition}\par\smallskip
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrr}
+\toprule
+Category & $N$ & Percent (\%) \\
+\midrule
+Property: Entire rental unit & 8,253 & 66.49 \\
+Property: Entire condo & 2,956 & 23.82 \\
+Property: Entire home & 827 & 6.66 \\
+Property: Entire townhouse & 199 & 1.60 \\
+Property: Entire villa & 118 & 0.95 \\
+Property: Entire loft & 59 & 0.48 \\
+Frederiksberg municipality & 1,304 & 10.51 \\
+Superhost & 1,604 & 12.92 \\
+Amenity: wifi & 11,562 & 93.15 \\
+Amenity: dishwasher & 7,111 & 57.29 \\
+Amenity: washer & 7,305 & 58.85 \\
+Amenity: dryer & 1,766 & 14.23 \\
+Amenity: workspace & 5,182 & 41.75 \\
+Amenity: free parking & 1,648 & 13.28 \\
+Amenity: private balcony & 3,052 & 24.59 \\
+Amenity: self checkin & 4,452 & 35.87 \\
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}[flushleft]\footnotesize
+\item Common frozen Phase 9 sample; continuous rows report observed $N$ and sample SD. Categorical percentages use the common sample denominator. Area density and income enter the later area-context-adjusted core specification, not frozen Phase 9 M0: ten Copenhagen district values and one Frederiksberg municipality value are repeated at listing level. Income definitions differ by source.
+\end{tablenotes}\end{threeparttable}\end{table}\end{landscape}

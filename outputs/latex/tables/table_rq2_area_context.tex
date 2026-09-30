@@ -1,0 +1,22 @@
+\begin{landscape}
+\begin{table}[p]
+\centering
+\small
+\begin{threeparttable}
+\caption{RQ2: accessibility before and after area socioeconomic context}\label{tab:rq2-area-context}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{6.0cm}rrrrrr}
+\toprule
+Estimator & Specification & $N$ & M0 RMSE & ME RMSE & MW RMSE & ME gain & MW gain \\
+\midrule
+OLS & Base specification & 12,412 & 0.33446 & 0.32776 & 0.33053 & 0.00670 & 0.00393 \\
+OLS & Area-context-adjusted core specification & 12,412 & 0.32407 & 0.32498 & 0.32592 & -0.00091 & -0.00185 \\
+XGBoost & Base specification & 12,412 & 0.33277 & 0.32795 & 0.32976 & 0.00482 & 0.00301 \\
+XGBoost & Area-context-adjusted core specification & 12,412 & 0.32675 & 0.32670 & 0.32731 & 0.00004 & -0.00056 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]\footnotesize
+\item Pooled leave-one-area-out log-price RMSE on the same listings and saved folds. Base = Phase 9 listing, host/rental, municipality and City Hall centrality controls. Area-context-adjusted core = base plus log gross-polygon population density and disposable income; this planned contextual specification was implemented after Phase 9, not frozen at Phase 7. Positive gain means lower error than the matching M0. Mixed Copenhagen district/Frederiksberg municipality context, income definitions and polygon areas remain provisional.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+\end{landscape}

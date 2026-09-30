@@ -1,0 +1,28 @@
+\begin{table}[p]
+\centering
+\small
+\begin{threeparttable}
+\caption{Incremental accessibility information}\label{tab:incremental-accessibility}
+\begin{tabular}{>{\raggedright\arraybackslash}p{4cm}>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{3.5cm}rr}
+\toprule
+Validation & Estimator & Comparison & $\Delta$ RMSE & $\Delta$ MAE \\
+\midrule
+Random 5-fold & OLS & ME versus M0 & 0.00517 & 0.00407 \\
+Random 5-fold & OLS & MW versus M0 & 0.00380 & 0.00298 \\
+Random 5-fold & OLS & MEW versus M0 & 0.00511 & 0.00404 \\
+Random 5-fold & XGBoost & ME versus M0 & 0.00902 & 0.00775 \\
+Random 5-fold & XGBoost & MW versus M0 & 0.00840 & 0.00731 \\
+Random 5-fold & XGBoost & MEW versus M0 & 0.01009 & 0.00884 \\
+Leave-one-area-out (11 analysis areas) & OLS & ME versus M0 & 0.00670 & 0.00596 \\
+Leave-one-area-out (11 analysis areas) & OLS & MW versus M0 & 0.00393 & 0.00354 \\
+Leave-one-area-out (11 analysis areas) & OLS & MEW versus M0 & 0.00567 & 0.00504 \\
+Leave-one-area-out (11 analysis areas) & XGBoost & ME versus M0 & 0.00482 & 0.00534 \\
+Leave-one-area-out (11 analysis areas) & XGBoost & MW versus M0 & 0.00301 & 0.00286 \\
+Leave-one-area-out (11 analysis areas) & XGBoost & MEW versus M0 & 0.00500 & 0.00566 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]\footnotesize
+\item Positive $\Delta$ means error reduction versus the named reference model on the same validation assignment. ME adds Euclidean measures; MW adds walking-network measures; MEW includes both. These are descriptive predictive differences, not causal effects.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

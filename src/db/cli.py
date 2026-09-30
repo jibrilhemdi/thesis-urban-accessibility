@@ -39,10 +39,18 @@ def main() -> None:
     try:
         if args.command == "connect":
             with engine.connect() as conn:
-                name = conn.scalar(text("SELECT current_database()"))
+                name, user, server_port, version = conn.execute(text(
+                    "SELECT current_database(), current_user, current_setting('port'), "
+                    "current_setting('server_version')"
+                )).one()
                 if name != settings["DB_NAME"]:
                     raise RuntimeError("Connected database name does not match DB_NAME")
-            result = {"connection": "ok", "database": name}
+                if user != settings["DB_USER"]:
+                    raise RuntimeError("Connected user does not match DB_USER")
+            result = {"connection": "ok", "host": settings["DB_HOST"],
+                      "host_port": int(settings["DB_PORT"]), "database": name,
+                      "user": user, "server_port": int(server_port),
+                      "postgresql_version": version}
         elif args.command == "migrate":
             result = {"applied_now": migrate(engine)}
         elif args.command == "check":

@@ -1,4 +1,4 @@
-.PHONY: db-up db-down db-connect db-migrate db-check db-version db-register db-ingest-sample db-test phase2-run phase2-test phase3-run phase3-test phase4-acquire-boundaries phase4-acquire-map-context phase4-run phase4-test phase5-acquire phase5-run phase5-test phase6-run phase6-export phase6-test phase7-run phase7-test phase8-run phase8-test phase9-bus phase9-run phase9-test phase9-boundary-audit phase10-bus phase10-run phase10-spatial phase10-synthesis phase10-figures phase10-test reproduce audit test output-migrate
+.PHONY: db-up db-down db-connect db-psql db-diagnose db-migrate db-check db-version db-register db-ingest-sample db-test phase2-run phase2-test phase3-run phase3-test phase4-acquire-boundaries phase4-acquire-map-context phase4-run phase4-test phase5-acquire phase5-run phase5-test phase6-run phase6-export phase6-test phase7-run phase7-test phase8-run phase8-test phase9-bus phase9-run phase9-test phase9-boundary-audit phase10-bus phase10-run phase10-spatial phase10-synthesis phase10-figures phase10-test reproduce audit test output-migrate context-audit context-audit-test context-models context-models-preflight context-models-test observability-audit observability-models observability-test final-outputs final-outputs-test final-output-revision final-output-revision-test boundary-audit boundary-models boundary-test validation-visuals destination-inventory boundary-catchment-figure
 
 db-up:
 	docker compose --env-file .env up -d --wait --wait-timeout 120 db
@@ -8,6 +8,14 @@ db-down:
 
 db-connect:
 	python -m src.db.cli connect
+
+# Explicitly enter the Compose thesis DB; no host defaults or password on argv.
+db-psql:
+	docker compose --env-file .env exec db sh -c 'exec psql -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"'
+
+# Read-only comparison of the configured thesis DB with a separate local server.
+db-diagnose:
+	.venv/bin/python -m src.db.diagnose
 
 db-migrate:
 	python -m src.db.cli migrate
@@ -123,6 +131,65 @@ audit:
 
 output-migrate:
 	.venv/bin/python -m src.pipeline.migrate_output_layout
+
+# Independent post-completion context audit; does not rerun price models.
+context-audit:
+	.venv/bin/python -m src.pipeline.run_context_postcompletion01
+
+context-audit-test:
+	THESIS_CONTEXT_AUDIT_TEST=1 .venv/bin/python -m unittest tests.test_context_postcompletion01 -v
+
+context-models-preflight:
+	.venv/bin/python -m src.pipeline.run_context_models_postcompletion02 --preflight
+
+context-models:
+	.venv/bin/python -m src.pipeline.run_context_models_postcompletion02
+
+context-models-test:
+	THESIS_CONTEXT_MODELS_TEST=1 .venv/bin/python -m unittest tests.test_context_models_postcompletion02 -v
+
+observability-audit:
+	.venv/bin/python -m src.pipeline.run_price_observability_postcompletion03 --audit-only
+
+observability-models:
+	.venv/bin/python -m src.pipeline.run_price_observability_postcompletion03
+
+observability-test:
+	THESIS_OBSERVABILITY_TEST=1 .venv/bin/python -m unittest tests.test_price_observability_postcompletion03 -v
+
+final-outputs:
+	.venv/bin/python -m src.pipeline.run_final_outputs_postcompletion04
+	.venv/bin/python -m src.pipeline.revise_final_outputs_pre_freeze
+
+final-outputs-test:
+	THESIS_FINAL_OUTPUTS_TEST=1 .venv/bin/python -m unittest tests.test_final_outputs_postcompletion04 -v
+
+final-output-revision:
+	.venv/bin/python -m src.pipeline.revise_final_outputs_pre_freeze
+
+final-output-revision-test:
+	.venv/bin/python -m unittest tests.test_final_output_revision_pre_freeze -v
+
+boundary-audit:
+	.venv/bin/python -m src.pipeline.run_boundary_sensitivity_pre_freeze --audit-only
+
+boundary-models:
+	.venv/bin/python -m src.pipeline.run_boundary_sensitivity_pre_freeze
+
+boundary-test:
+	THESIS_BOUNDARY_TEST=1 .venv/bin/python -m unittest tests.test_boundary_sensitivity_pre_freeze -v
+
+validation-visuals:
+	.venv/bin/python -m src.pipeline.run_validation_visualisation_final
+
+# Read-only Phase 5/PostGIS appendix export; does not rebuild accessibility.
+destination-inventory:
+	.venv/bin/python -m src.pipeline.export_destination_inventory_appendix
+	.venv/bin/python -m src.pipeline.export_final_latex_tables
+
+# Public-OSM appendix illustration only; no route/accessibility/model recomputation.
+boundary-catchment-figure:
+	.venv/bin/python -m src.pipeline.export_boundary_catchment_figure
 
 test:
 	THESIS_DB_TEST=1 THESIS_PHASE2_TEST=1 THESIS_PHASE3_TEST=1 THESIS_PHASE4_TEST=1 THESIS_PHASE5_TEST=1 THESIS_PHASE6_TEST=1 THESIS_PHASE7_TEST=1 THESIS_PHASE8_TEST=1 THESIS_PHASE9_TEST=1 THESIS_PHASE10_TEST=1 .venv/bin/python -m unittest discover -s tests -v

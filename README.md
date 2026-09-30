@@ -2,7 +2,7 @@
 
 Reproducible research workspace for the MSc Social Data Science thesis asking whether walking-network accessibility adds information beyond property attributes, centrality, and straight-line accessibility when modelling listed Airbnb nightly prices in Copenhagen and Frederiksberg.
 
-PostgreSQL/PostGIS is the authoritative store for source-preserving `raw`, cleaned `clean`, geographic `spatial`, listing-level `features`, and `analysis` views/folds. Versioned SQL migrations and Python runners in `src/` create those layers; only aggregate tables/figures are exported under `outputs/`. Raw source files are ignored by Git because they contain listing-level coordinates and provider-controlled data.
+PostgreSQL/PostGIS is the authoritative store for source-preserving `raw`, cleaned `clean`, geographic `spatial`, listing-level `features`, and `analysis` views/folds. Versioned SQL migrations and Python runners in `src/` create those layers; Airbnb-derived public tables/figures are aggregate-only. The supplementary destination inventories are a separate exception containing public OpenStreetMap POI/station records, never Airbnb listing rows. Raw source files are ignored by Git because they contain listing-level coordinates and provider-controlled data.
 
 Aggregate outputs are grouped by zero-padded phase, with no phase prefix in the filename: for example, [`outputs/tables/phase09/model_performance.csv`](outputs/tables/phase09/model_performance.csv) and [`outputs/figures/phase09/model_performance.png`](outputs/figures/phase09/model_performance.png). The database tables and saved folds did not change when these files were reorganized.
 
@@ -52,6 +52,31 @@ make db-down
 ```
 
 `.env` is ignored by Git; only `.env.example` belongs in version control. `make db-down` stops the container **without deleting the database volume**. `make db-up` requires Docker Desktop to be running. If port 5433 is occupied, change `DB_PORT` in `.env` before starting. Run `db-migrate` before `db-register` or `db-ingest-sample`. `db-check` prints actual server/PostGIS versions, schema names, and applied migration count without printing credentials.
+
+### PostgreSQL/PostGIS environments
+
+The completed thesis uses the **Docker Compose** database (`postgis/postgis:16-3.5`), currently published only on `127.0.0.1:5433`; inside the container PostgreSQL listens on port 5432. The configured host, port, database and user come from private `.env`. The separate Homebrew PostgreSQL 18/PostGIS 3.6 installation currently listens on local port 5432. Installing PostGIS with Homebrew did **not** migrate or replace the thesis database. PostgreSQL extensions are enabled per database; the Homebrew package being available does not mean it is enabled in every Homebrew database.
+
+Use these project-root commands to avoid connecting to the wrong server:
+
+```sh
+make db-up        # start the authoritative Docker service, keeping its volume
+make db-check     # verify its server, PostGIS, schemas and migration count
+make db-connect   # non-interactive, explicit .env connection check
+make db-psql      # interactive psql inside the Docker thesis container
+make db-diagnose  # read-only comparison of thesis and local Homebrew servers
+```
+
+The `db-diagnose` command reports safe connection identifiers, table counts, spatial checks and the separate Homebrew server status; it never creates a database or prints passwords. A bare `psql` uses client defaults (usually a Unix socket on port 5432 and your OS username/database), **not** the project `.env`; here it targets Homebrew and may fail if the default database does not exist. The `psql --version` shown by your shell identifies only the *client*, not the server it connected to. `make db-psql` deliberately uses the Compose service and its configured database/user, without exposing a password on the command line. At the thesis `psql` prompt, verify identity with:
+
+```sql
+SELECT version();
+SELECT postgis_full_version();
+SHOW port;
+SELECT current_database();
+```
+
+See [`reports/postcompletion_05_postgis_diagnostic.md`](reports/postcompletion_05_postgis_diagnostic.md) for the observed versions, explicit endpoint comparison and data-integrity checks. Do not run `make reproduce`, a migration, or a Docker-volume removal to resolve a client-targeting issue.
 
 `make db-register` independently hashes and registers all 49 current files under `data/raw/`, checking the 47 manifest-listed raw files against their recorded SHA-256/size and hashing the two raw metadata sidecars absent from the manifest. It never edits those files. `make db-ingest-sample` loads the 11-row Inside Airbnb neighbourhood lookup into `raw.inside_airbnb_neighbourhoods`; rerunning it skips an already successful import. Raw CSV fields are stored as text with `_source_file_id` and `_source_row_number`, without analytical recoding. Source values are preserved after CSV decoding (not byte-for-byte file quoting). Import runs and errors are logged in `meta.import_runs`.
 
@@ -120,6 +145,8 @@ THESIS_PHASE5_TEST=1 make phase5-test
 
 The current archive was acquired on 2026-09-29. A future OSM snapshot requires a new source/version review rather than silently overwriting or mixing it with this one; the runner rejects multiple archives. Public outputs must not contain listing coordinates or names.
 
+For a documentation-only appendix export from the **existing canonical** Phase 5 tables, run `make destination-inventory`. This reads PostGIS and the archived PBF hash, checks the exact Phase 5/6 destination-key match, and writes compact appendix tables/LaTeX plus full public-OSM inventories in `outputs/tables/supplementary/`. It does not rebuild accessibility or fit models; see [`reports/appendix_destination_inventory.md`](reports/appendix_destination_inventory.md).
+
 ## Phase 6: pedestrian-network accessibility
 
 Phase 6 uses the same cached BBBike PBF and *the same canonical POI/station keys* as Phase 5. It does not send another OSM request. With the Phase 5 database populated:
@@ -169,6 +196,8 @@ THESIS_PHASE9_TEST=1 make phase9-test
 ```
 
 `phase9-run` applies migration `014`, verifies the archived OSM checksum, and persists a separately labelled nearest-bus-stop proxy in PostGIS; it also produces a read-only aggregate destination-boundary audit before fitting the frozen 12,412-listing common comparison. The primary ladder is M0 property/host/municipality/centrality, ME plus straight-line access, MW plus walking access, and the explicitly exploratory combined MEW. The runner evaluates training-mean, semilog OLS, and nested-tuned XGBoost on the **saved** random five-fold and leave-one-official-area-out assignments; learned preprocessing and tuning stay inside training folds. Aggregate model/fold/HC3 coefficient/Moran/SHAP tables and nine figures are written under `outputs/`, including official-area and privacy-suppressed 500 m grid residual maps. Run `make phase9-boundary-audit` alone to refresh only the aggregate boundary audit, without fitting models. [The Phase 9 report](reports/phase09_main_models.md) gives exact metrics, caveats, file names, and the pre-fit deviations from the frozen specification. The original 1-km outer-grid scheme remains saved but was not run in this user-directed Phase 9. No raw data, price values, or database NULLs are overwritten.
+
+The separate [appendix destination-boundary illustration](outputs/figures/final/appendix_boundary_catchment_example.png) can be reproduced with `make boundary-catchment-figure`. It uses only public OSM endpoints and the official municipal union to show what the later endpoint-clipping sensitivity excludes; it does not reroute the network, change accessibility features or replace main-text Figure 4. [Figure provenance](reports/appendix_boundary_catchment_figure.md).
 
 ## Phase 10: frozen-baseline robustness
 

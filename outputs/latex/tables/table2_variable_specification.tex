@@ -1,0 +1,38 @@
+\begin{landscape}
+\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{5.0cm}>{\raggedright\arraybackslash}p{2.7cm}>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{3.1cm}>{\raggedright\arraybackslash}p{3.7cm}}
+\caption{Variable specification and model roles}\label{tab:variables}\\
+\toprule
+Concept & Variable & Definition & Unit / transform & Source & Role & Missing-data rule \\
+\midrule
+\endfirsthead
+\toprule
+Concept & Variable & Definition & Unit / transform & Source & Role & Missing-data rule \\
+\midrule
+\endhead
+Outcome & price\_\allowbreak{}nightly / log\_\allowbreak{}price & Positive listed nightly price / its natural log & DKK; ln(DKK) & Inside Airbnb listing & Outcome; Primary & Missing/nonpositive excluded; never imputed \\
+Dwelling & property\_\allowbreak{}type & Six conventional entire-home types & Categorical & Inside Airbnb listing & M0; Primary & Observed \\
+Capacity & accommodates & Maximum guest capacity & Persons & Inside Airbnb listing & M0; Primary & Observed \\
+Dwelling & bedrooms & Reported bedroom count & Count & Inside Airbnb listing & M0; Primary & Train-fold median + missing flag; see Table 3 observed N \\
+Dwelling & bathrooms\_\allowbreak{}effective & Structured bathrooms, source-text fallback & Count & Inside Airbnb listing & M0; Primary & Source-supported fallback; no statistical fill \\
+Amenities & 8 selected amenity flags & Wifi, dishwasher, washer, dryer, workspace, free parking, private balcony, self check-in & Eight binary flags & Inside Airbnb amenities & M0; Primary & Exact-token parsing; observed \\
+Rental rule & minimum\_\allowbreak{}nights & Minimum stay & ln(1+nights) & Inside Airbnb listing & M0; Primary & Observed \\
+Rental rule & instant\_\allowbreak{}bookable & Instant booking availability & Binary & Inside Airbnb listing & Not fitted; Excluded & Entirely missing in snapshot; not imputed \\
+Host & host\_\allowbreak{}listings\_\allowbreak{}count & Host portfolio listing count & ln(1+count) & Inside Airbnb listing & M0; Primary & Observed \\
+Host & superhost & Host superhost status & Binary & Inside Airbnb listing & M0; Primary & Observed \\
+Geography & official\_\allowbreak{}municipality\_\allowbreak{}code & Copenhagen Municipality versus Frederiksberg Municipality within one urban core & Categorical & Official municipalities & M0; Primary & Observed \\
+Centrality & distance\_\allowbreak{}centre\_\allowbreak{}euclidean\_\allowbreak{}km & City Hall Square straight-line distance & km; EPSG:25832 & Official reference point + PostGIS & M0; Primary & Observed \\
+Area context & log\_\allowbreak{}population\_\allowbreak{}density & Gross-polygon population density; mixed district/municipality units & ln(persons/km\textsuperscript{2}); EPSG:25832 & City StatBank / Statistics Denmark & CTX; Area-context-adjusted core; post-Phase-9 implementation & Area value; provisional boundary/water denominator \\
+Area context & income\_\allowbreak{}100k\_\allowbreak{}dkk & Mean disposable income; cross-source definitions differ & 100,000 DKK/person & City StatBank / Statistics Denmark & CTX; Area-context-adjusted core; post-Phase-9 implementation & Area value; not harmonised across municipalities \\
+Rail/metro & nearest\_\allowbreak{}station\_\allowbreak{}euclidean\_\allowbreak{}m & Stored straight-line distance to closest canonical station & m; EPSG:25832 & OpenStreetMap & Source feature; Primary & Converted to km for modelling \\
+Rail/metro & nearest\_\allowbreak{}station\_\allowbreak{}euclidean\_\allowbreak{}km & Model variable: stored station metres divided by 1,000 & km; EPSG:25832 & OpenStreetMap & ME/MEW; Primary & Common sample complete \\
+Rail/metro & nearest\_\allowbreak{}station\_\allowbreak{}walking\_\allowbreak{}minutes & Closest reachable canonical station & Minutes; 4.8 km/h & OSM walking network & MW/MEW; Primary & Unreachable excluded from common comparison \\
+Food/social & food\_\allowbreak{}social\_\allowbreak{}800m & Canonical POIs within straight-line radius & ln(1+count); 800 m & OpenStreetMap & ME/MEW; Primary & Observed \\
+Food/social & food\_\allowbreak{}social\_\allowbreak{}w\_\allowbreak{}10 & Same POIs reachable walking & ln(1+count); 10 min & OSM walking network & MW/MEW; Primary & Observed \\
+Cultural/tourist & cultural\_\allowbreak{}tourist\_\allowbreak{}800m & Canonical POIs within straight-line radius & ln(1+count); 800 m & OpenStreetMap & ME/MEW; Primary & Observed \\
+Cultural/tourist & cultural\_\allowbreak{}tourist\_\allowbreak{}w\_\allowbreak{}10 & Same POIs reachable walking & ln(1+count); 10 min & OSM walking network & MW/MEW; Primary & Observed \\
+Bus & bus\_\allowbreak{}stop\_\allowbreak{}proximity / bus\_\allowbreak{}walk\_\allowbreak{}time & Nearest mapped bus stop, not service accessibility & m / walking minutes & OpenStreetMap & Bus sensitivity; Robustness & Not part of frozen M0/ME/MW \\
+\bottomrule
+\end{longtable}
+{\footnotesize\noindent\emph{Notes.} M0, ME, MW, and MEW are the frozen Phase 9 base blocks. CTX is the area-context-adjusted core specification, conceptually planned but implemented after Phase 9 because source comparability was unresolved at the Phase 7 freeze. Copenhagen district and Frederiksberg municipality context have different resolutions. Source price is treated as DKK; its string lacks a currency code. Outcome values are never imputed.\par}
+\end{landscape}

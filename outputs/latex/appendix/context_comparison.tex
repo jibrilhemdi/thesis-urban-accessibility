@@ -1,0 +1,28 @@
+\begin{landscape}
+\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{2.3cm}rrrrr}
+\caption{Full area-context-adjusted accessibility comparison}\label{tab:app-context-comparison}\\
+\toprule
+Validation & Estimator & Access & $N$ & Primary $\Delta$ & CTX $\Delta$ & Gain change & CTX RMSE \\
+\midrule
+\endfirsthead
+\toprule
+Validation & Estimator & Access & $N$ & Primary $\Delta$ & CTX $\Delta$ & Gain change & CTX RMSE \\
+\midrule
+\endhead
+random\_\allowbreak{}5 & OLS & ME & 12,412 & 0.00517 & 0.00038 & -0.00479 & 0.3176 \\
+random\_\allowbreak{}5 & OLS & MW & 12,412 & 0.00380 & 0.00017 & -0.00363 & 0.3178 \\
+random\_\allowbreak{}5 & OLS & MEW & 12,412 & 0.00511 & 0.00044 & -0.00467 & 0.3175 \\
+random\_\allowbreak{}5 & XGBoost & ME & 12,412 & 0.00902 & 0.00179 & -0.00723 & 0.3093 \\
+random\_\allowbreak{}5 & XGBoost & MW & 12,412 & 0.00840 & 0.00144 & -0.00696 & 0.3097 \\
+random\_\allowbreak{}5 & XGBoost & MEW & 12,412 & 0.01009 & 0.00197 & -0.00813 & 0.3091 \\
+geographic\_\allowbreak{}11 & OLS & ME & 12,412 & 0.00670 & -0.00091 & -0.00761 & 0.3250 \\
+geographic\_\allowbreak{}11 & OLS & MW & 12,412 & 0.00393 & -0.00185 & -0.00578 & 0.3259 \\
+geographic\_\allowbreak{}11 & OLS & MEW & 12,412 & 0.00567 & -0.00151 & -0.00718 & 0.3256 \\
+geographic\_\allowbreak{}11 & XGBoost & ME & 12,412 & 0.00482 & 0.00004 & -0.00478 & 0.3267 \\
+geographic\_\allowbreak{}11 & XGBoost & MW & 12,412 & 0.00301 & -0.00056 & -0.00357 & 0.3273 \\
+geographic\_\allowbreak{}11 & XGBoost & MEW & 12,412 & 0.00500 & 0.00100 & -0.00400 & 0.3257 \\
+\bottomrule
+\end{longtable}
+{\footnotesize\noindent\emph{Notes.} Base and CTX columns compare accessibility gains against their respective M0 baselines on the same sample. CTX is a planned contextual specification implemented after Phase 9; it mixes Copenhagen district-level and Frederiksberg municipality-level context and was not frozen as Phase 7 M0.\par}
+\end{landscape}

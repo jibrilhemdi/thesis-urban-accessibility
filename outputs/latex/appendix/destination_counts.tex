@@ -1,0 +1,36 @@
+\begin{landscape}
+\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{5.3cm}>{\raggedright\arraybackslash}p{2.7cm}rrr}
+\caption{Canonical destinations by subtype, mode and study-union position}\label{tab:destination-counts}\\
+\toprule
+Group & Subtype & Mode & Inside & Outside & Total \\
+\midrule
+\endfirsthead
+\toprule
+Group & Subtype & Mode & Inside & Outside & Total \\
+\midrule
+\endhead
+cultural\_\allowbreak{}tourist & attraction & not applicable & 57 & 56 & 113 \\
+cultural\_\allowbreak{}tourist & castle & not applicable & 2 & 9 & 11 \\
+cultural\_\allowbreak{}tourist & gallery & not applicable & 51 & 5 & 56 \\
+cultural\_\allowbreak{}tourist & monument & not applicable & 11 & 1 & 12 \\
+cultural\_\allowbreak{}tourist & museum & not applicable & 72 & 48 & 120 \\
+cultural\_\allowbreak{}tourist & palace & not applicable & 0 & 0 & 0 \\
+cultural\_\allowbreak{}tourist & theatre & not applicable & 47 & 24 & 71 \\
+cultural\_\allowbreak{}tourist & viewpoint & not applicable & 32 & 48 & 80 \\
+food\_\allowbreak{}social & bar & not applicable & 532 & 70 & 602 \\
+food\_\allowbreak{}social & cafe & not applicable & 867 & 362 & 1,229 \\
+food\_\allowbreak{}social & pub & not applicable & 97 & 14 & 111 \\
+food\_\allowbreak{}social & restaurant & not applicable & 819 & 245 & 1,064 \\
+station & halt & rail & 1 & 1 & 2 \\
+station & halt & urban\_\allowbreak{}rail & 23 & 49 & 72 \\
+station & station & metro & 35 & 2 & 37 \\
+station & station & rail & 1 & 2 & 3 \\
+station & station & urban\_\allowbreak{}rail & 5 & 24 & 29 \\
+food\_\allowbreak{}social & ALL SUBTYPES & not applicable & 2,315 & 691 & 3,006 \\
+cultural\_\allowbreak{}tourist & ALL SUBTYPES & not applicable & 272 & 191 & 463 \\
+station & ALL SUBTYPES & all modes & 65 & 78 & 143 \\
+\bottomrule
+\end{longtable}
+{\footnotesize\noindent\emph{Notes.} Post-deduplication Phase 5 counts, not raw OSM elements. Inside means ST\_Covers by the official two-municipality union in EPSG:25832. Included multi-tagged cultural objects receive one display subtype, prioritising tourism, then amenity, then historic; ALL SUBTYPES rows are group totals. The primary accessibility universe includes outside endpoints.\par}
+\end{landscape}

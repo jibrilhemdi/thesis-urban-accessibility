@@ -1,0 +1,22 @@
+\begin{landscape}
+\begin{table}[p]
+\centering
+\small
+\begin{threeparttable}
+\caption{Study-boundary destination sensitivity}\label{tab:app-boundary-sensitivity}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2cm}>{\raggedright\arraybackslash}p{3cm}rrrrrr}
+\toprule
+Estimator & Validation & $N$ & Buffered $\Delta$ ME & Union $\Delta$ ME & Buffered $\Delta$ MW & Union $\Delta$ MW & Union MW RMSE \\
+\midrule
+OLS & random\_\allowbreak{}5 & 12,412 & 0.00517 & 0.00515 & 0.00380 & 0.00365 & 0.3226 \\
+XGBoost & random\_\allowbreak{}5 & 12,412 & 0.00902 & 0.00865 & 0.00840 & 0.00847 & 0.3120 \\
+OLS & geographic\_\allowbreak{}11 & 12,412 & 0.00670 & 0.00678 & 0.00393 & 0.00381 & 0.3306 \\
+XGBoost & geographic\_\allowbreak{}11 & 12,412 & 0.00482 & 0.00493 & 0.00301 & 0.00338 & 0.3294 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]\footnotesize
+\item Buffered is the primary opportunity universe. Union restricts destination endpoints to Copenhagen and Frederiksberg, without clipping the walking graph. Positive gain is RMSE reduction versus the matched M0. This sensitivity does not redefine the primary model.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+\end{landscape}

@@ -1,0 +1,36 @@
+\begin{landscape}
+\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{4cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{3.8cm}rrrr}
+\caption{Full incremental accessibility comparisons}\label{tab:app-incremental-full}\\
+\toprule
+Validation & Estimator & Comparison & $\Delta$ RMSE & $\Delta$ MAE & Reference RMSE & New RMSE \\
+\midrule
+\endfirsthead
+\toprule
+Validation & Estimator & Comparison & $\Delta$ RMSE & $\Delta$ MAE & Reference RMSE & New RMSE \\
+\midrule
+\endhead
+Random 5-fold & OLS & ME versus M0 & 0.00517 & 0.00407 & 0.3263 & 0.3211 \\
+Random 5-fold & OLS & MW versus M0 & 0.00380 & 0.00298 & 0.3263 & 0.3225 \\
+Random 5-fold & OLS & MEW versus M0 & 0.00511 & 0.00404 & 0.3263 & 0.3212 \\
+Random 5-fold & XGBoost & ME versus M0 & 0.00902 & 0.00775 & 0.3205 & 0.3114 \\
+Random 5-fold & XGBoost & MW versus M0 & 0.00840 & 0.00731 & 0.3205 & 0.3121 \\
+Random 5-fold & XGBoost & MEW versus M0 & 0.01009 & 0.00884 & 0.3205 & 0.3104 \\
+Leave-one-area-out (11 analysis areas) & OLS & ME versus M0 & 0.00670 & 0.00596 & 0.3345 & 0.3278 \\
+Leave-one-area-out (11 analysis areas) & OLS & MW versus M0 & 0.00393 & 0.00354 & 0.3345 & 0.3305 \\
+Leave-one-area-out (11 analysis areas) & OLS & MEW versus M0 & 0.00567 & 0.00504 & 0.3345 & 0.3288 \\
+Leave-one-area-out (11 analysis areas) & XGBoost & ME versus M0 & 0.00482 & 0.00534 & 0.3328 & 0.3279 \\
+Leave-one-area-out (11 analysis areas) & XGBoost & MW versus M0 & 0.00301 & 0.00286 & 0.3328 & 0.3298 \\
+Leave-one-area-out (11 analysis areas) & XGBoost & MEW versus M0 & 0.00500 & 0.00566 & 0.3328 & 0.3278 \\
+Random 5-fold & OLS & MW versus ME & -0.00138 & -0.00109 & 0.3211 & 0.3225 \\
+Random 5-fold & OLS & MEW versus ME & -0.00007 & -0.00003 & 0.3211 & 0.3212 \\
+Random 5-fold & XGBoost & MW versus ME & -0.00062 & -0.00044 & 0.3114 & 0.3121 \\
+Random 5-fold & XGBoost & MEW versus ME & 0.00107 & 0.00109 & 0.3114 & 0.3104 \\
+Leave-one-area-out (11 analysis areas) & OLS & MW versus ME & -0.00277 & -0.00241 & 0.3278 & 0.3305 \\
+Leave-one-area-out (11 analysis areas) & OLS & MEW versus ME & -0.00103 & -0.00091 & 0.3278 & 0.3288 \\
+Leave-one-area-out (11 analysis areas) & XGBoost & MW versus ME & -0.00181 & -0.00248 & 0.3279 & 0.3298 \\
+Leave-one-area-out (11 analysis areas) & XGBoost & MEW versus ME & 0.00018 & 0.00032 & 0.3279 & 0.3278 \\
+\bottomrule
+\end{longtable}
+{\footnotesize\noindent\emph{Notes.} Positive $\Delta$ denotes reduced out-of-fold error. MW-versus-ME rows are appendix-only; small differences do not establish a firm ranking. All numbers come from frozen final CSV exports.\par}
+\end{landscape}

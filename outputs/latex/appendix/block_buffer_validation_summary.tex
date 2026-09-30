@@ -1,0 +1,21 @@
+\begin{table}[p]
+\centering
+\small
+\begin{threeparttable}
+\caption{XGBoost M0 and MW across validation designs}\label{tab:app-block-buffer-validation}
+\begin{tabular}{>{\raggedright\arraybackslash}p{8cm}rrrr}
+\toprule
+Validation scheme & $N$ & M0 RMSE & MW RMSE & $\Delta$ RMSE \\
+\midrule
+Random 5-fold & 12,412 & 0.3205 & 0.3121 & 0.00840 \\
+1.5 km block 5-fold & 12,412 & 0.3269 & 0.3226 & 0.00422 \\
+Leave-one-area-out & 12,412 & 0.3328 & 0.3298 & 0.00301 \\
+Buffered LOAO 500 m & 12,412 & 0.3357 & 0.3363 & -0.00056 \\
+Buffered LOAO 1000 m & 12,412 & 0.3399 & 0.3397 & 0.00026 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]\footnotesize
+\item All entries are saved existing model outputs. The 1.5 km geometric-block and buffered LOAO analyses are robustness checks; LOAO is the primary unseen-area geographic test. Positive $\Delta$ indicates MW reduces RMSE relative to M0 on that design.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

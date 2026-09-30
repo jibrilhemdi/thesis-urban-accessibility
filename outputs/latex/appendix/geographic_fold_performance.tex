@@ -1,0 +1,38 @@
+\begin{landscape}
+\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{6cm}crrrrr}
+\caption{XGBoost M0 and MW by held-out official area}\label{tab:app-geographic-folds}\\
+\toprule
+Held-out area & Block & Train $N$ & Test $N$ & RMSE & MAE & $R^2$ \\
+\midrule
+\endfirsthead
+\toprule
+Held-out area & Block & Train $N$ & Test $N$ & RMSE & MAE & $R^2$ \\
+\midrule
+\endhead
+Indre By & M0 & 10,579 & 1,833 & 0.3941 & 0.2914 & 0.243 \\
+Indre By & MW & 10,579 & 1,833 & 0.3824 & 0.2816 & 0.287 \\
+Østerbro & M0 & 11,003 & 1,409 & 0.3752 & 0.2681 & 0.244 \\
+Østerbro & MW & 11,003 & 1,409 & 0.3611 & 0.2563 & 0.300 \\
+Nørrebro & M0 & 10,232 & 2,180 & 0.2939 & 0.2231 & 0.336 \\
+Nørrebro & MW & 10,232 & 2,180 & 0.2909 & 0.2197 & 0.349 \\
+Vesterbro-Kongens Enghave & M0 & 10,251 & 2,161 & 0.3061 & 0.2387 & 0.364 \\
+Vesterbro-Kongens Enghave & MW & 10,251 & 2,161 & 0.3190 & 0.2510 & 0.309 \\
+Valby & M0 & 11,947 & 465 & 0.3301 & 0.2428 & 0.485 \\
+Valby & MW & 11,947 & 465 & 0.3309 & 0.2425 & 0.483 \\
+Vanløse & M0 & 12,138 & 274 & 0.3369 & 0.2440 & 0.428 \\
+Vanløse & MW & 12,138 & 274 & 0.3433 & 0.2521 & 0.406 \\
+Brønshøj-Husum & M0 & 12,191 & 221 & 0.3175 & 0.2613 & 0.442 \\
+Brønshøj-Husum & MW & 12,191 & 221 & 0.3070 & 0.2523 & 0.479 \\
+Bispebjerg & M0 & 11,881 & 531 & 0.3021 & 0.2328 & 0.424 \\
+Bispebjerg & MW & 11,881 & 531 & 0.2994 & 0.2289 & 0.434 \\
+Amager Øst & M0 & 11,430 & 982 & 0.3242 & 0.2377 & 0.493 \\
+Amager Øst & MW & 11,430 & 982 & 0.3219 & 0.2337 & 0.500 \\
+Amager Vest & M0 & 11,360 & 1,052 & 0.3304 & 0.2537 & 0.356 \\
+Amager Vest & MW & 11,360 & 1,052 & 0.3191 & 0.2393 & 0.400 \\
+Frederiksberg & M0 & 11,108 & 1,304 & 0.3160 & 0.2286 & 0.463 \\
+Frederiksberg & MW & 11,108 & 1,304 & 0.3194 & 0.2292 & 0.452 \\
+\bottomrule
+\end{longtable}
+{\footnotesize\noindent\emph{Notes.} Each of ten Copenhagen districts and Frederiksberg is held out once. Fold names are joined to the saved official-area lookup; no fold assignments were regenerated. Fold metrics are not pooled metrics.\par}
+\end{landscape}

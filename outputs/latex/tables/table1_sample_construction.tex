@@ -1,0 +1,24 @@
+\begin{table}[p]
+\centering
+\small
+\begin{threeparttable}
+\caption{Sample construction}\label{tab:sample-construction}
+\begin{tabular}{>{\raggedright\arraybackslash}p{8cm}rrr}
+\toprule
+Filter step & $N$ remaining & $N$ removed & Retained (\%) \\
+\midrule
+Raw Inside Airbnb listings & 23,144 & 0 & 100.0 \\
+Inside Airbnb Copenhagen--Frederiksberg extract & 23,144 & 0 & 100.0 \\
+Entire home/apt & 21,368 & 1,776 & 92.3 \\
+Conventional residential property & 21,080 & 288 & 98.7 \\
+Observed positive listed price (DKK) & 12,521 & 8,559 & 59.4 \\
+Valid coordinates & 12,521 & 0 & 100.0 \\
+Assigned official validation area & 12,508 & 13 & 99.9 \\
+Reachable walking station; Phase 9 common sample & 12,412 & 96 & 99.2 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]\footnotesize
+\item Sequential inclusion rules; percentage retained is relative to the preceding stage. Listed price is not imputed.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

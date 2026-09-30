@@ -1,0 +1,32 @@
+\begin{table}[p]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{threeparttable}
+\caption{Semi-log OLS hedonic model ladder}\label{tab:hedonic-ladder}
+\begin{tabular}{>{\raggedright\arraybackslash}p{5.7cm}cccc}
+\toprule
+Focal term / statistic & M0 & ME & MW & MEW \\
+\midrule
+nearest\_\allowbreak{}station\_\allowbreak{}euclidean\_\allowbreak{}km & \textemdash{} & \shortstack{$ -0.0557 $\\$(0.0110)$\\$[-0.0773,\,-0.0341]$} & \textemdash{} & \shortstack{$ -0.0672 $\\$(0.0210)$\\$[-0.1084,\,-0.0260]$} \\
+log1p\_\allowbreak{}food\_\allowbreak{}e800 & \textemdash{} & \shortstack{$ -0.0275 $\\$(0.0065)$\\$[-0.0403,\,-0.0148]$} & \textemdash{} & \shortstack{$ -0.0293 $\\$(0.0124)$\\$[-0.0536,\,-0.0051]$} \\
+log1p\_\allowbreak{}culture\_\allowbreak{}e800 & \textemdash{} & \shortstack{$ 0.0822 $\\$(0.0046)$\\$[0.0732,\,0.0911]$} & \textemdash{} & \shortstack{$ 0.0789 $\\$(0.0080)$\\$[0.0632,\,0.0947]$} \\
+nearest\_\allowbreak{}station\_\allowbreak{}walking\_\allowbreak{}minutes & \textemdash{} & \textemdash{} & \shortstack{$ -0.0015 $\\$(0.0006)$\\$[-0.0028,\,-0.0003]$} & \shortstack{$ 0.0008 $\\$(0.0012)$\\$[-0.0015,\,0.0032]$} \\
+log1p\_\allowbreak{}food\_\allowbreak{}w10 & \textemdash{} & \textemdash{} & \shortstack{$ -0.0207 $\\$(0.0051)$\\$[-0.0307,\,-0.0107]$} & \shortstack{$ 0.0017 $\\$(0.0093)$\\$[-0.0166,\,0.0200]$} \\
+log1p\_\allowbreak{}culture\_\allowbreak{}w10 & \textemdash{} & \textemdash{} & \shortstack{$ 0.0705 $\\$(0.0045)$\\$[0.0617,\,0.0793]$} & \shortstack{$ 0.0038 $\\$(0.0081)$\\$[-0.0120,\,0.0197]$} \\
+Property controls & Yes & Yes & Yes & Yes \\
+Host/rental controls & Yes & Yes & Yes & Yes \\
+Municipality/centrality & Yes & Yes & Yes & Yes \\
+Area context & No & No & No & No \\
+N & 12,412 & 12,412 & 12,412 & 12,412 \\
+Adjusted R\textsuperscript{2} & 0.457 & 0.474 & 0.470 & 0.474 \\
+AIC & 7,419.1 & 7,022.4 & 7,128.7 & 7,027.7 \\
+BIC & 7,589.9 & 7,215.5 & 7,321.7 & 7,243.1 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]\footnotesize
+\item Cells show coefficient, HC3 robust SE in parentheses, and 95\% confidence interval in brackets. Associations are not causal effects. MEW jointly includes correlated Euclidean and walking measures, so its individual coefficients are collinearity-sensitive. Area-context-adjusted core results are reported in the RQ2 table; spatial-error robustness is separate.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

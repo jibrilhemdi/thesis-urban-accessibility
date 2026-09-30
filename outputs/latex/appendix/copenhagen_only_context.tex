@@ -1,0 +1,19 @@
+\begin{table}[p]
+\centering
+\small
+\begin{threeparttable}
+\caption{Copenhagen-only context sensitivity}\label{tab:app-copenhagen-context}
+\begin{tabular}{>{\raggedright\arraybackslash}p{3cm}rrrrrr}
+\toprule
+Block & $N$ & XGB RMSE & XGB MAE & XGB $R^2$ & $\Delta$ RMSE & OLS adj. $R^2$ \\
+\midrule
+M0\_\allowbreak{}CTX & 11,108 & 0.3282 & 0.2400 & 0.453 & 0.00000 & 0.489 \\
+ME\_\allowbreak{}CTX & 11,108 & 0.3279 & 0.2402 & 0.454 & 0.00031 & 0.490 \\
+MW\_\allowbreak{}CTX & 11,108 & 0.3273 & 0.2397 & 0.456 & 0.00091 & 0.489 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]\footnotesize
+\item Copenhagen-only sample with ten official district holdouts. $\Delta$ compares XGBoost with the context-augmented M0 on this sample; OLS adjusted $R^2$ is in-sample and is not a cross-validated predictive metric. District context is exploratory.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

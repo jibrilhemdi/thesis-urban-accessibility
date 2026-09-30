@@ -1,0 +1,17 @@
+\begin{landscape}
+\begin{table}[p]\centering\small
+\begin{threeparttable}
+\caption{Matched Euclidean and walking-network accessibility measures}\label{tab:accessibility-definitions}
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{2.8cm}XX>{\raggedright\arraybackslash}p{2.7cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{3.4cm}}
+\toprule
+Concept & Euclidean definition & Network definition & Primary unit & Sensitivity & Destination source \\
+\midrule
+Rail/metro/S-train station & Projected straight-line distance to closest eligible station & Shortest directed pedestrian route plus endpoint snaps to closest reachable station & km (ME); minutes (MW) & Continuous station distance/time; no radius choice & Same canonical OSM station set; bus excluded \\
+Food/social POIs & Count within 800 m straight-line radius & Same POIs within 10-minute network route & ln(1+count); 800 m $\leftrightarrow$ 10 min & 1,200/1,600 m $\leftrightarrow$ 15/20 min & Same deduplicated OSM restaurant/cafe/bar/pub set \\
+Cultural/tourist POIs & Count within 800 m straight-line radius & Same POIs within 10-minute network route & ln(1+count); 800 m $\leftrightarrow$ 10 min & 1,200/1,600 m $\leftrightarrow$ 15/20 min & Same deduplicated OSM cultural/tourist set \\
+Bus-stop proximity \textemdash{} robustness only & Distance to nearest OSM bus stop & Walking time to nearest canonical bus stop & m / min; secondary only & No service frequency or route connectivity & Separate OSM bus-stop set, not primary rail set \\
+\bottomrule
+\end{tabularx}
+\begin{tablenotes}[flushleft]\footnotesize
+\item Matched measures use the same canonical deduplicated destinations. Walking speed is 4.8 km/h: 800 m network travel is 10 minutes, versus an 800 m straight-line radius. Distances use EPSG:25832. Primary destinations may fall within the buffered extraction area beyond the Copenhagen--Frederiksberg boundary; district and municipality borders do not block access. A separate sensitivity restricts endpoints to the municipal union. Bus proximity is robustness only.
+\end{tablenotes}\end{threeparttable}\end{table}\end{landscape}

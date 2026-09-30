@@ -1,0 +1,28 @@
+\begin{landscape}
+\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.8cm}>{\raggedright\arraybackslash}p{2cm}>{\raggedright\arraybackslash}p{1.6cm}rrrrrr}
+\caption{Price-observability batch sensitivity}\label{tab:app-price-observability}\\
+\toprule
+Validation & Estimator & Block & Primary $N$ & High-completeness $N$ & Primary RMSE & High-comp. RMSE & Primary gain & High-comp. gain \\
+\midrule
+\endfirsthead
+\toprule
+Validation & Estimator & Block & Primary $N$ & High-completeness $N$ & Primary RMSE & High-comp. RMSE & Primary gain & High-comp. gain \\
+\midrule
+\endhead
+random\_\allowbreak{}5 & OLS & M0 & 12,412 & 11,808 & 0.3263 & 0.3208 & 0.00000 & 0.00000 \\
+random\_\allowbreak{}5 & OLS & ME & 12,412 & 11,808 & 0.3211 & 0.3155 & 0.00517 & 0.00532 \\
+random\_\allowbreak{}5 & OLS & MW & 12,412 & 11,808 & 0.3225 & 0.3168 & 0.00380 & 0.00396 \\
+random\_\allowbreak{}5 & XGBoost & M0 & 12,412 & 11,808 & 0.3205 & 0.3164 & 0.00000 & 0.00000 \\
+random\_\allowbreak{}5 & XGBoost & ME & 12,412 & 11,808 & 0.3114 & 0.3071 & 0.00902 & 0.00927 \\
+random\_\allowbreak{}5 & XGBoost & MW & 12,412 & 11,808 & 0.3121 & 0.3071 & 0.00840 & 0.00923 \\
+geographic\_\allowbreak{}11 & OLS & M0 & 12,412 & 11,808 & 0.3345 & 0.3291 & 0.00000 & 0.00000 \\
+geographic\_\allowbreak{}11 & OLS & ME & 12,412 & 11,808 & 0.3278 & 0.3222 & 0.00670 & 0.00696 \\
+geographic\_\allowbreak{}11 & OLS & MW & 12,412 & 11,808 & 0.3305 & 0.3249 & 0.00393 & 0.00421 \\
+geographic\_\allowbreak{}11 & XGBoost & M0 & 12,412 & 11,808 & 0.3328 & 0.3289 & 0.00000 & 0.00000 \\
+geographic\_\allowbreak{}11 & XGBoost & ME & 12,412 & 11,808 & 0.3279 & 0.3249 & 0.00482 & 0.00406 \\
+geographic\_\allowbreak{}11 & XGBoost & MW & 12,412 & 11,808 & 0.3298 & 0.3262 & 0.00301 & 0.00277 \\
+\bottomrule
+\end{longtable}
+{\footnotesize\noindent\emph{Notes.} High-completeness scrape dates have at least 90\% observed valid price among otherwise eligible listings. Samples differ; compare within-sample accessibility gains, not raw RMSE as paired errors. Price is never imputed; saved outer folds are filtered, not reassigned.\par}
+\end{landscape}

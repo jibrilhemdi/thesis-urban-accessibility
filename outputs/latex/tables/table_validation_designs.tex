@@ -1,0 +1,21 @@
+\begin{landscape}
+\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}p{4.7cm}>{\raggedright\arraybackslash}p{4.3cm}}
+\caption{Validation schemes and prediction questions}\label{tab:validation-designs}\\
+\toprule
+Validation scheme & Grouping unit & Folds / groups & Separation & Prediction question & Thesis role \\
+\midrule
+\endfirsthead
+\toprule
+Validation scheme & Grouping unit & Folds / groups & Separation & Prediction question & Thesis role \\
+\midrule
+\endhead
+Random 5-fold & Individual listing & 5 & None; neighbouring train/test listings can occur & How well does the model predict interspersed listings in a familiar spatial mix? & Spatially interspersed benchmark; not a spatial-transfer test \\
+1.5 km geometric block 5-fold & Saved 1.5 km $\times$ 1.5 km grid cell & 5 folds; 53 occupied saved blocks & Whole blocks stay together; adjacent blocks can differ in fold & How well does the model predict held-out grid blocks across the study area? & Non-administrative spatial robustness \\
+Leave-one-area-out (11 analysis areas) & Official Copenhagen district or Frederiksberg analysis area & 11 groups: 10 Copenhagen districts + Frederiksberg & Whole official area held out; neighbours can remain across its border & How well does the model predict an entirely unseen official area? & Primary reported unseen-area geographic test \\
+Buffered leave-one-area-out 500 m & Same 11 official test areas; nearby training listings excluded & 11 held-out areas & Exclude training listings within 500 m of held-out polygon; test area unchanged & How well does the model predict an unseen area after removing nearby training data? & Stronger spatial-separation robustness \\
+Buffered leave-one-area-out 1000 m & Same 11 official test areas; nearby training listings excluded & 11 held-out areas & Exclude training listings within 1,000 m of held-out polygon; test area unchanged & How well does the model predict an unseen area after removing more nearby training data? & Stronger spatial-separation robustness \\
+\bottomrule
+\end{longtable}
+{\footnotesize\noindent\emph{Notes.} Assignments are saved, not regenerated. There are 11 official held-out analysis areas (ten Copenhagen districts plus Frederiksberg). All listings in one 1.5 km spatial block share a fold; multiple blocks make up a fold. Buffered LOAO retains the same test areas and removes nearby training listings. Spatial distances use EPSG:25832.\par}
+\end{landscape}

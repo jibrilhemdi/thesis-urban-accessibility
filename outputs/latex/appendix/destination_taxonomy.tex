@@ -1,0 +1,33 @@
+\begin{landscape}
+\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{5.1cm}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{6.0cm}>{\raggedright\arraybackslash}p{5.2cm}}
+\caption{Frozen OpenStreetMap destination taxonomy}\label{tab:destination-taxonomy}\\
+\toprule
+Group & OSM tag concept & Included? & Rule & Primary use \\
+\midrule
+\endfirsthead
+\toprule
+Group & OSM tag concept & Included? & Rule & Primary use \\
+\midrule
+\endhead
+food\_\allowbreak{}social & amenity=restaurant & Yes & Exact amenity tag; canonical deduplicated point & Food/social 800 m Euclidean and 10 min walking counts \\
+food\_\allowbreak{}social & amenity=cafe & Yes & Exact amenity tag; canonical deduplicated point & Food/social 800 m Euclidean and 10 min walking counts \\
+food\_\allowbreak{}social & amenity=bar & Yes & Exact amenity tag; canonical deduplicated point & Food/social 800 m Euclidean and 10 min walking counts \\
+food\_\allowbreak{}social & amenity=pub & Yes & Exact amenity tag; canonical deduplicated point & Food/social 800 m Euclidean and 10 min walking counts \\
+cultural\_\allowbreak{}tourist & tourism=museum & Yes & Any qualifying tourism/amenity/historic tag; canonical point & Culture/tourism 800 m Euclidean and 10 min walking counts \\
+cultural\_\allowbreak{}tourist & tourism=gallery & Yes & Any qualifying tourism/amenity/historic tag; canonical point & Culture/tourism 800 m Euclidean and 10 min walking counts \\
+cultural\_\allowbreak{}tourist & tourism=attraction & Yes & Any qualifying tourism/amenity/historic tag; canonical point & Culture/tourism 800 m Euclidean and 10 min walking counts \\
+cultural\_\allowbreak{}tourist & tourism=viewpoint & Yes & Any qualifying tourism/amenity/historic tag; canonical point & Culture/tourism 800 m Euclidean and 10 min walking counts \\
+cultural\_\allowbreak{}tourist & amenity=theatre & Yes & Any qualifying tourism/amenity/historic tag; canonical point & Culture/tourism 800 m Euclidean and 10 min walking counts \\
+cultural\_\allowbreak{}tourist & historic=monument & Yes & Any qualifying tourism/amenity/historic tag; canonical point & Culture/tourism 800 m Euclidean and 10 min walking counts \\
+cultural\_\allowbreak{}tourist & historic=castle & Yes & Any qualifying tourism/amenity/historic tag; canonical point & Culture/tourism 800 m Euclidean and 10 min walking counts \\
+cultural\_\allowbreak{}tourist & historic=palace & Yes & Any qualifying tourism/amenity/historic tag; canonical point & Culture/tourism 800 m Euclidean and 10 min walking counts \\
+cultural\_\allowbreak{}tourist & historic=memorial only & No & Memorial-only objects excluded in phase05\_\allowbreak{}v2 & None \\
+station & railway=station or railway=halt & Yes, if named & Name required; mode classified from subway/station/network tags & Nearest rail/metro station, Euclidean distance and walking minutes \\
+station & public\_\allowbreak{}transport=station plus train=yes, subway=yes, or station=subway/light\_\allowbreak{}rail/train & Yes, if named & Rail/subway qualifier and name required & Same nearest-station set \\
+station & bus/tram-only stop or subway entrance & No & Not a named qualifying station entity & None in primary rail-station measure \\
+all & source and deduplication & Rule-dependent & Node preferred over way then relation; same-name/Wikidata proximity merges within category & Same canonical endpoint IDs for Euclidean and walking features \\
+\bottomrule
+\end{longtable}
+{\footnotesize\noindent\emph{Notes.} Frozen phase05\_v2, before price modelling. Memorial-only, bus/tram-only and entrance objects are excluded as stated; food/culture counts and nearest station use these canonical endpoints.\par}
+\end{landscape}
